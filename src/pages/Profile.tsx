@@ -1,33 +1,59 @@
-
+// src/pages/Profile.tsx
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { 
-  User, 
-  Settings, 
-  Trophy, 
-  Target, 
+import {
+  User as UserIcon, // Renamed to avoid conflict with user object
+  Settings,
+  Trophy,
+  Target,
   Calendar,
   TrendingUp,
   Award,
   Flame,
-  Clock
+  Clock,
+  Mail
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
+  const user = useSelector((state: RootState) => state.auth.user);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const navigate = useNavigate();
+
+  // Redirect if not logged in
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/login');
+    }
+  }, [isLoggedIn, navigate]);
+
+  // If user data is not yet available (e.g., during initial render before redirect)
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <p className="text-foreground">Loading profile or redirecting...</p>
+      </div>
+    );
+  }
+
+  // Mock data for other stats, using Redux user data for name and email
   const userStats = {
-    name: "Alex Johnson",
-    email: "alex.johnson@email.com",
-    joinDate: "March 2024",
-    currentStreak: 12,
-    longestStreak: 28,
-    totalWorkouts: 156,
-    totalCalories: 45280,
-    achievements: 18,
-    currentRank: 8,
-    level: 15
+    name: user.username, // Get from Redux
+    email: user.email,   // Get from Redux
+    joinDate: "March 2024", // Mock data
+    currentStreak: 12,      // Mock data
+    longestStreak: 28,      // Mock data
+    totalWorkouts: 156,     // Mock data
+    totalCalories: 45280,   // Mock data
+    achievements: 18,       // Mock data
+    currentRank: 8,         // Mock data
+    level: 15               // Mock data
   };
 
   const recentAchievements = [
@@ -72,13 +98,19 @@ const Profile = () => {
           <CardContent className="p-8">
             <div className="flex flex-col md:flex-row items-center gap-6">
               <Avatar className="h-24 w-24">
-                <AvatarImage src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" />
-                <AvatarFallback className="text-2xl">AJ</AvatarFallback>
+                {/* Use DiceBear API for avatar based on username */}
+                <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.username}`} alt={user.username} />
+                <AvatarFallback className="text-2xl">
+                  {user.username.substring(0, 2).toUpperCase()}
+                </AvatarFallback>
               </Avatar>
-              
+
               <div className="text-center md:text-left flex-1">
                 <h1 className="text-3xl font-black mb-2">{userStats.name}</h1>
-                <p className="text-muted-foreground mb-4">{userStats.email}</p>
+                <p className="text-muted-foreground mb-4 flex items-center justify-center md:justify-start gap-2">
+                  <Mail className="h-4 w-4" />
+                  {userStats.email}
+                </p>
                 <div className="flex flex-wrap gap-2 justify-center md:justify-start">
                   <Badge variant="secondary" className="bg-primary/10 text-primary">
                     Level {userStats.level}
@@ -91,7 +123,7 @@ const Profile = () => {
                   </Badge>
                 </div>
               </div>
-              
+
               <div className="flex gap-2">
                 <Button variant="outline">
                   <Settings className="h-4 w-4 mr-2" />
@@ -178,7 +210,7 @@ const Profile = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               {recentAchievements.map((achievement) => (
-                <div 
+                <div
                   key={achievement.id}
                   className="flex items-center gap-4 p-3 rounded-xl bg-muted/30"
                 >

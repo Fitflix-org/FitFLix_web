@@ -1,32 +1,60 @@
-
+// src/components/Navigation.tsx
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dumbbell, Home, User, Menu, X, Heart, Activity, Trophy, MapPin, ChevronDown } from "lucide-react";
+import { Dumbbell, Home, User, Menu, X, Heart, Activity, Trophy, MapPin, ChevronDown, LogOut } from "lucide-react";
 import { useState } from "react";
+
+// Redux imports
+import { useSelector, useDispatch } from 'react-redux';
+import type { RootState, AppDispatch } from '@/redux/store';
+import { logout } from '@/redux/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Navigation = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState("Select City");
+
+  // Get user login state from Redux
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const user = useSelector((state: RootState) => state.auth.user);
+  const dispatch: AppDispatch = useDispatch();
 
   const cities = [
     { name: "Hyderabad", gyms: 45 },
     { name: "Bangalore", gyms: 38 }
   ];
 
-  const navItems = [
+  // Define base navigation items
+  const baseNavItems = [
     { path: "/", label: "Home", icon: Home },
     { path: "/discover-gym", label: "Discover Gym", icon: Dumbbell },
-    { path: "/diet-nutrition", label: "Diet & Nutrition", icon: Heart },
-    { path: "/exercise-tracker", label: "Exercise Tracker", icon: Activity },
     { path: "/leaderboards", label: "Leaderboards", icon: Trophy },
     { path: "/about", label: "About Us", icon: User },
-    { path: "/profile", label: "Profile", icon: User },
   ];
 
+  // Dynamically build navItems based on login status
+  const navItems = [...baseNavItems]; // Start with base items
+
+  if (isLoggedIn) {
+    // Add these items only if the user is logged in
+    navItems.splice(2, 0, // Insert at index 2 (after Discover Gym)
+      { path: "/diet-nutrition", label: "Diet & Nutrition", icon: Heart },
+      { path: "/exercise-tracker", label: "Exercise Tracker", icon: Activity }
+    );
+    navItems.push({ path: "/profile", label: "Profile", icon: User }); // Add Profile at the end
+  }
+
   const isActive = (path: string) => location.pathname === path;
+
+  const handleLogout = () => {
+    dispatch(logout()); // Dispatch the logout action
+    navigate('/login'); // Redirect to login page after logout
+    setIsMobileMenuOpen(false); // Close mobile menu on logout
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -66,9 +94,18 @@ const Navigation = () => {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
-            <Button variant="outline" className="rounded-full text-sm px-3 py-2">
-              Login
-            </Button>
+            {isLoggedIn ? (
+              <Button onClick={handleLogout} variant="outline" className="rounded-full text-sm px-3 py-2 flex items-center gap-2">
+                <LogOut className="h-4 w-4" />
+                Logout ({user?.username})
+              </Button>
+            ) : (
+              <Link to="/login">
+                <Button variant="outline" className="rounded-full text-sm px-3 py-2">
+                  Login
+                </Button>
+              </Link>
+            )}
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2 rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm px-3 py-2">
@@ -86,7 +123,7 @@ const Navigation = () => {
                 </DialogHeader>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {cities.map((city) => (
-                    <Card 
+                    <Card
                       key={city.name}
                       className="cursor-pointer hover:shadow-md transition-shadow"
                       onClick={() => setSelectedCity(city.name)}
@@ -145,9 +182,18 @@ const Navigation = () => {
                 );
               })}
               <div className="pt-4 space-y-3 border-t border-border">
-                <Button variant="outline" className="w-full rounded-full">
-                  Login
-                </Button>
+                {isLoggedIn ? (
+                  <Button onClick={handleLogout} variant="outline" className="w-full rounded-full flex items-center gap-2">
+                    <LogOut className="h-4 w-4" />
+                    Logout ({user?.username})
+                  </Button>
+                ) : (
+                  <Link to="/login" className="w-full">
+                    <Button variant="outline" className="w-full rounded-full">
+                      Login
+                    </Button>
+                  </Link>
+                )}
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button variant="outline" className="w-full flex items-center gap-2 rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground">
@@ -165,7 +211,7 @@ const Navigation = () => {
                     </DialogHeader>
                     <div className="grid grid-cols-1 gap-4">
                       {cities.map((city) => (
-                        <Card 
+                        <Card
                           key={city.name}
                           className="cursor-pointer hover:shadow-md transition-shadow"
                           onClick={() => setSelectedCity(city.name)}
