@@ -4,122 +4,62 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, MapPin, Phone, Mail, Clock, ArrowLeft, Dumbbell } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const GymDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [gym, setGym] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  // Mock gym data - in a real app, this would come from an API
-  const gyms = [
-    {
-      id: 1,
-      name: "PowerZone Elite",
-      type: "Strength Training",
-      price: "$59/month",
-      rating: 4.9,
-      image: "/lovable-uploads/0ccb432e-164d-4322-b309-3f9f6ca9d70e.png",
-      location: "Downtown District",
-      distance: "0.5 miles",
-      likes: "2.5K+",
-      hours: "24/7",
-      verified: true,
-      amenities: ["Free WiFi", "Parking", "Personal Training", "Group Classes", "+1 more"]
-    },
-    {
-      id: 2,
-      name: "Zen Fitness Studio",
-      type: "Yoga & Wellness",
-      price: "$45/month",
-      rating: 4.8,
-      image: "/lovable-uploads/0ccb432e-164d-4322-b309-3f9f6ca9d70e.png",
-      location: "Midtown",
-      distance: "1.2 miles",
-      likes: "1.8K+",
-      hours: "5 AM - 11 PM",
-      verified: true,
-      amenities: ["Pool", "Yoga Studio", "Free WiFi", "Meditation Room"]
-    },
-    {
-      id: 3,
-      name: "Iron Paradise",
-      type: "Powerlifting",
-      price: "$69/month",
-      rating: 4.9,
-      image: "/lovable-uploads/0ccb432e-164d-4322-b309-3f9f6ca9d70e.png",
-      location: "North Side",
-      distance: "2.1 miles",
-      likes: "3.2K+",
-      hours: "5 AM - 10 PM",
-      verified: true,
-      amenities: ["Heavy Weights", "Powerlifting", "Crossfit", "Nutrition Bar"]
-    },
-    {
-      id: 4,
-      name: "FlexFit Studio",
-      type: "HIIT & Cardio",
-      price: "$55/month",
-      rating: 4.7,
-      image: "/lovable-uploads/0ccb432e-164d-4322-b309-3f9f6ca9d70e.png",
-      location: "South District",
-      distance: "1.8 miles",
-      likes: "1.9K+",
-      hours: "6 AM - 10 PM",
-      verified: true,
-      amenities: ["Cardio Equipment", "HIIT Classes", "Free WiFi", "Locker Rooms"]
-    },
-    {
-      id: 5,
-      name: "AquaFit Center",
-      type: "Swimming & Aqua",
-      price: "$75/month",
-      rating: 4.6,
-      image: "/lovable-uploads/0ccb432e-164d-4322-b309-3f9f6ca9d70e.png",
-      location: "East Side",
-      distance: "3.0 miles",
-      likes: "2.1K+",
-      hours: "5 AM - 11 PM",
-      verified: true,
-      amenities: ["Olympic Pool", "Aqua Classes", "Sauna", "Steam Room"]
-    },
-    {
-      id: 6,
-      name: "Peak Performance",
-      type: "Athletic Training",
-      price: "$85/month",
-      rating: 4.9,
-      image: "/lovable-uploads/0ccb432e-164d-4322-b309-3f9f6ca9d70e.png",
-      location: "West End",
-      distance: "2.5 miles",
-      likes: "2.8K+",
-      hours: "5 AM - 11 PM",
-      verified: true,
-      amenities: ["Sports Training", "Recovery Center", "Nutrition Coaching", "Performance Testing"]
-    }
-  ];
+  useEffect(() => {
+    const fetchGym = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const response = await fetch(`http://localhost:3000/api/admin/gyms/${id}`);
+        if (!response.ok) throw new Error("Failed to fetch gym details");
+        const data = await response.json();
+        setGym(data);
+      } catch (err: any) {
+        setError(err.message || "Error fetching gym details");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGym();
+  }, [id]);
 
-  const gym = gyms.find(g => g.id === parseInt(id || "1"));
-
-  if (!gym) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-background pt-20 flex items-center justify-center px-4">
         <div className="text-center">
-          <h1 className="text-xl sm:text-2xl font-bold mb-4">Gym not found</h1>
-          <Button onClick={() => navigate("/discover-gym")}>
-            Back to Discover Gyms
-          </Button>
+          <h1 className="text-xl sm:text-2xl font-bold mb-4">Loading gym profile...</h1>
         </div>
       </div>
     );
   }
 
-  // Mock detailed gym data
+  if (error || !gym) {
+    return (
+      <div className="min-h-screen bg-background pt-20 flex items-center justify-center px-4">
+        <div className="text-center">
+          <h1 className="text-xl sm:text-2xl font-bold mb-4">{error || "Gym not found"}</h1>
+          <Button onClick={() => navigate("/discover-gym")}>Back to Discover Gyms</Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Example fallback for gymDetails if not provided by API
   const gymDetails = {
-    fullAddress: "123 Fitness Street, Bandra West, Mumbai 400050",
-    phone: "+91 9876543210",  
-    email: `${gym.name.toLowerCase().replace(/\s+/g, '')}@fitflix.com`,
-    timings: {
-      "Monday - Friday": "5:00 AM - 11:00 PM",
-      "Saturday": "6:00 AM - 10:00 PM", 
+    fullAddress: gym.address || "123 Fitness Street, Bandra West, Mumbai 400050",
+    phone: gym.phone_number || "+91 9876543210",
+    email: gym.email || `${gym.name?.toLowerCase().replace(/\s+/g, '')}@fitflix.com`,
+    timings: gym.timings || {
+      "Monday - Friday": gym.opening_time && gym.closing_time ? `${gym.opening_time.substring(11,16)} - ${gym.closing_time.substring(11,16)}` : "5:00 AM - 11:00 PM",
+      "Saturday": "6:00 AM - 10:00 PM",
       "Sunday": "7:00 AM - 9:00 PM"
     }
   };
@@ -232,7 +172,7 @@ const GymDetails = () => {
               <CardContent className="p-4 sm:p-6">
                 <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Amenities & Features</h3>
                 <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  {gym.amenities.map((amenity, index) => (
+                  {gym.amenities && gym.amenities.map((amenity, index) => (
                     <Badge key={index} variant="outline" className="px-2 py-1 sm:px-3 text-xs">
                       {amenity}
                     </Badge>

@@ -1,23 +1,20 @@
 // src/pages/Register.tsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { register } from '@/redux/userSlice'; // Import the register action
-import { AppDispatch } from '@/redux/store'; // Import AppDispatch type
-import { useToast } from '@/components/ui/use-toast'; // Assuming you have a toast hook
+import { useToast } from '@/components/ui/use-toast';
+import { useAuthContext } from '../contexts/AuthContext';
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const { register, loading, error } = useAuthContext();
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Basic validation
     if (!username || !email || !password) {
       toast({
         title: "Registration Failed",
@@ -27,21 +24,20 @@ const Register: React.FC = () => {
       return;
     }
 
-    // Simulate registration without API call
-    // In a real app, you'd send this data to a backend for user creation.
-    // For this example, we'll just "register" and immediately log them in.
-    const mockUser = {
-      id: `user-${Date.now()}`, // Generate a unique ID
-      username,
-      email,
-    };
-
-    dispatch(register(mockUser)); // Dispatch the register action
-    toast({
-      title: "Registration Successful",
-      description: `Welcome, ${mockUser.username}! You are now logged in.`,
-    });
+    const result = await register(username, email, password);
+    if (result.success) {
+      toast({
+        title: "Registration Successful",
+        description: `Welcome, ${username}! You are now logged in.`, // Username can be fetched from authContext.user if needed
+      });
     navigate('/profile'); // Redirect to profile page after registration and login
+    } else {
+      toast({
+        title: "Registration Failed",
+        description: result.error || "Registration failed. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -59,6 +55,7 @@ const Register: React.FC = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              disabled={loading}
             />
           </div>
           <div className="mb-4">
@@ -71,6 +68,7 @@ const Register: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={loading}
             />
           </div>
           <div className="mb-6">
@@ -83,19 +81,22 @@ const Register: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={loading}
             />
           </div>
           <div className="flex items-center justify-between">
             <button
               type="submit"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              disabled={loading}
             >
-              Register
+              {loading ? 'Registering...' : 'Register'}
             </button>
             <Link to="/login" className="inline-block align-baseline font-bold text-sm text-primary hover:text-primary/90">
               Already have an account? Login
             </Link>
           </div>
+          {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
         </form>
       </div>
     </div>

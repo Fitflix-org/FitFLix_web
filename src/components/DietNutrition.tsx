@@ -21,14 +21,11 @@ import { useToast } from "@/hooks/use-toast";
 
 const DietNutrition = () => {
   const { toast } = useToast();
-  const [calories, setCalories] = useState({ consumed: 1450, target: 2200 });
-  const [macros, setMacros] = useState({
-    protein: { consumed: 85, target: 120 },
-    carbs: { consumed: 160, target: 250 },
-    fat: { consumed: 45, target: 70 }
-  });
-
-  const todayMeals = [
+  const [mealName, setMealName] = useState('');
+  const [caloriesInput, setCaloriesInput] = useState('');
+  const [mealType, setMealType] = useState('Breakfast');
+  
+  const [todayMeals, setTodayMeals] = useState([
     {
       id: 1,
       name: "Greek Yogurt with Berries",
@@ -37,31 +34,15 @@ const DietNutrition = () => {
       type: "Breakfast",
       color: "bg-fitness-green/10 text-fitness-green"
     },
-    {
-      id: 2,
-      name: "Grilled Chicken Salad",
-      time: "1:00 PM",
-      calories: 450,
-      type: "Lunch",
-      color: "bg-primary/10 text-primary"
-    },
-    {
-      id: 3,
-      name: "Protein Smoothie",
-      time: "3:30 PM",
-      calories: 280,
-      type: "Snack",
-      color: "bg-fitness-pink/10 text-fitness-pink"
-    },
-    {
-      id: 4,
-      name: "Salmon with Quinoa",
-      time: "7:00 PM",
-      calories: 520,
-      type: "Dinner",
-      color: "bg-fitness-orange/10 text-fitness-orange"
-    }
-  ];
+    // ... (keep existing meal objects)
+  ]);
+
+  const [calories, setCalories] = useState({ consumed: 1450, target: 2200 });
+  const [macros, setMacros] = useState({
+    protein: { consumed: 85, target: 120 },
+    carbs: { consumed: 160, target: 250 },
+    fat: { consumed: 45, target: 70 }
+  });
 
   const nutritionTips = [
     "Drink at least 8 glasses of water daily",
@@ -71,9 +52,42 @@ const DietNutrition = () => {
   ];
 
   const handleAddMeal = () => {
+    if (!mealName || !caloriesInput) {
+      toast({
+        variant: "destructive",
+        title: "Validation Error",
+        description: "Please fill all meal details",
+      });
+      return;
+    }
+
+    const newMeal = {
+      id: Date.now(),
+      name: mealName,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      calories: parseInt(caloriesInput),
+      type: mealType,
+      color: {
+        Breakfast: 'bg-fitness-green/10 text-fitness-green',
+        Lunch: 'bg-primary/10 text-primary',
+        Dinner: 'bg-fitness-orange/10 text-fitness-orange',
+        Snack: 'bg-fitness-pink/10 text-fitness-pink'
+      }[mealType]
+    };
+
+    setTodayMeals([...todayMeals, newMeal]);
+    setCalories(prev => ({
+      ...prev,
+      consumed: prev.consumed + newMeal.calories
+    }));
+
+    setMealName('');
+    setCaloriesInput('');
+    setMealType('Breakfast');
+
     toast({
       title: "Meal Logged!",
-      description: "Your meal has been added to today's nutrition log.",
+      description: `${newMeal.name} added to your daily log`,
     });
   };
 
@@ -150,15 +164,30 @@ const DietNutrition = () => {
           <div className="grid md:grid-cols-4 gap-4">
             <div className="space-y-2">
               <Label htmlFor="meal-name">Meal Name</Label>
-              <Input id="meal-name" placeholder="e.g., Grilled Chicken" />
+              <Input 
+                id="meal-name" 
+                value={mealName}
+                onChange={(e) => setMealName(e.target.value)}
+                placeholder="e.g., Grilled Chicken" 
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="calories">Calories</Label>
-              <Input id="calories" type="number" placeholder="0" />
+              <Input 
+                id="calories" 
+                type="number"
+                value={caloriesInput}
+                onChange={(e) => setCaloriesInput(e.target.value)}
+                placeholder="0" 
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="meal-type">Type</Label>
-              <select className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm">
+              <select
+                className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm"
+                value={mealType}
+                onChange={(e) => setMealType(e.target.value)}
+              >
                 <option>Breakfast</option>
                 <option>Lunch</option>
                 <option>Dinner</option>

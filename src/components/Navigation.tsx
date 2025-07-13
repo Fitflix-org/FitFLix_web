@@ -45,7 +45,7 @@ const Navigation = () => {
       { path: "/diet-nutrition", label: "Diet & Nutrition", icon: Heart },
       { path: "/exercise-tracker", label: "Exercise Tracker", icon: Activity }
     );
-    navItems.push({ path: "/profile", label: "Profile", icon: User }); // Add Profile at the end
+     // Add Profile at the end
   }
 
   const isActive = (path: string) => location.pathname === path;
@@ -95,10 +95,11 @@ const Navigation = () => {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
             {isLoggedIn ? (
-              <Button onClick={handleLogout} variant="outline" className="rounded-full text-sm px-3 py-2 flex items-center gap-2">
-                <LogOut className="h-4 w-4" />
-                Logout ({user?.username})
-              </Button>
+              <Link to="/profile">
+                <Button variant="outline" className="rounded-full text-sm px-3 py-2">
+                  {user?.username}
+                </Button>
+              </Link>
             ) : (
               <Link to="/login">
                 <Button variant="outline" className="rounded-full text-sm px-3 py-2">
@@ -183,10 +184,11 @@ const Navigation = () => {
               })}
               <div className="pt-4 space-y-3 border-t border-border">
                 {isLoggedIn ? (
-                  <Button onClick={handleLogout} variant="outline" className="w-full rounded-full flex items-center gap-2">
-                    <LogOut className="h-4 w-4" />
-                    Logout ({user?.username})
-                  </Button>
+                  <Link to="/profile" className="w-full">
+                    <Button variant="outline" className="w-full rounded-full">
+                      {user?.username}
+                    </Button>
+                  </Link>
                 ) : (
                   <Link to="/login" className="w-full">
                     <Button variant="outline" className="w-full rounded-full">

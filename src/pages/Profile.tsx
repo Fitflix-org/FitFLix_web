@@ -1,7 +1,6 @@
 // src/pages/Profile.tsx
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import { useAuthContext } from '../contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,22 +21,21 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const { user, isAuthenticated, logout, loading } = useAuthContext();
   const navigate = useNavigate();
 
-  // Redirect if not logged in
+  // Redirect if not logged in or still loading
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isAuthenticated && !loading) {
       navigate('/login');
     }
-  }, [isLoggedIn, navigate]);
+  }, [isAuthenticated, loading, navigate]);
 
-  // If user data is not yet available (e.g., during initial render before redirect)
-  if (!user) {
+  // Show loading state
+  if (loading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <p className="text-foreground">Loading profile or redirecting...</p>
+        <p className="text-foreground">Loading profile...</p>
       </div>
     );
   }
@@ -99,9 +97,9 @@ const Profile = () => {
             <div className="flex flex-col md:flex-row items-center gap-6">
               <Avatar className="h-24 w-24">
                 {/* Use DiceBear API for avatar based on username */}
-                <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.username}`} alt={user.username} />
+                <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user?.username ?? 'user'}`} alt={user?.username ?? 'user'} />
                 <AvatarFallback className="text-2xl">
-                  {user.username.substring(0, 2).toUpperCase()}
+                  {user?.username?.substring(0, 2).toUpperCase() ?? 'US'}
                 </AvatarFallback>
               </Avatar>
 
@@ -129,8 +127,8 @@ const Profile = () => {
                   <Settings className="h-4 w-4 mr-2" />
                   Settings
                 </Button>
-                <Button>
-                  Edit Profile
+                <Button onClick={logout}>
+                  Logout
                 </Button>
               </div>
             </div>

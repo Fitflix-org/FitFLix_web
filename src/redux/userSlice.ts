@@ -23,9 +23,11 @@ const authSlice = createSlice({
       state.isLoggedIn = true;     // Set logged in status to true
     },
     // Action for user logout
+    // Ensure proper immutability in reducers
     logout: (state) => {
-      state.user = null;       // Clear user data
-      state.isLoggedIn = false; // Set logged in status to false
+      // Clear entire state tree
+      Object.keys(state).forEach(key => delete state[key as keyof AuthState]);
+      return initialState; // Instead of mutating
     },
   },
 });

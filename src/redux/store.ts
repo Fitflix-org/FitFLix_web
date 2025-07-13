@@ -1,21 +1,32 @@
 // src/redux/store.ts
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './userSlice'; // Import the auth reducer
-import { RootState } from './types'; // Import RootState type from types.ts
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import authReducer from './userSlice';
+import { RootState } from './types';
 
-// Configure the Redux store
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['auth'], // only auth will be persisted
+};
+
+const persistedAuthReducer = persistReducer(persistConfig, authReducer);
+
 const store = configureStore({
   reducer: {
-    auth: authReducer, // Assign the auth reducer to the 'auth' slice of the state
+    auth: persistedAuthReducer,
   },
-  // DevTools are automatically enabled in development mode
-  // You can add middleware here if needed (e.g., redux-thunk, redux-logger)
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+      },
+    }),
 });
 
+export const persistor = persistStore(store);
 export default store;
 
-// Define AppDispatch type for dispatching actions
 export type AppDispatch = typeof store.dispatch;
-
-// Export RootState type directly from store.ts for easier consumption
 export type { RootState };

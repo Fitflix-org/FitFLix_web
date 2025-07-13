@@ -1,22 +1,19 @@
 // src/pages/Login.tsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { login } from '@/redux/userSlice'; // Import the login action
-import { AppDispatch } from '@/redux/store'; // Import AppDispatch type
-import { useToast } from '@/components/ui/use-toast'; // Assuming you have a toast hook
+import { useToast } from '@/components/ui/use-toast';
+import { useAuthContext } from '../contexts/AuthContext';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const { login, loading, error } = useAuthContext();
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Basic validation
     if (!email || !password) {
       toast({
         title: "Login Failed",
@@ -26,25 +23,17 @@ const Login: React.FC = () => {
       return;
     }
 
-    // Simulate login without API call
-    // In a real app, you'd send these credentials to a backend
-    // and receive actual user data upon successful authentication.
-    if (email === 'test@example.com' && password === 'password123') {
-      const mockUser = {
-        id: 'user-123',
-        username: 'TestUser',
-        email: 'test@example.com',
-      };
-      dispatch(login(mockUser)); // Dispatch the login action with mock user data
+    const result = await login(email, password);
+    if (result.success) {
       toast({
         title: "Login Successful",
-        description: `Welcome back, ${mockUser.username}!`,
+        description: `Welcome back!`, // Username can be fetched from authContext.user if needed
       });
       navigate('/profile'); // Redirect to profile page
     } else {
       toast({
         title: "Login Failed",
-        description: "Invalid email or password. Please try again.",
+        description: result.error || "Invalid email or password. Please try again.",
         variant: "destructive",
       });
     }
@@ -65,6 +54,7 @@ const Login: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={loading}
             />
           </div>
           <div className="mb-6">
@@ -77,19 +67,22 @@ const Login: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={loading}
             />
           </div>
           <div className="flex items-center justify-between">
             <button
               type="submit"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              disabled={loading}
             >
-              Sign In
+              {loading ? 'Signing In...' : 'Sign In'}
             </button>
             <Link to="/register" className="inline-block align-baseline font-bold text-sm text-primary hover:text-primary/90">
               Don't have an account? Register
             </Link>
           </div>
+          {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
         </form>
       </div>
     </div>
