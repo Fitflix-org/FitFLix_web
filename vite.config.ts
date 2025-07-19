@@ -15,6 +15,8 @@ export default defineConfig(({ mode }) => ({
     target: 'esnext',
     minify: 'esbuild',
     sourcemap: false,
+    outDir: 'dist',
+    assetsDir: 'assets',
     rollupOptions: {
       output: {
         manualChunks: {
@@ -35,9 +37,11 @@ export default defineConfig(({ mode }) => ({
       registerType: 'autoUpdate',
       includeAssets: [
         'favicon.ico',
+        'fitflix-logo.png',
         'placeholder.svg',
         'robots.txt',
         'assets/*.jpg',
+        '_redirects',
       ],
       manifest: {
         name: 'Fitflix - Complete Fitness Ecosystem',
