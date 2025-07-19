@@ -12,29 +12,31 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #d97706aa);
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.logo.fitflix:hover {
+  filter: drop-shadow(0 0 2em #be185daa) drop-shadow(0 0 1em #dc2626aa);
 }
 
-@keyframes logo-spin {
+@keyframes logo-glow {
   from {
-    transform: rotate(0deg);
+    filter: drop-shadow(0 0 8px #d97706) drop-shadow(0 0 16px #be185d);
   }
   to {
-    transform: rotate(360deg);
+    filter: drop-shadow(0 0 16px #be185d) drop-shadow(0 0 24px #d97706);
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  .logo.fitflix {
+    animation: logo-glow infinite 3s ease-in-out alternate;
   }
 }
 
 .card {
   padding: 2em;
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.08), rgba(220, 38, 38, 0.08), rgba(190, 24, 93, 0.08));
+  border: 1px solid rgba(217, 119, 6, 0.15);
 }
 
 .read-the-docs {

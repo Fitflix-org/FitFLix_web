@@ -39,7 +39,7 @@ const Navigation = () => {
               />
               <div className="absolute inset-0 bg-primary/10 rounded-full blur-md group-hover:bg-primary/20 transition-colors" />
             </div>
-            <span className="text-xl md:text-2xl font-black text-transparent bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text group-hover:from-orange-600 group-hover:via-red-600 group-hover:to-pink-600 transition-all duration-300">
+            <span className="text-xl md:text-2xl font-black text-transparent bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 bg-clip-text group-hover:from-orange-500 group-hover:via-red-500 group-hover:to-pink-500 transition-all duration-300">
               Fitflix
             </span>
           </Link>
