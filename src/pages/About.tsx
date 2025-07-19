@@ -54,8 +54,8 @@ const About = () => {
           {/* Hero Section */}
           <div className="text-center mb-16">
             <Badge variant="secondary" className="mb-4 bg-primary/20 text-primary border-primary/30">About Fitflix</Badge>
-            <h1 className="text-4xl md:text-6xl font-black gradient-text mb-6">
-              About Fitflix
+            <h1 className="text-4xl md:text-6xl font-black mb-6">
+              About <span className="text-transparent bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text">Fitflix</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-12">
               Fitflix is a comprehensive fitness brand that encompasses various aspects of health and wellness. 

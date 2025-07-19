@@ -27,7 +27,7 @@ const Home = () => {
             <h1 className="hero-title text-white mb-6">
               WE ARE
               <br />
-              <span className="gradient-text">Fitflix</span>
+              <span className="text-transparent bg-gradient-to-r from-orange-400 via-red-400 to-pink-400 bg-clip-text">Fitflix</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed">
               Your complete fitness ecosystem - gyms, apps, nutrition, and community

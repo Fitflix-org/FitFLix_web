@@ -32,11 +32,15 @@ const Navigation = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group">
             <div className="relative">
-              <Dumbbell className="h-6 w-6 md:h-8 md:w-8 text-primary group-hover:text-secondary transition-colors" />
-              <div className="absolute inset-0 bg-primary/20 rounded-full blur-md group-hover:bg-secondary/20 transition-colors" />
+              <img 
+                src="/fitflix-logo.png" 
+                alt="Fitflix Logo" 
+                className="h-8 w-8 md:h-10 md:w-10 object-contain group-hover:scale-105 transition-transform duration-200"
+              />
+              <div className="absolute inset-0 bg-primary/10 rounded-full blur-md group-hover:bg-primary/20 transition-colors" />
             </div>
-            <span className="text-xl md:text-2xl font-black gradient-text">
-              FitPulse
+            <span className="text-xl md:text-2xl font-black text-transparent bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text group-hover:from-orange-600 group-hover:via-red-600 group-hover:to-pink-600 transition-all duration-300">
+              Fitflix
             </span>
           </Link>
 
