@@ -9,6 +9,12 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    // Add the allowedHosts array here
+    allowedHosts: [
+      'fitflix-website-h7fd.onrender.com',
+      'localhost', // Often good to include localhost
+      '127.0.0.1', // And the loopback address
+    ],
   },
   plugins: [
     react(),
@@ -27,12 +33,12 @@ export default defineConfig(({ mode }) => ({
       ],
       manifest: {
         name: 'Wellspring Web Hub', // Your application's full name
-        short_name: 'Wellspring',   // Short name for home screen icon
+        short_name: 'Wellspring',    // Short name for home screen icon
         description: 'Your comprehensive fitness and wellness hub.', // Description
         theme_color: '#007bff',    // Primary color for browser UI
         background_color: '#ffffff', // Background color for splash screen
-        display: 'standalone',     // Display as a standalone app
-        start_url: '/',            // Starting URL when launched from home screen
+        display: 'standalone',       // Display as a standalone app
+        start_url: '/',              // Starting URL when launched from home screen
         icons: [
           {
             src: '/favicon.ico', // Reference to your favicon
@@ -52,15 +58,15 @@ export default defineConfig(({ mode }) => ({
           // **IMPORTANT:** It is highly recommended to create dedicated PNG icons for various sizes.
           // For example, if you have `public/icons/icon-192x192.png`, `public/icons/icon-512x512.png`:
           // {
-          //   src: '/icons/icon-192x192.png',
-          //   sizes: '192x192',
-          //   type: 'image/png'
+          //    src: '/icons/icon-192x192.png',
+          //    sizes: '192x192',
+          //    type: 'image/png'
           // },
           // {
-          //   src: '/icons/icon-512x512.png',
-          //   sizes: '512x512',
-          //   type: 'image/png',
-          //   purpose: 'any maskable' // 'maskable' for adaptive icons on Android
+          //    src: '/icons/icon-512x512.png',
+          //    sizes: '512x512',
+          //    type: 'image/png',
+          //    purpose: 'any maskable' // 'maskable' for adaptive icons on Android
           // }
         ]
       },
@@ -72,20 +78,20 @@ export default defineConfig(({ mode }) => ({
         // This is where you'd add custom caching strategies, e.g., for API calls.
         // Example for caching API calls (replace with your actual API base URL):
         // runtimeCaching: [
-        //   {
-        //     urlPattern: ({ url }) => url.origin === 'https://your-api.com', // Replace with your backend API URL
-        //     handler: 'StaleWhileRevalidate', // Serve from cache first, then update in background
-        //     options: {
-        //       cacheName: 'api-data-cache',
-        //       expiration: {
-        //         maxEntries: 50,
-        //         maxAgeSeconds: 60 * 60 * 24 * 7, // Cache for 1 week
-        //       },
-        //       cacheableResponse: {
-        //         statuses: [0, 200], // Cache opaque responses (status 0) and successful ones
-        //       },
-        //     },
-        //   },
+        //    {
+        //      urlPattern: ({ url }) => url.origin === 'https://your-api.com', // Replace with your backend API URL
+        //      handler: 'StaleWhileRevalidate', // Serve from cache first, then update in background
+        //      options: {
+        //        cacheName: 'api-data-cache',
+        //        expiration: {
+        //          maxEntries: 50,
+        //          maxAgeSeconds: 60 * 60 * 24 * 7, // Cache for 1 week
+        //        },
+        //        cacheableResponse: {
+        //          statuses: [0, 200], // Cache opaque responses (status 0) and successful ones
+        //        },
+        //      },
+        //    },
         // ],
       }
     }),
