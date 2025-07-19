@@ -2,21 +2,22 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
-import authReducer from './userSlice';
-import { RootState } from './types';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth'], // only auth will be persisted
+  whitelist: [], // No slices to persist
 };
 
-const persistedAuthReducer = persistReducer(persistConfig, authReducer);
+// Create a simple root reducer for now
+const rootReducer = (state: Record<string, unknown> = {}, action: { type: string }) => {
+  return state;
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-  reducer: {
-    auth: persistedAuthReducer,
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -29,4 +30,4 @@ export const persistor = persistStore(store);
 export default store;
 
 export type AppDispatch = typeof store.dispatch;
-export type { RootState };
+export type RootState = ReturnType<typeof store.getState>;

@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:3000/api'; // Assuming your backend runs on port 3000
 
@@ -7,7 +7,6 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // This is important for sending cookies with requests
 });
 
 // Response interceptor for error handling

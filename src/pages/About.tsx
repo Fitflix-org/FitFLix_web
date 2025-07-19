@@ -1,24 +1,39 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Target, Heart, Trophy, Users, Award, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Dumbbell, Smartphone, ShoppingCart, Users, MapPin, Trophy, Heart, Star } from "lucide-react";
 
 const About = () => {
-  const teamMembers = [
+  const services = [
     {
-      name: "Alex Johnson",
-      role: "CEO & Founder",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face"
+      icon: Dumbbell,
+      title: "Fitness Centers",
+      description: "Premium gyms in Electronic City and Marathahalli with spacious facilities and state-of-the-art equipment offering diverse training programs.",
+      image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop",
+      features: ["Modern Equipment", "Personal Training", "Group Classes", "Spacious Facilities"]
     },
     {
-      name: "Sarah Chen",
-      role: "Head of Fitness",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b9a0a9e7?w=300&h=300&fit=crop&crop=face"
+      icon: Smartphone,
+      title: "Workout App",
+      description: "Fitflix Full Body Workout app with 1000+ minutes of training across 10 categories, professional trainer guidance, and planned diet features.",
+      image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&h=400&fit=crop",
+      features: ["1000+ Minutes Training", "10 Categories", "Professional Guidance", "Equipment Optional"],
+      comingSoon: true
     },
     {
-      name: "Mike Rodriguez",
-      role: "Tech Lead",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face"
+      icon: ShoppingCart,
+      title: "Nutrition Products",
+      description: "Premium supplements including BODEN Vitamin D3, BioPro Whey protein, and Creashroom (creatine & cordyceps blend) for optimal performance.",
+      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop",
+      features: ["Vitamin D3", "Whey Protein", "Creatine Blends", "Performance Support"]
+    },
+    {
+      icon: Users,
+      title: "Fitness Classes",
+      description: "Engaging fitness and dance classes led by certified instructors, fostering our supportive 'Fitflix Fam' community experience.",
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop",
+      features: ["Dance Classes", "Certified Instructors", "Community Focus", "Fitflix Fam"]
     }
   ];
 
@@ -38,150 +53,171 @@ const About = () => {
         <div className="container mx-auto px-4 py-12">
           {/* Hero Section */}
           <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4 bg-primary/20 text-primary border-primary/30">About FitPulse</Badge>
+            <Badge variant="secondary" className="mb-4 bg-primary/20 text-primary border-primary/30">About Fitflix</Badge>
             <h1 className="text-4xl md:text-6xl font-black gradient-text mb-6">
-              About Us
+              About Fitflix
             </h1>
             <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-12">
-              We help our clients fill more pools and aquatic centers and improve their customer experience.
-              FitPulse is a team of passionate fitness enthusiasts and technology experts dedicated to revolutionizing 
-              how people approach health and wellness in the digital age.
+              Fitflix is a comprehensive fitness brand that encompasses various aspects of health and wellness. 
+              We offer fitness centers, workout apps, and nutrition products designed to provide variety, 
+              community support, and accessible fitness solutions for everyone.
             </p>
           </div>
 
-          {/* Team Photo & Description */}
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
-            <div className="order-2 lg:order-1">
-              <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl p-1">
-                <img 
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop" 
-                  alt="FitPulse Team" 
-                  className="w-full h-[400px] object-cover rounded-2xl"
-                />
-              </div>
+          {/* Services Section */}
+          <div className="mb-20">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold gradient-text mb-4">Our Services</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Discover the complete Fitflix ecosystem designed to support every aspect of your fitness journey
+              </p>
             </div>
-            <div className="order-1 lg:order-2 space-y-6">
-              <p className="text-muted-foreground leading-relaxed">
-                We understand that true fitness transformation goes beyond just tracking workouts. Our comprehensive platform 
-                combines advanced analytics, personalized recommendations, and community engagement to create lasting change.
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Since our founding, we've helped thousands of individuals discover their potential, connect with fitness communities, 
-                and achieve goals they never thought possible. Every feature we build is designed with one purpose: empowering you 
-                to live your healthiest, most active life.
-              </p>
-              <button className="btn-fitness px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105">
-                Join Our Mission
-              </button>
+
+            <div className="grid lg:grid-cols-2 gap-8">
+              {services.map((service, index) => {
+                const Icon = service.icon;
+                return (
+                  <Card key={index} className={`group overflow-hidden hover:shadow-xl transition-all duration-300 border-primary/10 hover:border-primary/30 bg-gradient-to-b from-background/80 to-primary/5 backdrop-blur-sm ${service.comingSoon ? 'opacity-75' : ''}`}>
+                    <div className="relative h-48 overflow-hidden">
+                      <img 
+                        src={service.image} 
+                        alt={service.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+                      {service.comingSoon && (
+                        <div className="absolute top-4 right-4">
+                          <Badge className="bg-yellow-500 text-yellow-900 border-yellow-400">
+                            Coming Soon
+                          </Badge>
+                        </div>
+                      )}
+                      <div className="absolute bottom-4 left-4">
+                        <div className="flex items-center gap-2 text-white">
+                          <div className="p-2 bg-primary/80 rounded-full backdrop-blur-sm">
+                            <Icon className="w-5 h-5" />
+                          </div>
+                          <h3 className="text-lg font-bold">{service.title}</h3>
+                        </div>
+                      </div>
+                    </div>
+                    <CardContent className="p-6">
+                      <p className="text-muted-foreground mb-4 leading-relaxed">
+                        {service.description}
+                        {service.comingSoon && (
+                          <span className="block mt-2 text-sm text-yellow-600 font-medium">
+                            📱 App launching soon - stay tuned!
+                          </span>
+                        )}
+                      </p>
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-semibold text-primary mb-2">Key Features:</h4>
+                        <div className="grid grid-cols-2 gap-2">
+                          {service.features.map((feature, idx) => (
+                            <div key={idx} className="flex items-center gap-2 text-sm">
+                              <div className="w-1.5 h-1.5 bg-primary rounded-full" />
+                              <span className="text-muted-foreground">{feature}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           </div>
 
-          {/* Statistics */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-            <div className="text-center">
-              <div className="text-5xl font-black text-primary mb-2">500+</div>
-              <div className="text-muted-foreground">Partner Gyms</div>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-black text-primary mb-2">600+</div>
-              <div className="text-muted-foreground">Happy Clients</div>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-black text-primary mb-2">7+</div>
-              <div className="text-muted-foreground">Years Experience</div>
-            </div>
+          {/* Key Aspects */}
+          <div className="grid md:grid-cols-3 gap-8 mb-20">
+            <Card className="text-center p-6 border-primary/10 hover:border-primary/30 bg-gradient-to-b from-background/80 to-primary/5 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
+              <div className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
+                <Trophy className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold mb-3">Focus on Variety</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Wide range of fitness and nutrition options to cater to different needs and preferences
+              </p>
+            </Card>
+            
+            <Card className="text-center p-6 border-primary/10 hover:border-primary/30 bg-gradient-to-b from-background/80 to-primary/5 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
+              <div className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
+                <Heart className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold mb-3">Community Focus</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Building the supportive "Fitflix Fam" community that motivates and connects fitness enthusiasts
+              </p>
+            </Card>
+            
+            <Card className="text-center p-6 border-primary/10 hover:border-primary/30 bg-gradient-to-b from-background/80 to-primary/5 backdrop-blur-sm hover:shadow-lg transition-all duration-300">
+              <div className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
+                <Star className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold mb-3">Accessibility</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Available through multiple platforms including mobile app, Instagram, and physical locations
+              </p>
+            </Card>
           </div>
 
           {/* Founder Vision */}
           <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-3xl p-8 md:p-12 mb-20 border border-primary/10 backdrop-blur-sm">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-bold gradient-text mb-4">Meet Our Founder</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                The visionary behind Fitflix who is dedicated to transforming the fitness industry
+              </p>
+            </div>
+            
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div>
+              <div className="text-center lg:text-left">
                 <div className="w-32 h-32 mx-auto lg:mx-0 mb-6">
                   <img 
-                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&h=300&fit=crop&crop=face" 
+                    src="src/assets/1714407900720.jpeg" 
                     alt="Founder" 
                     className="w-full h-full object-cover rounded-full border-4 border-primary/20"
                   />
                 </div>
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold mb-1">Rahul Raju</h3>
+                  <p className="text-primary font-medium">Founder @ Fitflix</p>
+                  <p className="text-sm text-muted-foreground">Leading Start-up Ventures</p>
+                </div>
               </div>
               <div>
-                <h2 className="text-3xl font-bold mb-4 text-primary">Our Vision - Message From Founder</h2>
+                <h3 className="text-2xl font-bold mb-4 text-primary">Our Vision</h3>
                 <p className="text-muted-foreground leading-relaxed mb-6">
-                  "When I started FitPulse, my vision was simple yet ambitious: create a platform that doesn't just track fitness, 
-                  but transforms lives. Having struggled with my own fitness journey, I understood the frustration of scattered apps, 
-                  lack of community, and one-size-fits-all approaches."
+                  "When I started Fitflix, my vision was to create a comprehensive fitness ecosystem that serves every aspect of health and wellness. 
+                  From premium gym facilities to innovative workout apps and high-quality nutrition products, we wanted to provide variety and accessibility 
+                  that traditional fitness brands couldn't match."
                 </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  "Today, seeing our community thrive and achieve their goals makes every challenge worthwhile. 
-                  This is just the beginning of our mission to democratize fitness for everyone."
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  "What makes Fitflix special is our community focus - the 'Fitflix Fam' isn't just a marketing term, it's the heart of everything we do. 
+                  Whether you're training in our Electronic City gym, following our upcoming app workouts, or using our nutrition products, you're part of a 
+                  supportive community that celebrates every victory. We're building something that truly transforms lives, one workout at a time."
                 </p>
-                <div className="mt-6">
-                  <div className="font-semibold">Alex Johnson</div>
-                  <div className="text-sm text-primary">CEO & Founder, FitPulse</div>
-                </div>
+                <Button className="btn-fitness">
+                  Join the Fitflix Fam
+                </Button>
               </div>
             </div>
           </div>
 
-          {/* Our Team */}
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Our Team</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Meet the passionate individuals behind FitPulse who work tirelessly to bring you the best fitness experience.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 mb-20">
-            {teamMembers.map((member, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-primary/10 hover:border-primary/30 bg-gradient-to-b from-background/80 to-primary/5 backdrop-blur-sm">
-                <CardContent className="p-6 text-center">
-                  <div className="w-24 h-24 mx-auto mb-4 relative">
-                    <img 
-                      src={member.image} 
-                      alt={member.name}
-                      className="w-full h-full object-cover rounded-full border-3 border-primary/20 group-hover:border-primary/40 transition-all duration-300"
-                    />
-                    <div className="absolute inset-0 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-all duration-300"></div>
-                  </div>
-                  <h3 className="font-bold text-lg mb-1">{member.name}</h3>
-                  <p className="text-primary text-sm font-medium">{member.role}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Values Section */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
-            {[
-              { icon: Target, title: "Mission Driven", description: "Empowering fitness transformation through technology" },
-              { icon: Heart, title: "Health First", description: "Prioritizing sustainable wellness practices" },
-              { icon: Trophy, title: "Excellence", description: "Delivering the highest quality fitness solutions" },
-              { icon: Users, title: "Community", description: "Building supportive fitness networks" }
-            ].map((value, index) => {
-              const Icon = value.icon;
-              return (
-                <Card key={index} className="group hover:shadow-lg transition-all duration-300 border-primary/10 hover:border-primary/30 bg-gradient-to-b from-background/80 to-primary/5 backdrop-blur-sm">
-                  <CardContent className="p-6 text-center">
-                    <div className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                      <Icon className="w-6 h-6 text-primary" />
-                    </div>
-                    <h3 className="font-semibold mb-2">{value.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{value.description}</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-
           {/* CTA Section */}
           <div className="text-center bg-gradient-to-r from-primary/10 to-secondary/10 rounded-3xl p-12 border border-primary/20 backdrop-blur-sm">
-            <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Fitness Journey?</h2>
+            <h2 className="text-3xl font-bold mb-4">Ready to Join the Fitflix Experience?</h2>
             <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Join our growing community of fitness enthusiasts and discover what makes FitPulse the ultimate fitness companion.
+              Visit our gyms, explore our nutrition products, and stay tuned for our upcoming workout app. Your fitness journey starts here.
             </p>
-            <button className="btn-fitness px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105">
-              Start Your Journey Today
-            </button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button className="btn-fitness px-8 py-3">
+                Find a Gym Near You
+              </Button>
+              <Button variant="outline" className="px-8 py-3 border-primary/20 hover:bg-primary/5" disabled>
+                App Coming Soon
+              </Button>
+            </div>
           </div>
         </div>
       </div>

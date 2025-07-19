@@ -55,12 +55,12 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/profile" className="text-gray-300 hover:text-white transition-colors">
+                <Link to="/about" className="text-gray-300 hover:text-white transition-colors">
                   Trainers
                 </Link>
               </li>
               <li>
-                <Link to="/exercise-tracker" className="text-gray-300 hover:text-white transition-colors">
+                <Link to="/about" className="text-gray-300 hover:text-white transition-colors">
                   Services
                 </Link>
               </li>
@@ -83,9 +83,7 @@ const Footer = () => {
                 <span className="text-gray-300">Group Classes</span>
               </li>
               <li>
-                <Link to="/diet-nutrition" className="text-gray-300 hover:text-white transition-colors">
-                  Nutrition Planning
-                </Link>
+                <span className="text-gray-300">Nutrition Planning</span>
               </li>
               <li>
                 <span className="text-gray-300">Yoga Sessions</span>

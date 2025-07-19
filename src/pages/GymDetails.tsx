@@ -4,60 +4,105 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, MapPin, Phone, Mail, Clock, ArrowLeft, Dumbbell } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import CallbackForm from "@/components/CallbackForm";
 
 const GymDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [gym, setGym] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [callbackFormOpen, setCallbackFormOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchGym = async () => {
-      setLoading(true);
-      setError("");
-      try {
-        const response = await fetch(`http://localhost:3000/api/admin/gyms/${id}`);
-        if (!response.ok) throw new Error("Failed to fetch gym details");
-        const data = await response.json();
-        setGym(data);
-      } catch (err: any) {
-        setError(err.message || "Error fetching gym details");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchGym();
-  }, [id]);
+  // Local gym data - same as DiscoverGym.tsx
+  const gyms = [
+    {
+      id: 1,
+      name: "Fitflix Gym - ITI Layout, Bangalore",
+      address: "No. 294, 1st Floor, Above Bhagayalakshmi Super Market, 5th Main, 4th Cross Road, Iti Layout-560050, Bangalore",
+      latitude: "12.9423",
+      longitude: "77.5649",
+      phone_number: "+91 75103 82782",
+      email: "info@fitflix.in",
+      opening_time: "1970-01-01T06:00:00.000Z",
+      closing_time: "1970-01-01T22:00:00.000Z",
+      holiday_dates: [],
+      description: "Fitflix Gym in ITI Layout, Bangalore is known for its commitment to helping members achieve their health and fitness goals. Offers Gym, Cardio, Crossfit, Strengthening Exercises, and Personal Trainers.",
+      rating: 4.5,
+      amenities: ["Gym", "Cardio", "Crossfit", "Personal Training"],
+      is_deleted: false,
+      verified: true,
+    },
+    {
+      id: 2,
+      name: "Fitflix Gym - Electronic City Phase I, Bengaluru",
+      address: "94, 3rd floor above Domino's, Opp- Ajmera Infinity, Neeladri Road, EC Phase, 1, Bengaluru, Karnataka 560100",
+      latitude: "12.8441",
+      longitude: "77.6675",
+      phone_number: "+91 75103 82782",
+      email: "info@fitflix.in",
+      opening_time: "1970-01-01T06:30:00.000Z",
+      closing_time: "1970-01-01T22:30:00.000Z",
+      holiday_dates: [],
+      description: "Fitflix Gym Electronic City Phase I offers facilities like Parking, Personal Training, Group Classes, Free Trial, Shower, Nutritional Support, Locker room, Certified Trainers.",
+      rating: 4.8,
+      amenities: ["Parking", "Personal Training", "Group Classes", "Shower", "Locker room"],
+      is_deleted: false,
+      verified: true,
+    },
+    {
+      id: 3,
+      name: "Fitflix Gym - Whitefield, Bengaluru",
+      address: "2nd FLOOR, THULIP SPA, FITFLIX GYMS, ITPL Main Rd, opp. to SHERATON HOTEL, above HYDERABAD HOUSE, Bengaluru, Karnataka 560048",
+      latitude: "12.9728",
+      longitude: "77.7499",
+      phone_number: "+91 75103 82782",
+      email: "info@fitflix.in",
+      opening_time: "1970-01-01T05:00:00.000Z",
+      closing_time: "1970-01-01T22:30:00.000Z",
+      holiday_dates: [],
+      description: "Fitflix Gym Whitefield offers various fitness options including Gym. Known for top-notch amenities and experienced professionals.",
+      rating: 4.7,
+      amenities: ["Gym", "Premium Equipment", "Experienced Trainers"],
+      is_deleted: false,
+      verified: true,
+    },
+    {
+      id: 4,
+      name: "Fitflix Gym - Anna Nagar, Chennai",
+      address: "FITFLIX GYM ANNANAGAR, Karuna conclave, 4th Ave, Shanthi Colony, Anna Nagar, Chennai, Tamil Nadu, 600040",
+      latitude: "13.0874",
+      longitude: "80.2171",
+      phone_number: "+91 75103 82782",
+      email: "info@fitflix.in",
+      opening_time: "1970-01-01T05:30:00.000Z",
+      closing_time: "1970-01-01T23:00:00.000Z",
+      holiday_dates: [],
+      description: "Fitflix Gym Anna Nagar is a premium gym in Chennai, praised for its spaciousness, good equipment, ambiance, friendly trainers, and variety of classes.",
+      rating: 4.9,
+      amenities: ["Spacious", "Premium Equipment", "Group Classes", "Yoga"],
+      is_deleted: false,
+      verified: true,
+    },
+  ];
 
-  if (loading) {
+  const gym = gyms.find(g => g.id === parseInt(id || ""));
+
+  if (!gym) {
     return (
       <div className="min-h-screen bg-background pt-20 flex items-center justify-center px-4">
         <div className="text-center">
-          <h1 className="text-xl sm:text-2xl font-bold mb-4">Loading gym profile...</h1>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !gym) {
-    return (
-      <div className="min-h-screen bg-background pt-20 flex items-center justify-center px-4">
-        <div className="text-center">
-          <h1 className="text-xl sm:text-2xl font-bold mb-4">{error || "Gym not found"}</h1>
+          <h1 className="text-xl sm:text-2xl font-bold mb-4">Gym not found</h1>
           <Button onClick={() => navigate("/discover-gym")}>Back to Discover Gyms</Button>
         </div>
       </div>
     );
   }
 
-  // Example fallback for gymDetails if not provided by API
+  // Gym details with proper property mapping
   const gymDetails = {
-    fullAddress: gym.address || "123 Fitness Street, Bandra West, Mumbai 400050",
-    phone: gym.phone_number || "+91 9876543210",
-    email: gym.email || `${gym.name?.toLowerCase().replace(/\s+/g, '')}@fitflix.com`,
-    timings: gym.timings || {
+    fullAddress: gym.address,
+    phone: gym.phone_number,
+    email: gym.email,
+    timings: {
       "Monday - Friday": gym.opening_time && gym.closing_time ? `${gym.opening_time.substring(11,16)} - ${gym.closing_time.substring(11,16)}` : "5:00 AM - 11:00 PM",
       "Saturday": "6:00 AM - 10:00 PM",
       "Sunday": "7:00 AM - 9:00 PM"
@@ -97,7 +142,6 @@ const GymDetails = () => {
                   ))}
                   <span className="text-sm font-medium ml-1">{gym.rating}/5</span>
                 </div>
-                <span className="text-sm text-muted-foreground">• {gym.distance}</span>
               </div>
             </div>
             <Button className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3">
@@ -107,9 +151,9 @@ const GymDetails = () => {
           </div>
           
           <div className="flex items-center gap-2 flex-wrap">
-            <Badge variant="secondary" className="text-xs">{gym.type}</Badge>
+            <Badge variant="secondary" className="text-xs">Premium Gym</Badge>
             <Badge className="bg-primary text-primary-foreground text-xs">
-              {gym.price}
+              Premium Membership
             </Badge>
             {gym.verified && (
               <Badge variant="outline" className="bg-green-500/10 text-green-500 border-green-500 text-xs">
@@ -134,6 +178,16 @@ const GymDetails = () => {
                     <p className="text-xs sm:text-sm text-muted-foreground">Click to play virtual tour</p>
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* About This Gym */}
+            <Card>
+              <CardContent className="p-4 sm:p-6">
+                <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">About This Gym</h3>
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                  {gym.description}
+                </p>
               </CardContent>
             </Card>
 
@@ -218,11 +272,22 @@ const GymDetails = () => {
           <Button className="btn-fitness text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3">
             Get Directions
           </Button>
-          <Button className="bg-red-500 hover:bg-red-600 text-white text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3">
-            📞 <span className="hidden sm:inline">Enquire Now</span>
-            <span className="sm:hidden">Enquire</span>
+          <Button 
+            className="bg-red-500 hover:bg-red-600 text-white text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3"
+            onClick={() => setCallbackFormOpen(true)}
+          >
+            📞 <span className="hidden sm:inline">Request Callback</span>
+            <span className="sm:hidden">Callback</span>
           </Button>
         </div>
+        
+        {/* Callback Form */}
+        <CallbackForm
+          isOpen={callbackFormOpen}
+          onClose={() => setCallbackFormOpen(false)}
+          prefillLocation={gym.name}
+          gymId={gym.id}
+        />
       </div>
     </div>
   );

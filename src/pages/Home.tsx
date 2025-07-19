@@ -27,10 +27,10 @@ const Home = () => {
             <h1 className="hero-title text-white mb-6">
               WE ARE
               <br />
-              <span className="gradient-text">FitPulse</span>
+              <span className="gradient-text">Fitflix</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed">
-              A fitness movement that is worth breaking a sweat for
+              Your complete fitness ecosystem - gyms, apps, nutrition, and community
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button 
@@ -38,7 +38,7 @@ const Home = () => {
                 className="btn-fitness text-lg px-8 py-4 group"
                 asChild
               >
-                <Link to="/profile">
+                <Link to="/discover-gym">
                   Explore Programs
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -166,10 +166,10 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             {[
-              { number: "500+", label: "Partner Gyms", description: "Premium locations" },
-              { number: "50K+", label: "Active Members", description: "Growing community" },
-              { number: "1000+", label: "Certified Trainers", description: "Expert guidance" },
-              { number: "24/7", label: "Access", description: "Always open" }
+              { number: "4", label: "Premium Locations", description: "Electronic City & More" },
+              { number: "1000+", label: "Workout Minutes", description: "In our app" },
+              { number: "10", label: "Training Categories", description: "Professional guidance" },
+              { number: "24/7", label: "App Access", description: "Train anytime" }
             ].map((stat, index) => (
               <div key={index} className="space-y-2">
                 <div className="text-5xl font-black text-primary">{stat.number}</div>
@@ -197,7 +197,7 @@ const Home = () => {
                 className="bg-white text-background hover:bg-white/90 text-lg px-8 py-4 group"
                 asChild
               >
-                <Link to="/profile">
+                <Link to="/discover-gym">
                   Start Your Journey
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
