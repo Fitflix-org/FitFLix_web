@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => ({
         name: 'Fitflix - Complete Fitness Ecosystem',
         short_name: 'Fitflix',
         description: 'Your comprehensive fitness ecosystem - gyms, apps, nutrition, and community.',
-        theme_color: '#007bff',
+        theme_color: '#f97316',
         background_color: '#ffffff',
         display: 'standalone',
         start_url: '/',
@@ -70,6 +70,11 @@ export default defineConfig(({ mode }) => ({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg}'],
+        navigateFallback: '/index.html',
+        navigateFallbackAllowlist: [/^\/$/, /^\/about$/, /^\/discover-gym$/, /^\/gym\/.*$/],
+        cleanupOutdatedCaches: true,
+        skipWaiting: true,
+        clientsClaim: true,
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/images\.unsplash\.com/,
