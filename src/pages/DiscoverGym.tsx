@@ -54,7 +54,7 @@ const DiscoverGym = () => {
       address: "94, 3rd floor above Domino's, Opp- Ajmera Infinity, Neeladri Road, EC Phase, 1, Bengaluru, Karnataka 560100",
       latitude: "12.8441",
       longitude: "77.6675",
-      phone_number: "+91 75103 82782",
+      phone_number: "+91 99456 82792",
       email: "info@fitflix.in",
       opening_time: "1970-01-01T06:30:00.000Z",
       closing_time: "1970-01-01T22:30:00.000Z",
