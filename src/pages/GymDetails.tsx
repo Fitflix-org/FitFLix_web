@@ -208,7 +208,7 @@ const GymDetails = () => {
                        autoPlay
                        muted
                        loop
-                       poster="/src/assets/1714407900720.jpeg"
+                       poster="/media/1714407900720.jpeg"
                      >
                        <source src="/media/marathalli.mp4" type="video/mp4" />
                        Your browser does not support the video tag.
