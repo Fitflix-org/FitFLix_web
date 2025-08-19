@@ -1,13 +1,17 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Filter, MapPin, Clock, Star, Users, Wifi, Car, Dumbbell } from "lucide-react";
+import { Search, Filter, MapPin, Clock, Star, Users, Wifi, Car, Dumbbell, ArrowRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import CallbackForm from "@/components/CallbackForm";
+import { useSEO } from "@/hooks/useSEO";
+import OptimizedImage from "@/components/OptimizedImage";
+import { Link } from "react-router-dom";
+import Breadcrumb from "@/components/Breadcrumb";
 
 interface Gym {
   id: number;
@@ -28,6 +32,15 @@ interface Gym {
 }
 
 const DiscoverGym = () => {
+  useSEO({
+    title: "Discover Premium Gyms in Bangalore | Fitflix Fitness Centers",
+    description: "Find the best gyms in Bangalore including Marathahalli, Electronic City, and Brookefield. Premium fitness centers with modern equipment, personal training, and group classes.",
+    keywords: "gyms Bangalore, fitness centers Bangalore, Marathahalli gym, Electronic City gym, Brookefield gym, personal training, group classes, premium fitness, certified trainers",
+    ogTitle: "Discover Premium Gyms in Bangalore | Fitflix Fitness Centers",
+    ogDescription: "Find the best gyms in Bangalore including Marathahalli, Electronic City, and Brookefield. Premium fitness centers with modern equipment and personal training.",
+    canonical: "https://fitflix.in/discover-gym"
+  });
+
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [searchQuery, setSearchQuery] = useState("");
   const [callbackFormOpen, setCallbackFormOpen] = useState(false);
@@ -37,23 +50,6 @@ const DiscoverGym = () => {
   const [gyms] = useState([
     {
       id: 1,
-      name: "Fitflix Gym - ITI Layout, Bangalore",
-      address: "No. 294, 1st Floor, Above Bhagayalakshmi Super Market, 5th Main, 4th Cross Road, Iti Layout-560050, Bangalore",
-      latitude: "12.9423",
-      longitude: "77.5649",
-      phone_number: "+91 75103 82782",
-      email: "info@fitflix.in",
-      opening_time: "1970-01-01T06:00:00.000Z",
-      closing_time: "1970-01-01T22:00:00.000Z",
-      holiday_dates: [],
-      description: "Fitflix Gym in ITI Layout, Bangalore is known for its commitment to helping members achieve their health and fitness goals. Offers Gym, Cardio, Crossfit, Strengthening Exercises, and Personal Trainers.",
-      rating: 4.5,
-      amenities: ["Gym", "Cardio", "Crossfit", "Personal Training"],
-      is_deleted: false,
-      verified: true,
-    },
-    {
-      id: 2,
       name: "Fitflix Gym - Electronic City Phase I, Bengaluru",
       address: "94, 3rd floor above Domino's, Opp- Ajmera Infinity, Neeladri Road, EC Phase, 1, Bengaluru, Karnataka 560100",
       latitude: "12.8441",
@@ -69,37 +65,38 @@ const DiscoverGym = () => {
       is_deleted: false,
       verified: true,
     },
+
     {
-      id: 3,
-      name: "Fitflix Gym - Whitefield, Bengaluru",
-      address: "2nd FLOOR, THULIP SPA, FITFLIX GYMS, ITPL Main Rd, opp. to SHERATON HOTEL, above HYDERABAD HOUSE, Bengaluru, Karnataka 560048",
-      latitude: "12.9728",
-      longitude: "77.7499",
-      phone_number: "+91 75103 82782",
+      id: 2,
+      name: "FITFLIX GYM MARATHAHALLI - Best gym in Marathahalli",
+      address: "4th floor, Kishan icon, SOUL SPACE PARADIGM, 90/2, next to IRONHILL, above BARKAAZ, Marathahalli Village, Marathahalli, Bengaluru, Karnataka 560037, India",
+      latitude: "12.9512291",
+      longitude: "77.6994058",
+      phone_number: "+91 89043 91501",
       email: "info@fitflix.in",
-      opening_time: "1970-01-01T05:00:00.000Z",
+      opening_time: "1970-01-01T06:00:00.000Z",
       closing_time: "1970-01-01T22:30:00.000Z",
       holiday_dates: [],
-      description: "Fitflix Gym Whitefield offers various fitness options including Gym. Known for top-notch amenities and experienced professionals.",
-      rating: 4.7,
-      amenities: ["Gym", "Premium Equipment", "Experienced Trainers"],
+      description: "FITFLIX GYM MARATHAHALLI is one of the best gyms in Marathahalli, Bengaluru. Located on the 4th floor of Kishan Icon, SOUL SPACE PARADIGM, next to IRONHILL and above BARKAAZ. Known for its modern equipment, professional trainers, and excellent fitness programs. Perfect location for fitness enthusiasts in the Marathahalli area.",
+      rating: 4.5,
+      amenities: ["Modern Equipment", "Professional Trainers", "Fitness Programs", "Cardio Zone", "Strength Training", "Group Classes", "Website Available"],
       is_deleted: false,
       verified: true,
     },
     {
-      id: 4,
-      name: "Fitflix Gym - Anna Nagar, Chennai",
-      address: "FITFLIX GYM ANNANAGAR, Karuna conclave, 4th Ave, Shanthi Colony, Anna Nagar, Chennai, Tamil Nadu, 600040",
-      latitude: "13.0874",
-      longitude: "80.2171",
-      phone_number: "+91 75103 82782",
+      id: 3,
+      name: "FITFLIX GYM BROOKFIELD",
+      address: "3rd floor, Above Bata showroom Aecs layout, Lakshminarayana Pura, BEML Layout, Brookefield, Bengaluru, Karnataka 560037, India",
+      latitude: "12.9716",
+      longitude: "77.7506",
+      phone_number: "+91 99456 82973",
       email: "info@fitflix.in",
-      opening_time: "1970-01-01T05:30:00.000Z",
-      closing_time: "1970-01-01T23:00:00.000Z",
+      opening_time: "1970-01-01T06:00:00.000Z",
+      closing_time: "1970-01-01T22:30:00.000Z",
       holiday_dates: [],
-      description: "Fitflix Gym Anna Nagar is a premium gym in Chennai, praised for its spaciousness, good equipment, ambiance, friendly trainers, and variety of classes.",
-      rating: 4.9,
-      amenities: ["Spacious", "Premium Equipment", "Group Classes", "Yoga"],
+      description: "FITFLIX GYM BROOKFIELD is a premium fitness center located in Brookefield, Bengaluru. Situated on the 3rd floor above Bata showroom in AECS layout, this gym offers state-of-the-art equipment and professional training services. Perfect for fitness enthusiasts in the Brookefield and BEML Layout area.",
+      rating: 4.8,
+      amenities: ["Premium Equipment", "Professional Trainers", "Fitness Programs", "Cardio Zone", "Strength Training", "Group Classes", "Instagram Available"],
       is_deleted: false,
       verified: true,
     },
@@ -118,10 +115,13 @@ const DiscoverGym = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <div className="min-h-screen pt-16">
       <div className="container mx-auto px-4 py-8">
+        {/* Breadcrumb */}
+        <Breadcrumb />
+        
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
             Discover Your <span className="text-primary">Perfect</span>{" "}
             <span className="text-secondary">Gym</span>
@@ -183,87 +183,182 @@ const DiscoverGym = () => {
             </Button>
           </div>
         </div>
-        {/* Gym Cards or Loading/Error */}
-        {loading ? (
-          <div className="text-center py-12">Loading gyms...</div>
-        ) : error ? (
-          <div className="text-center text-red-500 py-12">{error}</div>
-        ) : (
-          <div className={`grid gap-6 ${viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}>
-            {filteredGyms.map((gym) => (
-              <Card key={gym.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="relative">
-                  <div className="h-48 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                    <Dumbbell className="h-16 w-16 text-primary/40" />
-                  </div>
-                  <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-                    <Badge variant="secondary" className="text-xs">{gym.name}</Badge>
-                    <Badge className="bg-primary text-primary-foreground text-xs">
-                      {gym.email}
-                    </Badge>
-                    {(!gym.is_deleted && gym.verified) && (
-                      <Badge variant="outline" className="bg-green-500/10 text-green-500 border-green-500 text-xs">
-                        ✓ Verified
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-                <CardContent className="p-4 sm:p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <h3 className="text-lg sm:text-xl font-bold">{gym.name}</h3>
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <span className="text-sm font-medium">{gym.rating || "-"}</span>
+        {/* Enhanced Gym Cards with Better Internal Linking */}
+        <div className="grid lg:grid-cols-1 gap-6">
+          {filteredGyms.map((gym) => (
+            <Card key={gym.id} className="group hover:shadow-xl transition-all duration-300 border-primary/10 hover:border-primary/30">
+              <CardContent className="p-6">
+                <div className="grid lg:grid-cols-3 gap-6">
+                  {/* Gym Image */}
+                  <div className="lg:col-span-1">
+                    <div className="relative aspect-video rounded-lg overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
+                      <OptimizedImage 
+                        src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop" 
+                        alt={gym.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        width={600}
+                        height={400}
+                        sizes="(max-width: 1024px) 100vw, 33vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+                      <div className="absolute top-3 right-3">
+                        <Badge variant="secondary" className="bg-primary/20 text-primary border-primary/30">
+                          {gym.verified ? 'Verified' : 'Unverified'}
+                        </Badge>
+                      </div>
                     </div>
                   </div>
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
-                      <MapPin className="h-4 w-4 flex-shrink-0" />
-                      <span>{gym.address}</span>
-                      <span>•</span>
-                      <span>{gym.phone_number}</span>
-                      <Users className="h-4 w-4 ml-2 flex-shrink-0" />
-                      <span>{gym.email}</span>
+
+                  {/* Gym Details */}
+                  <div className="lg:col-span-2 space-y-4">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+                          {gym.name}
+                        </h3>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                          <MapPin className="h-4 w-4" />
+                          <span>{gym.address.split(',')[0]}, {gym.address.split(',')[1]}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                        <span className="font-semibold">{gym.rating}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4 flex-shrink-0" />
-                      <span>{gym.opening_time ? `${gym.opening_time.substring(11,16)} - ${gym.closing_time?.substring(11,16)}` : "Not available"}</span>
-                    </div>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium mb-2">{gym.description ? "Description" : "Amenities"}</p>
-                    <div className="flex flex-wrap gap-1">
-                      {gym.description ? (
-                        <span className="text-xs text-muted-foreground">{gym.description}</span>
-                      ) : (
-                        gym.amenities && gym.amenities.map((amenity: string, index: number) => (
-                          <Badge key={index} variant="outline" className="text-xs">
-                            {amenity}
-                          </Badge>
-                        ))
+
+                    <p className="text-muted-foreground leading-relaxed">
+                      {gym.description}
+                    </p>
+
+                    {/* Amenities */}
+                    <div className="flex flex-wrap gap-2">
+                      {gym.amenities.slice(0, 5).map((amenity, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                          {amenity}
+                        </Badge>
+                      ))}
+                      {gym.amenities.length > 5 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{gym.amenities.length - 5} more
+                        </Badge>
                       )}
                     </div>
+
+                    {/* Gym Hours */}
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Clock className="h-4 w-4" />
+                      <span>
+                        {new Date(gym.opening_time).toLocaleTimeString('en-US', { 
+                          hour: '2-digit', 
+                          minute: '2-digit',
+                          hour12: true 
+                        })} - {new Date(gym.closing_time).toLocaleTimeString('en-US', { 
+                          hour: '2-digit', 
+                          minute: '2-digit',
+                          hour12: true 
+                        })}
+                      </span>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                      <Button 
+                        className="btn-fitness flex-1 sm:flex-none"
+                        onClick={() => navigate(`/gym/${gym.id}`)}
+                      >
+                        View Details
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="flex-1 sm:flex-none"
+                        onClick={() => setCallbackFormOpen(true)}
+                      >
+                        <Phone className="mr-2 h-4 w-4" />
+                        Get Callback
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <Button 
-                      className="flex-1 btn-fitness"
-                      onClick={() => handleViewDetails(gym)}
-                    >
-                      View Details
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      className="flex-1"
-                      onClick={() => setCallbackFormOpen(true)}
-                    >
-                      Request Callback
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Related Content Section */}
+        <div className="mt-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold gradient-text mb-4">
+              Explore the Complete Fitflix Experience
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Beyond our premium gyms, discover our comprehensive fitness ecosystem
+            </p>
           </div>
-        )}
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="group hover:shadow-xl transition-all duration-300 border-primary/10 hover:border-primary/30">
+              <CardContent className="p-6">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                    <Dumbbell className="h-8 w-8 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold">Premium Gyms</h3>
+                  <p className="text-muted-foreground">
+                    State-of-the-art facilities with modern equipment and certified trainers
+                  </p>
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to="/services">
+                      Learn More
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-xl transition-all duration-300 border-primary/10 hover:border-primary/30">
+              <CardContent className="p-6">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                    <div className="w-8 h-8 bg-primary rounded"></div>
+                  </div>
+                  <h3 className="text-xl font-bold">Workout App</h3>
+                  <p className="text-muted-foreground">
+                    1000+ minutes of professional training across 10 categories
+                  </p>
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to="/services">
+                      Coming Soon
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-xl transition-all duration-300 border-primary/10 hover:border-primary/30">
+              <CardContent className="p-6">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                    <div className="w-8 h-8 bg-primary rounded"></div>
+                  </div>
+                  <h3 className="text-xl font-bold">Nutrition Products</h3>
+                  <p className="text-muted-foreground">
+                    Premium supplements for optimal performance and recovery
+                  </p>
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to="/services">
+                      Shop Now
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
         
         {/* Callback Form */}
         <CallbackForm

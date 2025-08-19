@@ -4,14 +4,26 @@ import {
   ArrowRight, 
   PlayCircle,
   Clock,
-  Dumbbell
+  Dumbbell,
+  Smartphone,
+  ShoppingCart
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import heroImage from "@/assets/hero-fitness.jpg";
 import Footer from "@/components/Footer";
+import { useSEO } from "@/hooks/useSEO";
+import OptimizedImage from "@/components/OptimizedImage";
 
 const Home = () => {
+  useSEO({
+    title: "Fitflix - Complete Fitness Ecosystem | Premium Gyms, Workout Apps & Nutrition",
+    description: "Discover Fitflix's comprehensive fitness ecosystem featuring premium gyms in Bangalore, innovative workout apps, and quality nutrition products. Join our fitness community today!",
+    keywords: "Fitflix, fitness ecosystem, premium gyms Bangalore, workout apps, nutrition products, personal training, group classes, fitness community, Marathahalli gym, Electronic City gym, Brookefield gym",
+    ogTitle: "Fitflix - Complete Fitness Ecosystem | Premium Gyms, Workout Apps & Nutrition",
+    ogDescription: "Discover Fitflix's comprehensive fitness ecosystem featuring premium gyms in Bangalore, innovative workout apps, and quality nutrition products.",
+    canonical: "https://fitflix.in"
+  });
 
   return (
     <div className="min-h-screen pt-16">
@@ -80,18 +92,23 @@ const Home = () => {
                   Access premium strength training equipment, cardio machines, and functional training areas 
                   designed to maximize your workout efficiency and results.
                 </p>
-                <Button className="btn-fitness">
-                  Explore Equipment
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                <Button className="btn-fitness" asChild>
+                  <Link to="/discover-gym">
+                    Explore Equipment
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
                 </Button>
               </div>
             </div>
             <div className="relative">
               <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-3xl p-2 backdrop-blur-sm border border-primary/20">
-                <img 
+                <OptimizedImage 
                   src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=600&fit=crop" 
                   alt="Modern Gym Equipment" 
                   className="w-full h-[400px] object-cover rounded-2xl shadow-2xl"
+                  width={800}
+                  height={600}
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
               <div className="absolute -top-4 -right-4 w-20 h-20 bg-primary/20 rounded-full blur-xl animate-glow-pulse" />
@@ -101,10 +118,13 @@ const Home = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative order-2 lg:order-1">
               <div className="bg-gradient-to-br from-secondary/10 to-primary/10 rounded-3xl p-2 backdrop-blur-sm border border-secondary/20">
-                <img 
+                <OptimizedImage 
                   src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop" 
                   alt="Group Fitness Classes" 
                   className="w-full h-[400px] object-cover rounded-2xl shadow-2xl"
+                  width={800}
+                  height={600}
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
               <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-secondary/20 rounded-full blur-xl animate-glow-pulse" style={{ animationDelay: '1s' }} />
@@ -116,9 +136,11 @@ const Home = () => {
                   Join energizing group fitness classes or work one-on-one with certified personal trainers 
                   to achieve your specific fitness goals faster and safer.
                 </p>
-                <Button className="btn-fitness">
-                  Book Training
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                <Button className="btn-fitness" asChild>
+                  <Link to="/about#classes">
+                    Book Training
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -140,17 +162,22 @@ const Home = () => {
                 Experience luxury fitness with our spacious gym floors, Olympic-grade equipment, 
                 swimming pools, sauna, and recovery zones designed for optimal performance.
               </p>
-              <Button className="btn-fitness">
-                Tour Facilities
-                <ArrowRight className="ml-2 h-4 w-4" />
+              <Button className="btn-fitness" asChild>
+                <Link to="/discover-gym">
+                  Tour Facilities
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </Button>
             </div>
             <div className="lg:col-span-2">
               <div className="relative">
-                <img 
+                <OptimizedImage 
                   src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=900&h=500&fit=crop" 
                   alt="Premium Gym Facilities" 
                   className="w-full h-[350px] object-cover rounded-3xl shadow-2xl"
+                  width={900}
+                  height={500}
+                  sizes="(max-width: 768px) 100vw, 66vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent rounded-3xl" />
               </div>
@@ -166,17 +193,95 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             {[
-              { number: "4", label: "Premium Locations", description: "Electronic City & More" },
-              { number: "1000+", label: "Workout Minutes", description: "In our app" },
-              { number: "10", label: "Training Categories", description: "Professional guidance" },
-              { number: "24/7", label: "App Access", description: "Train anytime" }
+              { number: "4", label: "Premium Locations", description: "Electronic City & More", link: "/discover-gym" },
+              { number: "1000+", label: "Workout Minutes", description: "In our app", link: "/about#workout-app" },
+              { number: "10", label: "Training Categories", description: "Professional guidance", link: "/about#classes" },
+              { number: "24/7", label: "App Access", description: "Train anytime", link: "/about#workout-app" }
             ].map((stat, index) => (
-              <div key={index} className="space-y-2">
-                <div className="text-5xl font-black text-primary">{stat.number}</div>
-                <div className="text-xl font-semibold">{stat.label}</div>
-                <div className="text-muted-foreground">{stat.description}</div>
+              <div key={index} className="space-y-2 group cursor-pointer">
+                <Link to={stat.link} className="block">
+                  <div className="text-5xl font-black text-primary group-hover:scale-110 transition-transform duration-300">{stat.number}</div>
+                  <div className="text-xl font-semibold">{stat.label}</div>
+                  <div className="text-muted-foreground">{stat.description}</div>
+                </Link>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Related Content Section */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black gradient-text mb-6">
+              Explore More
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Discover all aspects of the Fitflix fitness ecosystem
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="group hover:shadow-xl transition-all duration-300 border-primary/10 hover:border-primary/30">
+              <CardContent className="p-6">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                    <Dumbbell className="h-8 w-8 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold">Premium Gyms</h3>
+                  <p className="text-muted-foreground">
+                    Visit our state-of-the-art fitness centers in Electronic City, Marathahalli, and Brookefield
+                  </p>
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to="/discover-gym">
+                      Find Your Gym
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-xl transition-all duration-300 border-primary/10 hover:border-primary/30">
+              <CardContent className="p-6">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                    <Smartphone className="h-8 w-8 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold">Workout App</h3>
+                  <p className="text-muted-foreground">
+                    Access 1000+ minutes of professional training across 10 categories
+                  </p>
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to="/about#workout-app">
+                      Learn More
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-xl transition-all duration-300 border-primary/10 hover:border-primary/30">
+              <CardContent className="p-6">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                    <ShoppingCart className="h-8 w-8 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold">Nutrition Products</h3>
+                  <p className="text-muted-foreground">
+                    Premium supplements including protein, vitamins, and performance enhancers
+                  </p>
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to="/about#nutrition">
+                      Shop Now
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

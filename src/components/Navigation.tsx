@@ -3,8 +3,9 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dumbbell, Home, User, Menu, X, MapPin, ChevronDown } from "lucide-react";
+import { Dumbbell, Home, User, Menu, X, MapPin, ChevronDown, Smartphone, ShoppingCart, Users as UsersIcon } from "lucide-react";
 import { useState } from "react";
+import OptimizedImage from "@/components/OptimizedImage";
 
 const Navigation = () => {
   const location = useLocation();
@@ -13,14 +14,44 @@ const Navigation = () => {
 
   const cities = [
     { name: "Hyderabad", gyms: 45 },
-    { name: "Bangalore", gyms: 38 }
+    { name: "Bangalore", gyms: 37 }
   ];
 
-  // Define navigation items - now available to all users
+  // Enhanced navigation items with dropdowns
   const navItems = [
     { path: "/", label: "Home", icon: Home },
-    { path: "/discover-gym", label: "Discover Gym", icon: Dumbbell },
-    { path: "/about", label: "About Us", icon: User },
+    { 
+      path: "/discover-gym", 
+      label: "Discover Gym", 
+      icon: Dumbbell,
+      subItems: [
+        { path: "/discover-gym", label: "All Gyms", description: "Browse all locations" },
+        { path: "/discover-gym?location=electronic-city", label: "Electronic City", description: "Premium gym in EC Phase 1" },
+        { path: "/discover-gym?location=marathahalli", label: "Marathahalli", description: "Best gym in Marathahalli" },
+        { path: "/discover-gym?location=brookefield", label: "Brookefield", description: "Premium fitness center" }
+      ]
+    },
+    { 
+      path: "/about", 
+      label: "About Us", 
+      icon: User,
+      subItems: [
+        { path: "/about", label: "Our Story", description: "Learn about Fitflix" },
+        { path: "/services", label: "Services", description: "Fitness centers, apps, nutrition" },
+        { path: "/about#community", label: "Community", description: "Join Fitflix Fam" }
+      ]
+    },
+    { 
+      path: "/services", 
+      label: "Services", 
+      icon: Dumbbell,
+      subItems: [
+        { path: "/discover-gym", label: "Premium Gyms", description: "State-of-the-art facilities", icon: Dumbbell },
+        { path: "/services#workout-app", label: "Workout App", description: "1000+ minutes of training", icon: Smartphone },
+        { path: "/services#nutrition", label: "Nutrition Products", description: "Premium supplements", icon: ShoppingCart },
+        { path: "/services#fitness-classes", label: "Fitness Classes", description: "Group & dance classes", icon: UsersIcon }
+      ]
+    }
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -32,10 +63,13 @@ const Navigation = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group">
             <div className="relative">
-              <img 
+              <OptimizedImage 
                 src="/fitflix-logo.png" 
                 alt="Fitflix Logo" 
                 className="h-8 w-8 md:h-10 md:w-10 object-contain group-hover:scale-105 transition-transform duration-200"
+                width={40}
+                height={40}
+                priority={true}
               />
               <div className="absolute inset-0 bg-primary/10 rounded-full blur-md group-hover:bg-primary/20 transition-colors" />
             </div>
@@ -48,6 +82,47 @@ const Navigation = () => {
           <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
             {navItems.map((item) => {
               const Icon = item.icon;
+              if (item.subItems) {
+                return (
+                  <div key={item.path} className="relative group">
+                    <Link
+                      to={item.path}
+                      className={`flex items-center space-x-2 px-3 py-2 rounded-full transition-all duration-300 text-sm ${
+                        isActive(item.path)
+                          ? "bg-primary text-primary-foreground shadow-primary"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      <span className="font-medium whitespace-nowrap">{item.label}</span>
+                      <ChevronDown className="h-3 w-3 transition-transform group-hover:rotate-180" />
+                    </Link>
+                    
+                    {/* Dropdown Menu */}
+                    <div className="absolute top-full left-0 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                      <div className="p-2 space-y-1">
+                        {item.subItems.map((subItem) => {
+                          const SubIcon = subItem.icon || Icon;
+                          return (
+                            <Link
+                              key={subItem.path}
+                              to={subItem.path}
+                              className="flex items-start space-x-3 p-3 rounded-lg hover:bg-muted transition-colors"
+                            >
+                              <SubIcon className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                              <div>
+                                <div className="font-medium text-sm">{subItem.label}</div>
+                                <div className="text-xs text-muted-foreground">{subItem.description}</div>
+                              </div>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+              
               return (
                 <Link
                   key={item.path}
@@ -126,6 +201,47 @@ const Navigation = () => {
             <div className="container mx-auto px-4 py-4 space-y-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
               {navItems.map((item) => {
                 const Icon = item.icon;
+                if (item.subItems) {
+                  return (
+                    <div key={item.path} className="relative group">
+                      <Link
+                        to={item.path}
+                        className={`flex items-center space-x-3 px-4 py-3 rounded-2xl transition-all duration-300 ${
+                          isActive(item.path)
+                            ? "bg-primary text-primary-foreground"
+                            : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                        }`}
+                      >
+                        <Icon className="h-5 w-5" />
+                        <span className="font-medium">{item.label}</span>
+                        <ChevronDown className="h-5 w-5" />
+                      </Link>
+                      
+                      {/* Dropdown Menu */}
+                      <div className="absolute top-full left-0 mt-2 w-full bg-background border border-border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                        <div className="p-2 space-y-1">
+                          {item.subItems.map((subItem) => {
+                            const SubIcon = subItem.icon || Icon;
+                            return (
+                              <Link
+                                key={subItem.path}
+                                to={subItem.path}
+                                className="flex items-start space-x-3 p-3 rounded-lg hover:bg-muted transition-colors"
+                              >
+                                <SubIcon className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                                <div>
+                                  <div className="font-medium text-sm">{subItem.label}</div>
+                                  <div className="text-xs text-muted-foreground">{subItem.description}</div>
+                                </div>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+                
                 return (
                   <Link
                     key={item.path}
