@@ -13,7 +13,10 @@ import {
   Wifi, 
   Car, 
   Dumbbell,
-  ArrowLeft
+  ArrowLeft,
+  X,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import React, { useState, useEffect, useMemo } from "react";
 import CallbackForm from "@/components/CallbackForm";
@@ -25,6 +28,9 @@ const GymDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [callbackFormOpen, setCallbackFormOpen] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
 
   // Local gym data - same as DiscoverGym.tsx
 
@@ -85,6 +91,27 @@ const GymDetails = () => {
   ];
 
   const gym = gyms.find(g => g.id === parseInt(id || ""));
+
+  // Gallery functions
+  const openGallery = (images: string[], startIndex: number = 0) => {
+    setGalleryImages(images);
+    setSelectedImageIndex(startIndex);
+    setGalleryOpen(true);
+  };
+
+  const closeGallery = () => {
+    setGalleryOpen(false);
+    setGalleryImages([]);
+    setSelectedImageIndex(0);
+  };
+
+  const nextImage = () => {
+    setSelectedImageIndex((prev) => (prev + 1) % galleryImages.length);
+  };
+
+  const prevImage = () => {
+    setSelectedImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+  };
 
   // Memoize SEO data to prevent infinite re-renders
   const seoData = useMemo(() => {
@@ -197,26 +224,146 @@ const GymDetails = () => {
           {/* Left Column - Main Content */}
           <div className="lg:col-span-2 space-y-4 sm:space-y-6">
                          {/* Video/Image Section */}
-             <Card>
-               <CardContent className="p-0">
-                 {gym.id === 2 ? (
+                         <Card>
+              <CardContent className="p-0">
+                {gym.id === 1 ? (
+                  // Electronic City gym - Image gallery
+                  <div className="space-y-4">
+                    {/* Main Image */}
+                    <div 
+                      className="aspect-video bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300"
+                      onClick={() => openGallery([
+                        "https://lh3.googleusercontent.com/p/AF1QipOx2pRaqdWCA4GzBMHvm_viNbAvGSZ6qEPpTpxF=w203-h152-k-no",
+                        "https://lh3.googleusercontent.com/p/AF1QipNMrMicfRyVuhgf8GzkfZdwtO1lktn1JI34ZZB-=s604-k-no",
+                        "https://lh3.googleusercontent.com/p/AF1QipNaszgg7fSY-4nhDvQGbA1Muq7uL8FBomzTe7nu=s625-k-no",
+                        "https://lh3.googleusercontent.com/p/AF1QipPYisgOPZN19ACC2UhoVweggwqx5OLux0z8yEKy=s604-k-no",
+                        "https://lh3.googleusercontent.com/p/AF1QipPO2dLhfRdcBDZRwdZQFY7gPAvadtHCwEp6MLI4=s939-k-no"
+                      ], 0)}
+                    >
+                      <OptimizedImage 
+                        src="https://lh3.googleusercontent.com/p/AF1QipOx2pRaqdWCA4GzBMHvm_viNbAvGSZ6qEPpTpxF=w203-h152-k-no"
+                        alt="Electronic City Gym Main View"
+                        className="w-full h-full object-cover"
+                        width={600}
+                        height={400}
+                        sizes="(max-width: 768px) 100vw, 66vw"
+                      />
+                      <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <div className="bg-white/90 text-black px-3 py-1 rounded-full text-sm font-medium">
+                          Click to view gallery
+                        </div>
+                      </div>
+                    </div>
+                    
+                                          {/* Image Gallery */}
+                      <div className="grid grid-cols-2 gap-2 p-4">
+                        <div 
+                          className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden"
+                          onClick={() => openGallery([
+                            "https://lh3.googleusercontent.com/p/AF1QipOx2pRaqdWCA4GzBMHvm_viNbAvGSZ6qEPpTpxF=w203-h152-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipNMrMicfRyVuhgf8GzkfZdwtO1lktn1JI34ZZB-=s604-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipNaszgg7fSY-4nhDvQGbA1Muq7uL8FBomzTe7nu=s625-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipPYisgOPZN19ACC2UhoVweggwqx5OLux0z8yEKy=s604-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipPO2dLhfRdcBDZRwdZQFY7gPAvadtHCwEp6MLI4=s939-k-no"
+                          ], 1)}
+                        >
+                          <OptimizedImage 
+                            src="https://lh3.googleusercontent.com/p/AF1QipNMrMicfRyVuhgf8GzkfZdwtO1lktn1JI34ZZB-=s604-k-no"
+                            alt="Electronic City Gym Equipment Area"
+                            className="w-full h-full object-cover rounded-lg"
+                            width={400}
+                            height={400}
+                            sizes="(max-width: 768px) 50vw, 25vw"
+                          />
+                        </div>
+                        
+                        <div 
+                          className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden"
+                          onClick={() => openGallery([
+                            "https://lh3.googleusercontent.com/p/AF1QipOx2pRaqdWCA4GzBMHvm_viNbAvGSZ6qEPpTpxF=w203-h152-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipNMrMicfRyVuhgf8GzkfZdwtO1lktn1JI34ZZB-=s604-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipNaszgg7fSY-4nhDvQGbA1Muq7uL8FBomzTe7nu=s625-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipPYisgOPZN19ACC2UhoVweggwqx5OLux0z8yEKy=s604-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipPO2dLhfRdcBDZRwdZQFY7gPAvadtHCwEp6MLI4=s939-k-no"
+                          ], 2)}
+                        >
+                          <OptimizedImage 
+                            src="https://lh3.googleusercontent.com/p/AF1QipNaszgg7fSY-4nhDvQGbA1Muq7uL8FBomzTe7nu=s625-k-no"
+                            alt="Electronic City Gym Interior"
+                            className="w-full h-full object-cover rounded-lg"
+                            width={400}
+                            height={400}
+                            sizes="(max-width: 768px) 50vw, 25vw"
+                          />
+                        </div>
+                        
+                        <div 
+                          className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden"
+                          onClick={() => openGallery([
+                            "https://lh3.googleusercontent.com/p/AF1QipOx2pRaqdWCA4GzBMHvm_viNbAvGSZ6qEPpTpxF=w203-h152-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipNMrMicfRyVuhgf8GzkfZdwtO1lktn1JI34ZZB-=s604-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipNaszgg7fSY-4nhDvQGbA1Muq7uL8FBomzTe7nu=s625-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipPYisgOPZN19ACC2UhoVweggwqx5OLux0z8yEKy=s604-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipPO2dLhfRdcBDZRwdZQFY7gPAvadtHCwEp6MLI4=s939-k-no"
+                          ], 3)}
+                        >
+                          <OptimizedImage 
+                            src="https://lh3.googleusercontent.com/p/AF1QipPYisgOPZN19ACC2UhoVweggwqx5OLux0z8yEKy=s604-k-no"
+                            alt="Electronic City Gym Facility"
+                            className="w-full h-full object-cover rounded-lg"
+                            width={400}
+                            height={400}
+                            sizes="(max-width: 768px) 50vw, 25vw"
+                          />
+                        </div>
+                        
+                        <div 
+                          className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden"
+                          onClick={() => openGallery([
+                            "https://lh3.googleusercontent.com/p/AF1QipOx2pRaqdWCA4GzBMHvm_viNbAvGSZ6qEPpTpxF=w203-h152-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipNMrMicfRyVuhgf8GzkfZdwtO1lktn1JI34ZZB-=s604-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipNaszgg7fSY-4nhDvQGbA1Muq7uL8FBomzTe7nu=s625-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipPYisgOPZN19ACC2UhoVweggwqx5OLux0z8yEKy=s604-k-no",
+                            "https://lh3.googleusercontent.com/p/AF1QipPO2dLhfRdcBDZRwdZQFY7gPAvadtHCwEp6MLI4=s939-k-no"
+                          ], 4)}
+                        >
+                          <OptimizedImage 
+                            src="https://lh3.googleusercontent.com/p/AF1QipPO2dLhfRdcBDZRwdZQFY7gPAvadtHCwEp6MLI4=s939-k-no"
+                            alt="Electronic City Gym Wide View"
+                            className="w-full h-full object-cover rounded-lg"
+                            width={400}
+                            height={400}
+                            sizes="(max-width: 768px) 50vw, 25vw"
+                          />
+                        </div>
+                      </div>
+                  </div>
+                ) : gym.id === 2 ? (
                    // Marathahalli gym - Video with image gallery
                    <div className="space-y-4">
-                     {/* Main Video */}
-                     <video 
-                       className="w-full h-full object-cover rounded-lg"
-                       autoPlay
-                       muted
-                       loop
-                       poster="/media/1714407900720.jpeg"
-                     >
-                       <source src="/media/marathalli.mp4" type="video/mp4" />
-                       Your browser does not support the video tag.
-                     </video>
+                                           {/* Main Video */}
+                      <video 
+                        className="w-full h-full object-cover rounded-lg"
+                        autoPlay
+                        muted
+                        loop
+                        poster="/media/1714407900720.jpeg"
+                      >
+                        <source src="/media/marathalli.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
                      
                      {/* Image Gallery */}
                      <div className="grid grid-cols-2 gap-2 p-4">
-                       <div className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center">
+                       <div 
+                         className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden"
+                         onClick={() => openGallery([
+                           "https://lh3.googleusercontent.com/p/AF1QipN9cjbNziKUGInZ_sX3ARNKqFwpciPONs77t6uW=w833-h902-p-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipNrPoiJ-cs0g1DbkoAPBO2aJ5zkB2zENxgwKLio=w833-h902-p-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipO41rQF9sZ_ayJWfY4hf9W-kCoIHe7fKORhkXF6=w833-h902-p-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipMZ1AHwv9rhtU1Nx169NZdYnVwn0HKkArjbE5AU=w833-h902-p-k-no"
+                         ], 0)}
+                       >
                          <OptimizedImage 
                            src="https://lh3.googleusercontent.com/p/AF1QipN9cjbNziKUGInZ_sX3ARNKqFwpciPONs77t6uW=w833-h902-p-k-no"
                            alt="Marathahalli Gym Interior"
@@ -225,15 +372,17 @@ const GymDetails = () => {
                            height={400}
                            sizes="(max-width: 768px) 50vw, 25vw"
                          />
-                         <div className="hidden text-center px-4">
-                           <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                             <div className="w-0 h-0 border-l-[10px] border-l-primary border-y-[6px] border-y-transparent ml-1"></div>
-                           </div>
-                           <p className="text-sm text-muted-foreground">Gym Interior</p>
-                         </div>
                        </div>
                        
-                       <div className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center">
+                       <div 
+                         className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden"
+                         onClick={() => openGallery([
+                           "https://lh3.googleusercontent.com/p/AF1QipN9cjbNziKUGInZ_sX3ARNKqFwpciPONs77t6uW=w833-h902-p-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipNrPoiJ-cs0g1DbkoAPBO2aJ5zkB2zENxgwKLio=w833-h902-p-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipO41rQF9sZ_ayJWfY4hf9W-kCoIHe7fKORhkXF6=w833-h902-p-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipMZ1AHwv9rhtU1Nx169NZdYnVwn0HKkArjbE5AU=w833-h902-p-k-no"
+                         ], 1)}
+                       >
                          <OptimizedImage 
                            src="https://lh3.googleusercontent.com/p/AF1QipNrPoiJ-cs0g1DbkoAPBO2aJ5zkB2zENxgwKLio=w833-h902-p-k-no"
                            alt="Marathahalli Gym Equipment"
@@ -242,15 +391,17 @@ const GymDetails = () => {
                            height={400}
                            sizes="(max-width: 768px) 50vw, 25vw"
                          />
-                         <div className="hidden text-center px-4">
-                           <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                             <div className="w-0 h-0 border-l-[10px] border-l-primary border-y-[6px] border-y-transparent ml-1"></div>
-                           </div>
-                           <p className="text-sm text-muted-foreground">Gym Equipment</p>
-                         </div>
                        </div>
                        
-                       <div className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center">
+                       <div 
+                         className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden"
+                         onClick={() => openGallery([
+                           "https://lh3.googleusercontent.com/p/AF1QipN9cjbNziKUGInZ_sX3ARNKqFwpciPONs77t6uW=w833-h902-p-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipNrPoiJ-cs0g1DbkoAPBO2aJ5zkB2zENxgwKLio=w833-h902-p-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipO41rQF9sZ_ayJWfY4hf9W-kCoIHe7fKORhkXF6=w833-h902-p-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipMZ1AHwv9rhtU1Nx169NZdYnVwn0HKkArjbE5AU=w833-h902-p-k-no"
+                         ], 2)}
+                       >
                          <OptimizedImage 
                            src="https://lh3.googleusercontent.com/p/AF1QipO41rQF9sZ_ayJWfY4hf9W-kCoIHe7fKORhkXF6=w833-h902-p-k-no"
                            alt="Marathahalli Gym Area"
@@ -259,15 +410,17 @@ const GymDetails = () => {
                            height={400}
                            sizes="(max-width: 768px) 50vw, 25vw"
                          />
-                         <div className="hidden text-center px-4">
-                           <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                             <div className="w-0 h-0 border-l-[10px] border-l-primary border-y-[6px] border-y-transparent ml-1"></div>
-                           </div>
-                           <p className="text-sm text-muted-foreground">Gym Area</p>
-                         </div>
                        </div>
                        
-                       <div className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center">
+                       <div 
+                         className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden"
+                         onClick={() => openGallery([
+                           "https://lh3.googleusercontent.com/p/AF1QipN9cjbNziKUGInZ_sX3ARNKqFwpciPONs77t6uW=w833-h902-p-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipNrPoiJ-cs0g1DbkoAPBO2aJ5zkB2zENxgwKLio=w833-h902-p-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipO41rQF9sZ_ayJWfY4hf9W-kCoIHe7fKORhkXF6=w833-h902-p-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipMZ1AHwv9rhtU1Nx169NZdYnVwn0HKkArjbE5AU=w833-h902-p-k-no"
+                         ], 3)}
+                       >
                          <OptimizedImage 
                            src="https://lh3.googleusercontent.com/p/AF1QipMZ1AHwv9rhtU1Nx169NZdYnVwn0HKkArjbE5AU=w833-h902-p-k-no"
                            alt="Marathahalli Gym View"
@@ -276,72 +429,106 @@ const GymDetails = () => {
                            height={400}
                            sizes="(max-width: 768px) 50vw, 25vw"
                          />
-                         <div className="hidden text-center px-4">
-                           <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                             <div className="w-0 h-0 border-l-[10px] border-l-primary border-y-[6px] border-y-transparent ml-1"></div>
-                           </div>
-                           <p className="text-sm text-muted-foreground">Gym View</p>
+                       </div>
+                     </div>
+                   </div>
+                                                   ) : gym.id === 3 ? (
+                   // Brookfield gym - Image gallery (same pattern as others)
+                   <div className="space-y-4">
+                     {/* Main Image */}
+                     <div 
+                       className="aspect-video bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300"
+                       onClick={() => openGallery([
+                         "https://lh3.googleusercontent.com/p/AF1QipPhE2xLhB1-TR_c9bpJCRKVDhum7mQvFY10iZRo=w203-h138-k-no",
+                         "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqMijpSleYLHCfUK0_8cYj4pS_e76xfFBqKdzyRMP8PhgTpcZO76g-oMrVLBLOjFXKgC-omlWsmVtOnMCiTSY2caKGF7b0QrKdy1WhHamefEonApPLg313MKyqV6U8Vtdh-o1WiDQ=s625-k-no",
+                         "https://lh3.googleusercontent.com/p/AF1QipNJ867JmpPg50RJsC0fc1UaC_POgWlZZZ3zab5Y=s704-k-no",
+                         "https://lh3.googleusercontent.com/p/AF1QipPhE2xLhB1-TR_c9bpJCRKVDhum7mQvFY10iZRo=w203-h138-k-no"
+                       ], 0)}
+                     >
+                       <OptimizedImage 
+                         src="https://lh3.googleusercontent.com/p/AF1QipPhE2xLhB1-TR_c9bpJCRKVDhum7mQvFY10iZRo=w203-h138-k-no"
+                         alt="Brookfield Gym Main View"
+                         className="w-full h-full object-cover"
+                         width={600}
+                         height={400}
+                         sizes="(max-width: 768px) 100vw, 66vw"
+                       />
+                       <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                         <div className="bg-white/90 text-black px-3 py-1 rounded-full text-sm font-medium">
+                           Click to view gallery
+                         </div>
+                       </div>
+                     </div>
+                     
+                     {/* Image Gallery - 2x2 Grid like others */}
+                     <div className="grid grid-cols-2 gap-2 p-4">
+                       <div 
+                         className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden"
+                         onClick={() => openGallery([
+                           "https://lh3.googleusercontent.com/p/AF1QipPhE2xLhB1-TR_c9bpJCRKVDhum7mQvFY10iZRo=w203-h138-k-no",
+                           "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqMijpSleYLHCfUK0_8cYj4pS_e76xfFBqKdzyRMP8PhgTpcZO76g-oMrVLBLOjFXKgC-omlWsmVtOnMCiTSY2caKGF7b0QrKdy1WhHamefEonApPLg313MKyqV6U8Vtdh-o1WiDQ=s625-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipNJ867JmpPg50RJsC0fc1UaC_POgWlZZZ3zab5Y=s704-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipPhE2xLhB1-TR_c9bpJCRKVDhum7mQvFY10iZRo=w203-h138-k-no"
+                         ], 1)}
+                       >
+                         <OptimizedImage 
+                           src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqMijpSleYLHCfUK0_8cYj4pS_e76xfFBqKdzyRMP8PhgTpcZO76g-oMrVLBLOjFXKgC-omlWsmVtOnMCiTSY2caKGF7b0QrKdy1WhHamefEonApPLg313MKyqV6U8Vtdh-o1WiDQ=s625-k-no"
+                           alt="Brookfield Gym Interior"
+                           className="w-full h-full object-cover rounded-lg"
+                           width={400}
+                           height={400}
+                           sizes="(max-width: 768px) 50vw, 25vw"
+                         />
+                       </div>
+                       
+                       <div 
+                         className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden"
+                         onClick={() => openGallery([
+                           "https://lh3.googleusercontent.com/p/AF1QipPhE2xLhB1-TR_c9bpJCRKVDhum7mQvFY10iZRo=w203-h138-k-no",
+                           "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqMijpSleYLHCfUK0_8cYj4pS_e76xfFBqKdzyRMP8PhgTpcZO76g-oMrVLBLOjFXKgC-omlWsmVtOnMCiTSY2caKGF7b0QrKdy1WhHamefEonApPLg313MKyqV6U8Vtdh-o1WiDQ=s625-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipNJ867JmpPg50RJsC0fc1UaC_POgWlZZZ3zab5Y=s704-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipPhE2xLhB1-TR_c9bpJCRKVDhum7mQvFY10iZRo=w203-h138-k-no"
+                         ], 2)}
+                       >
+                         <OptimizedImage 
+                           src="https://lh3.googleusercontent.com/p/AF1QipNJ867JmpPg50RJsC0fc1UaC_POgWlZZZ3zab5Y=s704-k-no"
+                           alt="Brookfield Gym Equipment"
+                           className="w-full h-full object-cover rounded-lg"
+                           width={400}
+                           height={400}
+                           sizes="(max-width: 768px) 50vw, 25vw"
+                         />
+                       </div>
+                       
+                       <div 
+                         className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden"
+                         onClick={() => openGallery([
+                           "https://lh3.googleusercontent.com/p/AF1QipPhE2xLhB1-TR_c9bpJCRKVDhum7mQvFY10iZRo=w203-h138-k-no",
+                           "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqMijpSleYLHCfUK0_8cYj4pS_e76xfFBqKdzyRMP8PhgTpcZO76g-oMrVLBLOjFXKgC-omlWsmVtOnMCiTSY2caKGF7b0QrKdy1WhHamefEonApPLg313MKyqV6U8Vtdh-o1WiDQ=s625-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipNJ867JmpPg50RJsC0fc1UaC_POgWlZZZ3zab5Y=s704-k-no",
+                           "https://lh3.googleusercontent.com/p/AF1QipPhE2xLhB1-TR_c9bpJCRKVDhum7mQvFY10iZRo=w203-h138-k-no"
+                         ], 3)}
+                       >
+                         <OptimizedImage 
+                           src="https://lh3.googleusercontent.com/p/AF1QipPhE2xLhB1-TR_c9bpJCRKVDhum7mQvFY10iZRo=w203-h138-k-no"
+                           alt="Brookfield Gym Area"
+                           className="w-full h-full object-cover rounded-lg"
+                           width={400}
+                           height={400}
+                           sizes="(max-width: 768px) 50vw, 25vw"
+                         />
+                       </div>
+                       
+                       {/* Add a 4th placeholder to maintain 2x2 pattern */}
+                       <div className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center">
+                         <div className="text-center text-muted-foreground">
+                           <Dumbbell className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                           <p className="text-xs">More photos</p>
+                           <p className="text-xs">coming soon</p>
                          </div>
                        </div>
                      </div>
                    </div>
-                                   ) : gym.id === 3 ? (
-                    // Brookfield gym - Image gallery
-                    <div className="space-y-4">
-                      {/* Main Image */}
-                      <div className="aspect-video bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg overflow-hidden">
-                        <OptimizedImage 
-                          src="https://lh3.googleusercontent.com/p/AF1QipPhE2xLhB1-TR_c9bpJCRKVDhum7mQvFY10iZRo=w203-h138-k-no"
-                          alt="Brookfield Gym Main View"
-                          className="w-full h-full object-cover"
-                          width={400}
-                          height={300}
-                          sizes="(max-width: 768px) 100vw, 66vw"
-                        />
-                        <div className="hidden text-center px-4">
-                          <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <div className="w-0 h-0 border-l-[10px] border-l-primary border-y-[6px] border-y-transparent ml-1"></div>
-                          </div>
-                          <p className="text-sm text-muted-foreground">Brookfield Gym</p>
-                        </div>
-                      </div>
-                      
-                      {/* Image Gallery */}
-                      <div className="grid grid-cols-3 gap-2 p-4">
-                        <div className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center">
-                          <OptimizedImage 
-                            src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqMijpSleYLHCfUK0_8cYj4pS_e76xfFBqKdzyRMP8PhgTpcZO76g-oMrVLBLOjFXKgC-omlWsmVtOnMCiTSY2caKGF7b0QrKdy1WhHamefEonApPLg313MKyqV6U8Vtdh-o1WiDQ=s625-k-no"
-                            alt="Brookfield Gym Interior"
-                            className="w-full h-full object-cover rounded-lg"
-                            width={400}
-                            height={400}
-                            sizes="(max-width: 768px) 100vw, 400px"
-                          />
-                        </div>
-                        
-                        <div className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center">
-                          <OptimizedImage 
-                            src="https://lh3.googleusercontent.com/p/AF1QipNJ867JmpPg50RJsC0fc1UaC_POgWlZZZ3zab5Y=s704-k-no"
-                            alt="Brookfield Gym Equipment"
-                            className="w-full h-full object-cover rounded-lg"
-                            width={400}
-                            height={400}
-                            sizes="(max-width: 768px) 100vw, 400px"
-                          />
-                        </div>
-                        
-                        <div className="aspect-square bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center">
-                          <OptimizedImage 
-                            src="https://lh3.googleusercontent.com/p/AF1QipPhE2xLhB1-TR_c9bpJCRKVDhum7mQvFY10iZRo=w203-h138-k-no"
-                            alt="Brookfield Gym Area"
-                            className="w-full h-full object-cover rounded-lg"
-                            width={400}
-                            height={400}
-                            sizes="(max-width: 768px) 100vw, 400px"
-                          />
-                        </div>
-                      </div>
-                    </div>
                   ) : (
                     // Default gym tour placeholder
                     <div className="aspect-video bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center">
@@ -451,7 +638,7 @@ const GymDetails = () => {
                   </Link>
                   
                   <Link 
-                    to="/about#workout-app" 
+                    to="/services" 
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted transition-colors"
                   >
                     <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
@@ -464,7 +651,7 @@ const GymDetails = () => {
                   </Link>
                   
                   <Link 
-                    to="/about#nutrition" 
+                    to="/services" 
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted transition-colors"
                   >
                     <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
@@ -587,6 +774,61 @@ const GymDetails = () => {
           prefillLocation={gym.name}
           gymId={gym.id}
         />
+
+        {/* Gallery Modal */}
+        {galleryOpen && (
+          <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
+            <div className="relative max-w-4xl max-h-full">
+              {/* Close Button */}
+              <button
+                onClick={closeGallery}
+                className="absolute top-4 right-4 z-10 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </button>
+              
+              {/* Navigation Buttons */}
+              <button
+                onClick={prevImage}
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              
+              <button
+                onClick={nextImage}
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+              
+              {/* Main Image */}
+              <img
+                src={galleryImages[selectedImageIndex]}
+                alt={`Gym Image ${selectedImageIndex + 1}`}
+                className="max-w-full max-h-full object-contain rounded-lg"
+              />
+              
+              {/* Image Counter */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
+                {selectedImageIndex + 1} / {galleryImages.length}
+              </div>
+              
+              {/* Thumbnail Navigation */}
+              <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-2">
+                {galleryImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImageIndex(index)}
+                    className={`w-3 h-3 rounded-full transition-colors ${
+                      index === selectedImageIndex ? 'bg-white' : 'bg-white/50'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

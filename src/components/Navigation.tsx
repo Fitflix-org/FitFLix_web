@@ -26,9 +26,9 @@ const Navigation = () => {
       icon: Dumbbell,
       subItems: [
         { path: "/discover-gym", label: "All Gyms", description: "Browse all locations" },
-        { path: "/discover-gym?location=electronic-city", label: "Electronic City", description: "Premium gym in EC Phase 1" },
-        { path: "/discover-gym?location=marathahalli", label: "Marathahalli", description: "Best gym in Marathahalli" },
-        { path: "/discover-gym?location=brookefield", label: "Brookefield", description: "Premium fitness center" }
+        { path: "/gym/1", label: "Electronic City", description: "Premium gym in EC Phase 1" },
+        { path: "/gym/2", label: "Marathahalli", description: "Best gym in Marathahalli" },
+        { path: "/gym/3", label: "Brookefield", description: "Premium fitness center" }
       ]
     },
     { 

@@ -121,14 +121,25 @@ const DiscoverGym = () => {
         <Breadcrumb />
         
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            Discover Your <span className="text-primary">Perfect</span>{" "}
-            <span className="text-secondary">Gym</span>
-          </h1>
-          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
-            Find the best fitness centers in your area with AI-powered recommendations and detailed insights
-          </p>
+        <div className="relative text-center mb-12">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl overflow-hidden">
+            <OptimizedImage 
+              src="/src/assets/hero-fitness.jpg" 
+              alt="Fitness background"
+              className="w-full h-full object-cover opacity-30"
+              width={1200}
+              height={300}
+            />
+          </div>
+          <div className="relative z-10 py-12 px-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white drop-shadow-lg">
+              Discover Your <span className="text-primary">Perfect</span>{" "}
+              <span className="text-secondary">Gym</span>
+            </h1>
+            <p className="text-base md:text-lg text-white/90 max-w-2xl mx-auto px-4 drop-shadow-md">
+              Find the best fitness centers in your area with AI-powered recommendations and detailed insights
+            </p>
+          </div>
         </div>
         {/* Search and Filters */}
         <div className="flex flex-col gap-4 mb-8">
@@ -188,22 +199,58 @@ const DiscoverGym = () => {
           {filteredGyms.map((gym) => (
             <Card key={gym.id} className="group hover:shadow-xl transition-all duration-300 border-primary/10 hover:border-primary/30">
               <CardContent className="p-6">
-                <div className="grid lg:grid-cols-3 gap-6">
+                <div className="grid lg:grid-cols-3 gap-6 items-stretch">
                   {/* Gym Image */}
                   <div className="lg:col-span-1">
-                    <div className="relative aspect-video rounded-lg overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
-                      <OptimizedImage 
-                        src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop" 
-                        alt={gym.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        width={600}
-                        height={400}
-                        sizes="(max-width: 1024px) 100vw, 33vw"
-                      />
+                    <div className="relative h-full min-h-[200px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
+                      {gym.id === 1 ? (
+                        // Electronic City gym - Single image
+                        <OptimizedImage 
+                          src="https://lh3.googleusercontent.com/p/AF1QipOx2pRaqdWCA4GzBMHvm_viNbAvGSZ6qEPpTpxF=w203-h152-k-no" 
+                          alt={gym.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          width={600}
+                          height={400}
+                          sizes="(max-width: 1024px) 100vw, 33vw"
+                        />
+                      ) : gym.id === 2 ? (
+                        // Marathahalli gym - use the poster image
+                        <OptimizedImage 
+                          src="/media/1714407900720.jpeg" 
+                          alt={gym.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          width={600}
+                          height={400}
+                          sizes="(max-width: 1024px) 100vw, 33vw"
+                        />
+                      ) : gym.id === 3 ? (
+                        // Brookfield gym
+                        <OptimizedImage 
+                          src="https://lh3.googleusercontent.com/p/AF1QipPhE2xLhB1-TR_c9bpJCRKVDhum7mQvFY10iZRo=w203-h138-k-no" 
+                          alt={gym.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          width={600}
+                          height={400}
+                          sizes="(max-width: 1024px) 100vw, 33vw"
+                        />
+                      ) : (
+                        // Fallback image
+                        <OptimizedImage 
+                          src="/src/assets/hero-fitness.jpg" 
+                          alt={gym.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          width={600}
+                          height={400}
+                          sizes="(max-width: 1024px) 100vw, 33vw"
+                        />
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-                      <div className="absolute top-3 right-3">
+                      <div className="absolute top-3 right-3 flex flex-col gap-2">
                         <Badge variant="secondary" className="bg-primary/20 text-primary border-primary/30">
                           {gym.verified ? 'Verified' : 'Unverified'}
+                        </Badge>
+                        <Badge variant="outline" className="bg-background/80 text-foreground border-foreground/20 text-xs">
+                          {gym.id === 1 ? 'Electronic City' : gym.id === 2 ? 'Marathahalli' : 'Brookefield'}
                         </Badge>
                       </div>
                     </div>

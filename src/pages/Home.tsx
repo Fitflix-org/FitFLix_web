@@ -137,7 +137,7 @@ const Home = () => {
                   to achieve your specific fitness goals faster and safer.
                 </p>
                 <Button className="btn-fitness" asChild>
-                  <Link to="/about#classes">
+                  <Link to="/services">
                     Book Training
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
@@ -194,9 +194,9 @@ const Home = () => {
           <div className="grid md:grid-cols-4 gap-8 text-center">
             {[
               { number: "4", label: "Premium Locations", description: "Electronic City & More", link: "/discover-gym" },
-              { number: "1000+", label: "Workout Minutes", description: "In our app", link: "/about#workout-app" },
-              { number: "10", label: "Training Categories", description: "Professional guidance", link: "/about#classes" },
-              { number: "24/7", label: "App Access", description: "Train anytime", link: "/about#workout-app" }
+              { number: "1000+", label: "Workout Minutes", description: "In our app", link: "/services" },
+              { number: "10", label: "Training Categories", description: "Professional guidance", link: "/services" },
+              { number: "24/7", label: "App Access", description: "Train anytime", link: "/services" }
             ].map((stat, index) => (
               <div key={index} className="space-y-2 group cursor-pointer">
                 <Link to={stat.link} className="block">
@@ -254,7 +254,7 @@ const Home = () => {
                     Access 1000+ minutes of professional training across 10 categories
                   </p>
                   <Button variant="outline" className="w-full" asChild>
-                    <Link to="/about#workout-app">
+                    <Link to="/services">
                       Learn More
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
@@ -274,7 +274,7 @@ const Home = () => {
                     Premium supplements including protein, vitamins, and performance enhancers
                   </p>
                   <Button variant="outline" className="w-full" asChild>
-                    <Link to="/about#nutrition">
+                    <Link to="/services">
                       Shop Now
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
