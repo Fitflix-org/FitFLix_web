@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dumbbell, Home, User, Menu, X, MapPin, ChevronDown, Smartphone, ShoppingCart, Users as UsersIcon } from "lucide-react";
+import { Dumbbell, Home, User, Menu, X, MapPin, ChevronDown, Smartphone, ShoppingCart, Users as UsersIcon, FileText } from "lucide-react";
 import { useState } from "react";
 import OptimizedImage from "@/components/OptimizedImage";
 
@@ -29,6 +29,17 @@ const Navigation = () => {
         { path: "/gym/1", label: "Electronic City", description: "Premium gym in EC Phase 1" },
         { path: "/gym/2", label: "Marathahalli", description: "Best gym in Marathahalli" },
         { path: "/gym/3", label: "Brookefield", description: "Premium fitness center" }
+      ]
+    },
+    { 
+      path: "/blogs", 
+      label: "Blog", 
+      icon: FileText,
+      subItems: [
+        { path: "/blogs", label: "All Articles", description: "Fitness tips and guides" },
+        { path: "/blogs/best-gym-workouts-beginners-bangalore", label: "Beginner Workouts", description: "Complete guide for fitness newcomers" },
+        { path: "/blogs/premium-fitness-centers-electronic-city", label: "Electronic City Gyms", description: "Top fitness centers in EC" },
+        { path: "/blogs/complete-nutrition-guide-fitness-enthusiasts-bangalore", label: "Nutrition Guide", description: "Expert nutrition advice" }
       ]
     },
     { 

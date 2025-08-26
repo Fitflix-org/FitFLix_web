@@ -1,0 +1,248 @@
+/* Custom Blog Typography Styles - Medium-like appearance */
+
+/* Enhanced prose container */
+.prose-enhanced {
+  /* Ensure proper reading width */
+  max-width: 65ch;
+  margin: 0 auto;
+  
+  /* Smooth scrolling for anchor links */
+  scroll-behavior: smooth;
+}
+
+/* Custom heading styles beyond what prose provides */
+.prose-enhanced h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.prose-enhanced h2 {
+  font-size: 2rem;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.prose-enhanced h3 {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Enhanced paragraph spacing */
+.prose-enhanced p {
+  line-height: 1.75;
+  margin-bottom: 1.5rem;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* Better list styling */
+.prose-enhanced ul,
+.prose-enhanced ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.prose-enhanced li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.prose-enhanced ul li::marker {
+  color: #F97316; /* Orange bullet points */
+}
+
+.prose-enhanced ol li::marker {
+  color: #64748B; /* Secondary color for numbers */
+  font-weight: 600;
+}
+
+/* Enhanced blockquotes */
+.prose-enhanced blockquote {
+  font-style: italic;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  border-left: 4px solid #F97316;
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+  border-radius: 0 0.5rem 0.5rem 0;
+  position: relative;
+}
+
+.prose-enhanced blockquote::before {
+  content: '"';
+  font-size: 3rem;
+  color: #F97316;
+  position: absolute;
+  left: -0.5rem;
+  top: -0.5rem;
+  font-family: Georgia, serif;
+}
+
+/* Enhanced code blocks */
+.prose-enhanced pre {
+  background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+  border: 1px solid #475569;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.prose-enhanced pre::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #F97316, #EA580C, #C2410C);
+}
+
+/* Inline code styling */
+.prose-enhanced code:not(pre code) {
+  background: #F1F5F9;
+  color: #1E293B;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid #E2E8F0;
+}
+
+/* Enhanced image styling */
+.prose-enhanced img {
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.prose-enhanced img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* Enhanced link styling */
+.prose-enhanced a {
+  text-decoration: none;
+  background: linear-gradient(90deg, #F97316, #EA580C);
+  background-size: 0 2px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: all 0.3s ease;
+  padding-bottom: 2px;
+}
+
+.prose-enhanced a:hover {
+  background-size: 100% 2px;
+  color: #EA580C;
+}
+
+/* Table enhancements */
+.prose-enhanced table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 2rem 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.prose-enhanced th {
+  background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+}
+
+.prose-enhanced td,
+.prose-enhanced th {
+  padding: 1rem;
+  border: 1px solid #E2E8F0;
+}
+
+.prose-enhanced tr:nth-child(even) {
+  background-color: #F8FAFC;
+}
+
+.prose-enhanced tr:hover {
+  background-color: #F1F5F9;
+}
+
+/* Horizontal rule styling */
+.prose-enhanced hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #F97316, transparent);
+  margin: 3rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .prose-enhanced {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .prose-enhanced h1 {
+    font-size: 2rem;
+  }
+  
+  .prose-enhanced h2 {
+    font-size: 1.75rem;
+  }
+  
+  .prose-enhanced h3 {
+    font-size: 1.375rem;
+  }
+  
+  .prose-enhanced p {
+    text-align: left;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .prose-enhanced {
+    color: #F8FAFC;
+  }
+  
+  .prose-enhanced blockquote {
+    background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+    border-left-color: #F97316;
+  }
+  
+  .prose-enhanced code:not(pre code) {
+    background: #334155;
+    color: #F8FAFC;
+    border-color: #475569;
+  }
+  
+  .prose-enhanced table {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  .prose-enhanced th {
+    background: linear-gradient(135deg, #334155 0%, #475569 100%);
+  }
+  
+  .prose-enhanced tr:nth-child(even) {
+    background-color: #1E293B;
+  }
+  
+  .prose-enhanced tr:hover {
+    background-color: #334155;
+  }
+}

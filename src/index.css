@@ -77,6 +77,18 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Blog System Color Tokens */
+    --blog-primary: #1E293B;
+    --blog-secondary: #64748B;
+    --blog-accent: #F97316;
+    --blog-background: #FFFFFF;
+    --blog-surface: #F1F5F9;
+    --blog-text: #0F172A;
+    --blog-muted-text: #475569;
+    --blog-border: #CBD5E1;
+    --blog-hover: #EA580C;
+    --blog-active: #C2410C;
   }
 
   .dark {
@@ -116,6 +128,18 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Blog System Color Tokens - Dark Mode */
+    --blog-primary: #F1F5F9;
+    --blog-secondary: #CBD5E1;
+    --blog-accent: #F97316;
+    --blog-background: #0F172A;
+    --blog-surface: #1E293B;
+    --blog-text: #F8FAFC;
+    --blog-muted-text: #CBD5E1;
+    --blog-border: #475569;
+    --blog-hover: #FB923C;
+    --blog-active: #FDBA74;
   }
 }
 
@@ -352,3 +376,6 @@
     border-image: linear-gradient(135deg, #d97706, #dc2626, #be185d) 1;
   }
 }
+
+/* Import custom blog typography styles */
+@import './styles/blog-typography.css';

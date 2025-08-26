@@ -319,7 +319,7 @@ class PerformanceService {
     };
 
     const threshold = thresholds[name];
-    if (!threshold) return '#6b7280';
+    if (!threshold) return '#64748B'; // Using blog secondary color token
 
     if (name === 'CLS') {
       // CLS is lower = better

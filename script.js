@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    console.log('FitPulse app initialized successfully!');
+    console.log('Fitflix app initialized successfully!');
 });
 
 // Utility functions

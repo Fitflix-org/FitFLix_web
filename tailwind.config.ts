@@ -67,7 +67,21 @@ export default {
 				'fitness-pink': 'hsl(var(--fitness-pink))',
 				'fitness-green': 'hsl(var(--fitness-green))',
 				success: 'hsl(var(--success))',
-				warning: 'hsl(var(--warning))'
+				warning: 'hsl(var(--warning))',
+				
+				// Blog System Color Tokens
+				blog: {
+					primary: 'var(--blog-primary)',
+					secondary: 'var(--blog-secondary)',
+					accent: 'var(--blog-accent)',
+					background: 'var(--blog-background)',
+					surface: 'var(--blog-surface)',
+					text: 'var(--blog-text)',
+					'muted-text': 'var(--blog-muted-text)',
+					border: 'var(--blog-border)',
+					hover: 'var(--blog-hover)',
+					active: 'var(--blog-active)'
+				}
 			},
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
@@ -155,5 +169,5 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")]
 } satisfies Config;
