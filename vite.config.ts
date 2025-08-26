@@ -10,6 +10,10 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
+  define: {
+    // Ensure environment variables are available
+    'process.env': {}
+  },
   build: {
     // Fix JSX transform issues in production
     target: 'esnext',

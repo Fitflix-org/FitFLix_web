@@ -10,7 +10,8 @@
     "build:prod": "vite build --mode production",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "vite preview --host 0.0.0.0 --port 4173"
+    "start": "vite preview --host 0.0.0.0 --port 4173",
+    "setup-env": "node setup-env.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
