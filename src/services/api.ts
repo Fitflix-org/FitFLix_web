@@ -1,5 +1,7 @@
 // API Configuration for Fitflix Website
-const API_BASE_URL = 'http://localhost:3000/api';
+// Load API base URL from environment variables
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000/api';
+
 
 // Types
 export interface Blog {
