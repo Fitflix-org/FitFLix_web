@@ -4,18 +4,34 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dumbbell, Home, User, Menu, X, MapPin, ChevronDown, Smartphone, ShoppingCart, Users as UsersIcon, FileText } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import OptimizedImage from "@/components/OptimizedImage";
 
 const Navigation = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState("Select City");
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const cities = [
     { name: "Hyderabad", gyms: 45 },
     { name: "Bangalore", gyms: 37 }
   ];
+
+  // Close mobile menu and dropdowns when location changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    setOpenDropdown(null);
+  }, [location.pathname]);
+
+  const toggleDropdown = (path: string) => {
+    setOpenDropdown(openDropdown === path ? null : path);
+  };
+
+  const handleMobileNavClick = (path: string) => {
+    setOpenDropdown(null); // Close dropdown when a sub-item is clicked
+    setIsMobileMenuOpen(false); // Close mobile menu
+  };
 
   // Enhanced navigation items with dropdowns
   const navItems = [
@@ -211,41 +227,48 @@ const Navigation = () => {
                 const Icon = item.icon;
                 if (item.subItems) {
                   return (
-                    <div key={item.path} className="relative group">
-                      <Link
-                        to={item.path}
-                        className={`flex items-center space-x-3 px-4 py-3 rounded-2xl transition-all duration-300 ${
+                    <div key={item.path} className="relative">
+                      <button
+                        onClick={() => toggleDropdown(item.path)}
+                        className={`w-full flex items-center justify-between space-x-3 px-4 py-3 rounded-2xl transition-all duration-300 ${
                           isActive(item.path)
                             ? "bg-primary text-primary-foreground"
                             : "text-muted-foreground hover:text-foreground hover:bg-muted"
                         }`}
                       >
-                        <Icon className="h-5 w-5" />
-                        <span className="font-medium">{item.label}</span>
-                        <ChevronDown className="h-5 w-5" />
-                      </Link>
-                      
-                      {/* Dropdown Menu */}
-                      <div className="absolute top-full left-0 mt-2 w-full bg-background border border-border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                        <div className="p-2 space-y-1">
-                          {item.subItems.map((subItem) => {
-                            const SubIcon = subItem.icon || Icon;
-                            return (
-                              <Link
-                                key={subItem.path}
-                                to={subItem.path}
-                                className="flex items-start space-x-3 p-3 rounded-lg hover:bg-muted transition-colors"
-                              >
-                                <SubIcon className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                                <div>
-                                  <div className="font-medium text-sm">{subItem.label}</div>
-                                  <div className="text-xs text-muted-foreground">{subItem.description}</div>
-                                </div>
-                              </Link>
-                            );
-                          })}
+                        <div className="flex items-center space-x-3">
+                          <Icon className="h-5 w-5" />
+                          <span className="font-medium">{item.label}</span>
                         </div>
-                      </div>
+                        <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${
+                          openDropdown === item.path ? 'rotate-180' : ''
+                        }`} />
+                      </button>
+                      
+                      {/* Mobile Dropdown Menu */}
+                      {openDropdown === item.path && (
+                        <div className="mt-2 w-full bg-muted/50 border border-border rounded-lg shadow-lg">
+                          <div className="p-2 space-y-1">
+                            {item.subItems.map((subItem) => {
+                              const SubIcon = subItem.icon || Icon;
+                              return (
+                                <Link
+                                  key={subItem.path}
+                                  to={subItem.path}
+                                  className="flex items-start space-x-3 p-3 rounded-lg hover:bg-background transition-colors"
+                                  onClick={() => handleMobileNavClick(subItem.path)}
+                                >
+                                  <SubIcon className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                                  <div>
+                                    <div className="font-medium text-sm">{subItem.label}</div>
+                                    <div className="text-xs text-muted-foreground">{subItem.description}</div>
+                                  </div>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   );
                 }

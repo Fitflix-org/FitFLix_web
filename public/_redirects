@@ -1,1 +1,6 @@
 /*    /index.html   200
+/blogs    /index.html   200
+/blogs/*    /index.html   200
+/gym/*    /index.html   200
+/about    /index.html   200
+/services    /index.html   200
