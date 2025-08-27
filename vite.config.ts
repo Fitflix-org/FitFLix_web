@@ -97,7 +97,16 @@ export default defineConfig(({ mode }) => ({
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg}'],
         navigateFallback: '/index.html',
-        navigateFallbackAllowlist: [/^\/$/, /^\/about$/, /^\/discover-gym$/, /^\/gym\/.*$/],
+        navigateFallbackAllowlist: [
+          /^\/$/, 
+          /^\/about$/, 
+          /^\/blogs$/, 
+          /^\/blog\/.*$/, 
+          /^\/discover-gym$/, 
+          /^\/gym\/.*$/, 
+          /^\/services$/, 
+          /^\/contact$/
+        ],
         cleanupOutdatedCaches: true,
         skipWaiting: true,
         clientsClaim: true,
