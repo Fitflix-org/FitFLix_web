@@ -86,28 +86,28 @@ class ApiClient {
 
   // Public blog endpoints (no authentication required)
   async getPublishedBlogs(): Promise<{ blogs: Blog[]; total: number }> {
-    const response = await this.request<{ success: boolean; blogs: Blog[]; total: number }>('/blogs/status/PUBLISHED');
+    const response = await this.request<{ success: boolean; blogs: Blog[]; total: number }>('/api/blogs/status/PUBLISHED');
     return { blogs: response.blogs, total: response.blogs.length };
   }
 
   async getBlogBySlug(slug: string): Promise<Blog> {
-    const response = await this.request<{ success: boolean; blog: Blog }>(`/blogs/slug/${slug}`);
+    const response = await this.request<{ success: boolean; blog: Blog }>(`/api/blogs/slug/${slug}`);
     return response.blog;
   }
 
   // Admin blog endpoints (authentication required)
   async getAllBlogs(): Promise<{ blogs: Blog[]; total: number }> {
-    const response = await this.request<{ success: boolean; blogs: Blog[]; total: number }>('/blogs');
+    const response = await this.request<{ success: boolean; blogs: Blog[]; total: number }>('/api/blogs');
     return { blogs: response.blogs, total: response.blogs.length };
   }
 
   async getBlogById(id: string): Promise<Blog> {
-    const response = await this.request<{ success: boolean; blog: Blog }>(`/blogs/${id}`);
+    const response = await this.request<{ success: boolean; blog: Blog }>(`/api/blogs/${id}`);
     return response.blog;
   }
 
   async createBlog(data: CreateBlogData): Promise<Blog> {
-    const response = await this.request<{ success: boolean; blog: Blog }>('/blogs', {
+    const response = await this.request<{ success: boolean; blog: Blog }>('/api/blogs', {
       method: 'POST',
       body: JSON.stringify(data),
     });
@@ -115,7 +115,7 @@ class ApiClient {
   }
 
   async updateBlog(id: string, data: Partial<CreateBlogData>): Promise<Blog> {
-    const response = await this.request<{ success: boolean; blog: Blog }>(`/blogs/${id}`, {
+    const response = await this.request<{ success: boolean; blog: Blog }>(`/api/blogs/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     });
@@ -123,28 +123,28 @@ class ApiClient {
   }
 
   async deleteBlog(id: string): Promise<{ message: string }> {
-    return this.request<{ message: string }>(`/blogs/${id}`, {
+    return this.request<{ message: string }>(`/api/blogs/${id}`, {
       method: 'DELETE',
     });
   }
 
   // Publishing endpoints
   async publishBlog(id: string): Promise<Blog> {
-    const response = await this.request<{ success: boolean; blog: Blog }>(`/blogs/${id}/publish`, {
+    const response = await this.request<{ success: boolean; blog: Blog }>(`/api/blogs/${id}/publish`, {
       method: 'PATCH',
     });
     return response.blog;
   }
 
   async saveAsDraft(id: string): Promise<Blog> {
-    const response = await this.request<{ success: boolean; blog: Blog }>(`/blogs/${id}/draft`, {
+    const response = await this.request<{ success: boolean; blog: Blog }>(`/api/blogs/${id}/draft`, {
       method: 'PATCH',
     });
     return response.blog;
   }
 
   async schedulePublishing(id: string, data: SchedulePublishingData): Promise<Blog> {
-    const response = await this.request<{ success: boolean; blog: Blog }>(`/blogs/${id}/schedule`, {
+    const response = await this.request<{ success: boolean; blog: Blog }>(`/api/blogs/${id}/schedule`, {
       method: 'PATCH',
       body: JSON.stringify(data),
     });
@@ -152,7 +152,7 @@ class ApiClient {
   }
 
   async unschedulePublishing(id: string): Promise<Blog> {
-    const response = await this.request<{ success: boolean; blog: Blog }>(`/blogs/${id}/unschedule`, {
+    const response = await this.request<{ success: boolean; blog: Blog }>(`/api/blogs/${id}/unschedule`, {
       method: 'PATCH',
     });
     return response.blog;
@@ -160,23 +160,23 @@ class ApiClient {
 
   // Scheduler endpoints
   async getSchedulerStatus(): Promise<{ scheduler: SchedulerStatus }> {
-    return this.request<{ scheduler: SchedulerStatus }>('/blogs/scheduler/status');
+    return this.request<{ scheduler: SchedulerStatus }>('/api/blogs/scheduler/status');
   }
 
   async startScheduler(): Promise<{ message: string; scheduler: SchedulerStatus }> {
-    return this.request<{ message: string; scheduler: SchedulerStatus }>('/blogs/scheduler/start', {
+    return this.request<{ message: string; scheduler: SchedulerStatus }>('/api/blogs/scheduler/start', {
       method: 'POST',
     });
   }
 
   async stopScheduler(): Promise<{ message: string; scheduler: SchedulerStatus }> {
-    return this.request<{ message: string; scheduler: SchedulerStatus }>('/blogs/scheduler/stop', {
+    return this.request<{ message: string; scheduler: SchedulerStatus }>('/api/blogs/scheduler/stop', {
       method: 'POST',
     });
   }
 
   async manualCheck(): Promise<{ message: string; scheduler: SchedulerStatus }> {
-    return this.request<{ message: string; scheduler: SchedulerStatus }>('/blogs/scheduler/check', {
+    return this.request<{ message: string; scheduler: SchedulerStatus }>('/api/blogs/scheduler/check', {
       method: 'POST',
     });
   }
