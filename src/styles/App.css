@@ -29,34 +29,6 @@ html {
   background: #b45309;
 }
 
-/* Scroll restoration animations */
-.scroll-restore {
-  transition: scroll-behavior 0.3s ease-in-out;
-}
-
-/* Smooth fade-in for scroll to top button */
-.scroll-to-top-enter {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.scroll-to-top-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.scroll-to-top-exit {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.scroll-to-top-exit-active {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
 .logo {
   height: 6em;
   padding: 1.5em;

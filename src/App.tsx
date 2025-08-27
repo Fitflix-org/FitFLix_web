@@ -17,7 +17,6 @@ import BlogDetail from "./pages/BlogDetail";
 import NotFound from "./pages/NotFound";
 import  Footer  from './components/Footer';
 import { useScrollRestoration } from './hooks/useScrollRestoration';
-import { ScrollToTop } from './components/ScrollToTop';
 import { ScrollToTopButton } from './components/ScrollToTopButton';
 
 const queryClient = new QueryClient();
@@ -28,7 +27,6 @@ const AppContent = () => {
 
   return (
     <>
-      <ScrollToTop />
       <Navigation />
       <Routes>
         <Route path="/" element={<Home />} />
