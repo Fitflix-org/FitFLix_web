@@ -1,7 +1,7 @@
 // Environment configuration for Fitflix Web
 export const config = {
   // API Configuration
-  apiBaseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api',
+  apiBaseUrl: import.meta.env.VITE_API_BASE_URL || 'https://fitflix-backend-avxt.onrender.com',
   
   // Environment
   isDevelopment: import.meta.env.DEV,

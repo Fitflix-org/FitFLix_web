@@ -12,7 +12,7 @@ This document outlines the comprehensive structured data implementation using JS
   "@type": "Organization",
   "name": "Fitflix",
   "url": "https://fitflix.in",
-  "logo": "https://fitflix.in/fitflix-logo.png",
+      "logo": "https://fitflix.in/media/fitflix-final-png-4 (1).png",
   "description": "Complete fitness ecosystem featuring premium gyms, workout apps, and nutrition products",
   "foundingDate": "2024",
   "address": {
@@ -104,7 +104,7 @@ This document outlines the comprehensive structured data implementation using JS
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "Fitflix Fitness Centers",
-  "image": "https://fitflix.in/fitflix-logo.png",
+      "image": "https://fitflix.in/media/fitflix-final-png-4 (1).png",
   "description": "Premium fitness centers in Bangalore offering modern equipment, personal training, and group classes",
   "url": "https://fitflix.in",
   "telephone": "+91-75103-82782",

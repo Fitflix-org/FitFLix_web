@@ -19,7 +19,7 @@ This document outlines the comprehensive Open Graph (og:) and Twitter Card meta 
 ### 1.2 Enhanced Image Tags
 ```html
 <!-- Enhanced Image Information -->
-<meta property="og:image" content="https://fitflix.in/fitflix-logo.png" />
+<meta property="og:image" content="https://fitflix.in/media/fitflix-final-png-4 (1).png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Fitflix - Premium Fitness Centers in Bangalore" />
@@ -67,7 +67,7 @@ This document outlines the comprehensive Open Graph (og:) and Twitter Card meta 
 <meta name="twitter:creator" content="@fitflix" />
 <meta name="twitter:title" content="Fitflix - Complete Fitness Ecosystem" />
 <meta name="twitter:description" content="Your comprehensive fitness ecosystem - gyms, apps, nutrition, and community." />
-<meta name="twitter:image" content="https://fitflix.in/fitflix-logo.png" />
+<meta name="twitter:image" content="https://fitflix.in/media/fitflix-final-png-4 (1).png" />
 ```
 
 ### 2.2 Enhanced Twitter Card Tags

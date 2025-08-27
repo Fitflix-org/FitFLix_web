@@ -59,7 +59,7 @@ export default defineConfig(({ mode }) => ({
       registerType: 'autoUpdate',
       includeAssets: [
         'favicon.ico',
-        'fitflix-logo.png',
+        'media/fitflix-final-png-4 (1).png',
         'placeholder.svg',
         'robots.txt',
         'assets/*.jpg',
@@ -73,23 +73,23 @@ export default defineConfig(({ mode }) => ({
         background_color: '#ffffff',
         display: 'standalone',
         start_url: '/',
-        icons: [
-          {
-            src: '/fitflix-logo.png',
-            sizes: '48x48',
-            type: 'image/png'
-          },
-          {
-            src: '/fitflix-logo.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: '/fitflix-logo.png',
-            sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
+                 icons: [
+           {
+             src: '/media/fitflix-final-png-4 (1).png',
+             sizes: '48x48',
+             type: 'image/png'
+           },
+           {
+             src: '/media/fitflix-final-png-4 (1).png',
+             sizes: '192x192',
+             type: 'image/png'
+           },
+           {
+             src: '/media/fitflix-final-png-4 (1).png',
+             sizes: '512x512',
+             type: 'image/png'
+           }
+         ]
       },
       devOptions: {
         enabled: false // Disable in dev to prevent conflicts

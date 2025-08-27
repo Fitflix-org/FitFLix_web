@@ -72,21 +72,18 @@ const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
+          <Link to="/" className="flex items-center group">
             <div className="relative">
               <OptimizedImage 
-                src="/fitflix-logo.png" 
+                src="/media/fitflix-final-png-4 (1).png" 
                 alt="Fitflix Logo" 
-                className="h-8 w-8 md:h-10 md:w-10 object-contain group-hover:scale-105 transition-transform duration-200"
-                width={40}
-                height={40}
+                className="h-12 w-12 md:h-16 md:w-16 object-contain group-hover:scale-105 transition-transform duration-200"
+                width={64}
+                height={64}
                 priority={true}
               />
               <div className="absolute inset-0 bg-primary/10 rounded-full blur-md group-hover:bg-primary/20 transition-colors" />
             </div>
-            <span className="text-xl md:text-2xl font-black text-transparent bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 bg-clip-text group-hover:from-orange-500 group-hover:via-red-500 group-hover:to-pink-500 transition-all duration-300">
-              Fitflix
-            </span>
           </Link>
 
           {/* Desktop Navigation */}

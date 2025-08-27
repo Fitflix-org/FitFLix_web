@@ -77,13 +77,13 @@ const Blogs = () => {
         <meta property="og:description" content="Discover expert fitness tips, workout guides, and wellness advice for Bangalore. From beginner workouts to advanced training, get the latest insights from Fitflix fitness experts." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://fitflix.com/blogs" />
-        <meta property="og:image" content="/fitflix-logo.png" />
+        <meta property="og:image" content="/media/fitflix-final-png-4 (1).png" />
         
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Fitness & Wellness Blogs in Bangalore - Expert Tips & Guides | Fitflix" />
         <meta name="twitter:description" content="Discover expert fitness tips, workout guides, and wellness advice for Bangalore. From beginner workouts to advanced training, get the latest insights from Fitflix fitness experts." />
-        <meta name="twitter:image" content="/fitflix-logo.png" />
+        <meta name="twitter:image" content="/media/fitflix-final-png-4 (1).png" />
         
         {/* JSON-LD Schema */}
         <script type="application/ld+json">
@@ -98,7 +98,7 @@ const Blogs = () => {
               "name": "Fitflix",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://fitflix.com/fitflix-logo.png"
+                "url": "https://fitflix.com/media/fitflix-final-png-4 (1).png"
               }
             },
             "mainEntity": {
