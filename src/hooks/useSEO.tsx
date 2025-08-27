@@ -52,7 +52,7 @@ export const useSEO = ({
       { property: 'og:title', content: ogTitle || title },
       { property: 'og:description', content: ogDescription || description },
       { property: 'og:type', content: ogType },
-              { property: 'og:image', content: ogImage || '/media/fitflix-final-png-4 (1).png' },
+              { property: 'og:image', content: ogImage || '/media/fitflix-icon.png' },
       { property: 'og:url', content: window.location.href }
     ];
     
@@ -71,7 +71,7 @@ export const useSEO = ({
       { name: 'twitter:card', content: twitterCard },
       { name: 'twitter:title', content: ogTitle || title },
       { name: 'twitter:description', content: ogDescription || description },
-              { name: 'twitter:image', content: ogImage || '/media/fitflix-final-png-4 (1).png' }
+              { name: 'twitter:image', content: ogImage || '/media/fitflix-icon.png' }
     ];
     
     twitterTags.forEach(({ name, content }) => {

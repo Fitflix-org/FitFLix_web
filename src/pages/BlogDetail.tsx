@@ -107,7 +107,7 @@ const BlogDetail = () => {
         <meta property="og:description" content={blog.metaDescription || blog.excerpt} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`https://fitflix.com/blogs/${blog.slug}`} />
-        <meta property="og:image" content={blog.coverImage || '/media/fitflix-final-png-4 (1).png'} />
+        <meta property="og:image" content={blog.coverImage || '/media/fitflix-icon.png'} />
         <meta property="article:published_time" content={blog.createdAt} />
         <meta property="article:author" content={getAuthorName()} />
         
@@ -115,7 +115,7 @@ const BlogDetail = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={blog.metaTitle || blog.title} />
         <meta name="twitter:description" content={blog.metaDescription || blog.excerpt} />
-        <meta name="twitter:image" content={blog.coverImage || '/media/fitflix-final-png-4 (1).png'} />
+        <meta name="twitter:image" content={blog.coverImage || '/media/fitflix-icon.png'} />
         
         {/* JSON-LD Schema */}
         <script type="application/ld+json">
@@ -134,7 +134,7 @@ const BlogDetail = () => {
               "name": "Fitflix",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://fitflix.com/media/fitflix-final-png-4 (1).png"
+                "url": "https://fitflix.com/media/fitflix-icon.png"
               }
             },
             "datePublished": blog.createdAt,

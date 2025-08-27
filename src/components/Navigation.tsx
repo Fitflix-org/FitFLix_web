@@ -75,7 +75,7 @@ const Navigation = () => {
           <Link to="/" className="flex items-center group">
             <div className="relative">
               <OptimizedImage 
-                src="/media/fitflix-final-png-4 (1).png" 
+                src="/media/fitflix-icon.png" 
                 alt="Fitflix Logo" 
                 className="h-12 w-12 md:h-16 md:w-16 object-contain group-hover:scale-105 transition-transform duration-200"
                 width={64}

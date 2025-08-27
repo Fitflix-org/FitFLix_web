@@ -59,7 +59,7 @@ export default defineConfig(({ mode }) => ({
       registerType: 'autoUpdate',
       includeAssets: [
         'favicon.ico',
-        'media/fitflix-final-png-4 (1).png',
+        'media/fitflix-icon.png',
         'placeholder.svg',
         'robots.txt',
         'assets/*.jpg',
@@ -75,17 +75,17 @@ export default defineConfig(({ mode }) => ({
         start_url: '/',
                  icons: [
            {
-             src: '/media/fitflix-final-png-4 (1).png',
+             src: '/media/fitflix-icon.png',
              sizes: '48x48',
              type: 'image/png'
            },
            {
-             src: '/media/fitflix-final-png-4 (1).png',
+             src: '/media/fitflix-icon.png',
              sizes: '192x192',
              type: 'image/png'
            },
            {
-             src: '/media/fitflix-final-png-4 (1).png',
+             src: '/media/fitflix-icon.png',
              sizes: '512x512',
              type: 'image/png'
            }
