@@ -101,7 +101,7 @@ export default defineConfig(({ mode }) => ({
           /^\/$/, 
           /^\/about$/, 
           /^\/blogs$/, 
-          /^\/blog\/.*$/, 
+          /^\/blogs\/.*$/, 
           /^\/discover-gym$/, 
           /^\/gym\/.*$/, 
           /^\/services$/, 

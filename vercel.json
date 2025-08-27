@@ -5,6 +5,20 @@
       "destination": "/index.html"
     }
   ],
+  "routes": [
+    {
+      "src": "/blogs/(.*)",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/gym/(.*)",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

@@ -1,7 +1,7 @@
 services:
   - type: web
     name: fitflix-web
-    buildCommand: npm ci && npm run build:prod
+    buildCommand: npm ci && npm run build:prod && cp public/_redirects dist/
     staticPublishPath: ./dist
     pullRequestPreviewsEnabled: true
     autoDeploy: true
