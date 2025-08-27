@@ -7,12 +7,12 @@ import './index.css';
 if (process.env.NODE_ENV === 'development') {
   // Delay performance monitoring to avoid blocking initial render
   setTimeout(() => {
-    import('./utils/jsOptimizer').then(({ monitorPerformance }) => {
+    import('./lib/optimizations/jsOptimizer').then(({ monitorPerformance }) => {
       monitorPerformance();
     });
     
     // Core Web Vitals optimization
-    import('./utils/coreWebVitals').then(({ monitorCoreWebVitals, optimizeLCP, optimizeCLS, optimizeTBT }) => {
+    import('./lib/optimizations/coreWebVitals').then(({ monitorCoreWebVitals, optimizeLCP, optimizeCLS, optimizeTBT }) => {
       monitorCoreWebVitals();
       
       // Apply optimizations after DOM is ready
@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'development') {
     });
 
     // Initialize advanced performance monitoring
-    import('./services/performanceService').then(({ performanceService }) => {
+    import('./lib/optimizations/performanceService').then(({ performanceService }) => {
       // Log performance report after 10 seconds to avoid blocking
       setTimeout(() => {
         console.log(performanceService.generateReport());

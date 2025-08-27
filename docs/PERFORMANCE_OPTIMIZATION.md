@@ -51,7 +51,7 @@ This document outlines the comprehensive performance optimizations implemented a
 
 ### 2.3 CSS Analysis Tools
 ```typescript
-import { analyzeCSSUsage, generateCSSReport } from '@/utils/cssOptimizer';
+import { analyzeCSSUsage, generateCSSReport } from '@/lib/cssOptimizer';
 
 // Analyze CSS usage
 const stats = analyzeCSSUsage();
@@ -77,7 +77,7 @@ console.log(generateCSSReport());
 
 ### 3.4 JavaScript Analysis Tools
 ```typescript
-import { analyzeJSUsage, generateJSReport } from '@/utils/jsOptimizer';
+import { analyzeJSUsage, generateJSReport } from '@/lib/jsOptimizer';
 
 // Analyze JavaScript usage
 const stats = analyzeJSUsage();

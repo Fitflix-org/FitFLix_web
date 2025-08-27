@@ -1,8 +1,10 @@
 
+/* Import custom blog typography styles */
+@import './styles/blog-typography.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /* Fitflix Design System - Orange, Red, Pink Gradient Branding */
 
 @layer base {
@@ -379,3 +381,4 @@
 
 /* Import custom blog typography styles */
 @import './styles/blog-typography.css';
+

@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import OptimizedImage from '@/components/OptimizedImage';
 import { Helmet } from 'react-helmet-async';
 import ReactMarkdown from 'react-markdown';
-import { blogApi, Blog } from '@/services/api';
+import { blogApi, Blog } from '@/lib/api/api';
 
 
 

@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import OptimizedImage from '@/components/OptimizedImage';
 import { Helmet } from 'react-helmet-async';
-import { blogApi, Blog } from '@/services/api';
+import { blogApi, Blog } from '@/lib/api/api';
 
 
 

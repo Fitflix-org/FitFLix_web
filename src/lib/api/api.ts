@@ -1,7 +1,6 @@
 // API Configuration for Fitflix Website
-import { config } from '../config/env';
 
-const API_BASE_URL = config.apiBaseUrl;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://fitflix-backend-api.onrender.com';
 
 
 // Types
