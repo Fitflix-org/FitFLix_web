@@ -16,8 +16,36 @@ import Blogs from "./pages/Blogs";
 import BlogDetail from "./pages/BlogDetail";
 import NotFound from "./pages/NotFound";
 import  Footer  from './components/Footer';
+import { useScrollRestoration } from './hooks/useScrollRestoration';
+import { ScrollToTop } from './components/ScrollToTop';
+import { ScrollToTopButton } from './components/ScrollToTopButton';
 
 const queryClient = new QueryClient();
+
+const AppContent = () => {
+  // Enable scroll restoration
+  useScrollRestoration();
+
+  return (
+    <>
+      <ScrollToTop />
+      <Navigation />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/discover-gym" element={<DiscoverGym />} />
+        <Route path="/gym/:id" element={<GymDetails />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogs/:slug" element={<BlogDetail />} />
+        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Footer />
+      <ScrollToTopButton />
+    </>
+  );
+};
 
 const App = () => (
   <HelmetProvider>
@@ -31,19 +59,7 @@ const App = () => (
             v7_relativeSplatPath: true
           }}
         >
-          <Navigation />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/discover-gym" element={<DiscoverGym />} />
-            <Route path="/gym/:id" element={<GymDetails />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/blogs" element={<Blogs />} />
-            <Route path="/blogs/:slug" element={<BlogDetail />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Footer />
+          <AppContent />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

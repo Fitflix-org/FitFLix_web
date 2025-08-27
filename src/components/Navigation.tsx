@@ -41,7 +41,7 @@ const Navigation = () => {
       label: "Discover Gym", 
       icon: Dumbbell,
       subItems: [
-        { path: "/discover-gym", label: "All Gyms", description: "Browse all locations" },
+        { path: "/discover-gym", label: "All Gyms", description: "Browse all fitness locations" },
         { path: "/gym/1", label: "Electronic City", description: "Premium gym in EC Phase 1" },
         { path: "/gym/2", label: "Marathahalli", description: "Best gym in Marathahalli" },
         { path: "/gym/3", label: "Brookefield", description: "Premium fitness center" }
@@ -53,9 +53,9 @@ const Navigation = () => {
       icon: FileText,
       subItems: [
         { path: "/blogs", label: "All Articles", description: "Fitness tips and guides" },
-        { path: "/blogs/best-gym-workouts-beginners-bangalore", label: "Beginner Workouts", description: "Complete guide for fitness newcomers" },
-        { path: "/blogs/premium-fitness-centers-electronic-city", label: "Electronic City Gyms", description: "Top fitness centers in EC" },
-        { path: "/blogs/complete-nutrition-guide-fitness-enthusiasts-bangalore", label: "Nutrition Guide", description: "Expert nutrition advice" }
+        { path: "/blogs/nutrition-basics-for-athletes", label: "Nutrition Basics", description: "Essential nutrition for athletes" },
+        { path: "/blogs/best-gym-workouts-beginners", label: "Beginner Workouts", description: "Complete guide for fitness newcomers" },
+        { path: "/blogs/premium-fitness-centers", label: "Premium Gyms", description: "Top fitness centers in your area" }
       ]
     },
     { 
