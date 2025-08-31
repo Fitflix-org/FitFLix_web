@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Phone, User, MapPin, X } from "lucide-react";
+import { Phone, User, MapPin, X, Loader2 } from "lucide-react";
+import { leadService, LeadSubmission } from "@/lib/services/leadService";
 
 interface CallbackFormProps {
   isOpen: boolean;
@@ -19,6 +20,8 @@ const CallbackForm = ({ isOpen, onClose, prefillLocation, gymId }: CallbackFormP
     phoneNumber: "",
     preferredLocation: prefillLocation || "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const gymLocations = [
     "Fitflix Gym - ITI Layout, Bangalore",
@@ -27,29 +30,47 @@ const CallbackForm = ({ isOpen, onClose, prefillLocation, gymId }: CallbackFormP
     "Fitflix Gym - Anna Nagar, Chennai",
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitMessage("");
     
-    const submissionData = {
-      ...formData,
-      gymId: gymId || null,
-      timestamp: new Date().toISOString(),
-    };
-    
-    console.log("Callback Form Submitted:", submissionData);
-    
-    // Reset form
-    setFormData({
-      name: "",
-      phoneNumber: "",
-      preferredLocation: prefillLocation || "",
-    });
-    
-    // Close form
-    onClose();
-    
-    // You could also show a success toast here
-    alert("Thank you! We'll call you back within 24 hours.");
+    try {
+      const submissionData: LeadSubmission = {
+        name: formData.name,
+        phone: formData.phoneNumber,
+        location: formData.preferredLocation,
+        source: "callback-form",
+        interest: `Gym membership inquiry for ${formData.preferredLocation}`,
+        gymId: gymId || null,
+      };
+      
+      const result = await leadService.submitLead(submissionData);
+
+      if (result.success) {
+        setSubmitMessage("Thank you! We'll call you back within 24 hours.");
+        
+        // Reset form
+        setFormData({
+          name: "",
+          phoneNumber: "",
+          preferredLocation: prefillLocation || "",
+        });
+        
+        // Close form after 2 seconds
+        setTimeout(() => {
+          onClose();
+          setSubmitMessage("");
+        }, 2000);
+      } else {
+        setSubmitMessage("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitMessage("Network error. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -75,6 +96,7 @@ const CallbackForm = ({ isOpen, onClose, prefillLocation, gymId }: CallbackFormP
               size="sm"
               onClick={onClose}
               className="h-8 w-8 p-0"
+              disabled={isSubmitting}
             >
               <X className="h-4 w-4" />
             </Button>
@@ -100,6 +122,7 @@ const CallbackForm = ({ isOpen, onClose, prefillLocation, gymId }: CallbackFormP
                 onChange={(e) => handleInputChange("name", e.target.value)}
                 required
                 className="w-full"
+                disabled={isSubmitting}
               />
             </div>
 
@@ -117,6 +140,7 @@ const CallbackForm = ({ isOpen, onClose, prefillLocation, gymId }: CallbackFormP
                 onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
                 required
                 className="w-full"
+                disabled={isSubmitting}
               />
             </div>
 
@@ -136,6 +160,7 @@ const CallbackForm = ({ isOpen, onClose, prefillLocation, gymId }: CallbackFormP
                   value={formData.preferredLocation}
                   onValueChange={(value) => handleInputChange("preferredLocation", value)}
                   required
+                  disabled={isSubmitting}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select preferred gym location" />
@@ -158,17 +183,28 @@ const CallbackForm = ({ isOpen, onClose, prefillLocation, gymId }: CallbackFormP
                 variant="outline"
                 onClick={onClose}
                 className="flex-1"
+                disabled={isSubmitting}
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
                 className="flex-1 bg-primary hover:bg-primary/90"
-                disabled={!formData.name || !formData.phoneNumber || !formData.preferredLocation}
+                disabled={!formData.name || !formData.phoneNumber || !formData.preferredLocation || isSubmitting}
               >
-                Request Callback
+                {isSubmitting ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Phone className="h-4 w-4 mr-2" />
+                )}
+                {isSubmitting ? "Submitting..." : "Request Callback"}
               </Button>
             </div>
+            {submitMessage && (
+              <p className={`text-center text-sm ${submitMessage.includes("Thank you") ? "text-green-500" : "text-red-500"}`}>
+                {submitMessage}
+              </p>
+            )}
           </form>
         </CardContent>
       </Card>

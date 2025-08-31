@@ -126,15 +126,15 @@ const Blogs = () => {
       <div className="min-h-screen bg-slate-50">
         {/* Hero Section */}
         <div className="bg-orange-500 text-white">
-          <div className="container mx-auto px-4 py-16">
+          <div className="container mx-auto px-4 py-8">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-6xl font-black mb-6 text-white">
+              <h1 className="text-4xl md:text-6xl font-black mb-4 text-white">
                 Fitness & Wellness Blog
               </h1>
-              <p className="text-xl md:text-2xl mb-8 text-orange-100">
+              <p className="text-xl md:text-2xl mb-6 text-orange-100">
                 Expert tips, workout guides, and wellness advice for your fitness journey in Bangalore
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Badge variant="secondary" className="text-lg px-6 py-3 bg-white/20 text-white border-white/30">
                   Best Gym in Bangalore
                 </Badge>
@@ -149,9 +149,9 @@ const Blogs = () => {
           </div>
         </div>
 
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-6">
           {/* Search and Filters */}
-          <div className="mb-8">
+          <div className="mb-6">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
                 <div className="relative">
@@ -167,10 +167,8 @@ const Blogs = () => {
             </div>
           </div>
 
-
-
           {/* Blog Grid */}
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {filteredBlogs.map((blog) => (
               <Card key={blog.id} className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
                 <div className="relative overflow-hidden">
@@ -189,27 +187,27 @@ const Blogs = () => {
                     </Badge>
                   </div>
                 </div>
-                <CardContent className="p-6">
-                                  <div className="flex items-center space-x-4 text-sm text-white mb-3">
-                  <div className="flex items-center space-x-1">
-                    <User className="h-4 w-4" />
-                    <span>Fitflix Team</span>
+                <CardContent className="p-4">
+                  <div className="flex items-center space-x-4 text-sm text-white mb-2">
+                    <div className="flex items-center space-x-1">
+                      <User className="h-4 w-4" />
+                      <span>Fitflix Team</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <Calendar className="h-4 w-4" />
+                      <span>{formatDate(blog.createdAt)}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-1">
-                    <Calendar className="h-4 w-4" />
-                    <span>{formatDate(blog.createdAt)}</span>
-                  </div>
-                </div>
-                
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-orange-500 transition-colors">
-                  {blog.title}
-                </h3>
-                
-                <p className="text-white mb-4 line-clamp-3">
-                  {blog.excerpt}
-                </p>
                   
-                  <div className="mt-4">
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-orange-500 transition-colors">
+                    {blog.title}
+                  </h3>
+                  
+                  <p className="text-white mb-3 line-clamp-3">
+                    {blog.excerpt}
+                  </p>
+                    
+                  <div className="mt-3">
                     <Link 
                       to={`/blogs/${blog.slug}`}
                       className="inline-flex items-center text-orange-500 hover:text-orange-600 font-semibold group-hover:translate-x-1 transition-transform"
@@ -224,23 +222,23 @@ const Blogs = () => {
           </div>
 
           {filteredBlogs.length === 0 && (
-            <div className="text-center py-16">
+            <div className="text-center py-12">
               <h3 className="text-xl font-semibold text-slate-900 mb-2">No blogs found</h3>
               <p className="text-slate-600">Try adjusting your search terms or check back later for new fitness content.</p>
             </div>
           )}
 
           {/* SEO Content Section */}
-          <div className="mt-16 bg-white rounded-2xl p-8 shadow-lg">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6 text-center">
+          <div className="mt-12 bg-white rounded-2xl p-6 shadow-lg">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4 text-center">
               Your Ultimate Fitness Resource in Bangalore
             </h2>
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">
                   Why Choose Fitflix for Fitness in Bangalore?
                 </h3>
-                <ul className="space-y-3 text-slate-600">
+                <ul className="space-y-2 text-slate-600">
                   <li className="flex items-start space-x-2">
                     <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
                     <span>Expert trainers and certified fitness professionals</span>
@@ -260,7 +258,7 @@ const Blogs = () => {
                 </ul>
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">
                   Popular Fitness Topics in Bangalore
                 </h3>
                 <div className="flex flex-wrap gap-2">
