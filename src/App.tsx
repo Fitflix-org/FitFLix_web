@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import Navigation from "./components/Navigation";
+import SubdomainRedirect from "./components/SubdomainRedirect";
 import Home from "./pages/Home";
 import DiscoverGym from "./pages/DiscoverGym";
 import GymDetails from "./pages/GymDetails";
@@ -15,6 +16,7 @@ import Services from "./pages/Services";
 import Blogs from "./pages/Blogs";
 import BlogDetail from "./pages/BlogDetail";
 import NotFound from "./pages/NotFound";
+import CorporateWellness from "./pages/CorporateWellness";
 import  Footer  from './components/Footer';
 import { useScrollRestoration } from './hooks/useScrollRestoration';
 import { ScrollToTopButton } from './components/ScrollToTopButton';
@@ -27,6 +29,7 @@ const AppContent = () => {
 
   return (
     <>
+      <SubdomainRedirect />
       <Navigation />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -34,6 +37,7 @@ const AppContent = () => {
         <Route path="/gym/:id" element={<GymDetails />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/corporate-wellness" element={<CorporateWellness />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/blogs/:slug" element={<BlogDetail />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

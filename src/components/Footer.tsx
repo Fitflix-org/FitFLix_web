@@ -14,7 +14,7 @@ const Footer = () => {
               <span className="text-2xl font-black text-white">Fitflix</span>
             </div>
             <p className="text-gray-300 leading-relaxed max-w-sm">
-              Transform your fitness journey with premium gyms, expert trainers, and personalized workout plans. Your health, our priority.
+              India's Fitness Revolution – Rooted in Science. Powered by Tradition. TRAIN. HEAL. GROW.
             </p>
             <div className="flex space-x-4">
               <a href="https://www.instagram.com/fitflixofficial/?hl=en" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-primary transition-colors">
@@ -69,19 +69,20 @@ const Footer = () => {
             <h3 className="text-primary font-semibold text-lg">Gym Locations</h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/discover-gym?location=electronic-city" className="text-gray-300 hover:text-white transition-colors">
-                  Electronic City
+                <Link to="/discover-gym?location=bangalore" className="text-gray-300 hover:text-white transition-colors">
+                  📍 Bangalore
                 </Link>
               </li>
               <li>
-                <Link to="/discover-gym?location=marathahalli" className="text-gray-300 hover:text-white transition-colors">
-                  Marathahalli
+                <Link to="/discover-gym?location=hyderabad" className="text-gray-300 hover:text-white transition-colors">
+                  📍 Hyderabad
                 </Link>
               </li>
               <li>
-                <Link to="/discover-gym?location=brookefield" className="text-gray-300 hover:text-white transition-colors">
-                  Brookefield
-                </Link>
+                <span className="text-gray-400 text-sm">Coming Soon:</span>
+              </li>
+              <li>
+                <span className="text-gray-400 text-sm">Mumbai, Chennai, Delhi NCR</span>
               </li>
               <li>
                 <Link to="/discover-gym" className="text-gray-300 hover:text-white transition-colors">
@@ -129,15 +130,24 @@ const Footer = () => {
             <div className="space-y-4">
               <div className="flex items-start space-x-3">
                 <MapPin className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                <span className="text-gray-300 text-sm">Bangalore, Karnataka, India</span>
+                <span className="text-gray-300 text-sm">Bengaluru East, Karnataka</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-5 w-5 text-primary flex-shrink-0" />
-                <span className="text-gray-300 text-sm">+91 98765 43210</span>
+                <span className="text-gray-300 text-sm">7026000465</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-primary flex-shrink-0" />
                 <span className="text-gray-300 text-sm">info@fitflix.in</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <span className="text-gray-300 text-sm">Website: https://fitflix.in/</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <span className="text-gray-300 text-sm">Industry: Wellness and Fitness Services</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <span className="text-gray-300 text-sm">Founded: 2021</span>
               </div>
             </div>
           </div>

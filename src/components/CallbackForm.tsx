@@ -24,10 +24,9 @@ const CallbackForm = ({ isOpen, onClose, prefillLocation, gymId }: CallbackFormP
   const [submitMessage, setSubmitMessage] = useState("");
 
   const gymLocations = [
-    "Fitflix Gym - ITI Layout, Bangalore",
-    "Fitflix Gym - Electronic City Phase I, Bengaluru", 
-    "Fitflix Gym - Whitefield, Bengaluru",
-    "Fitflix Gym - Anna Nagar, Chennai",
+    "Electronic City, Bengaluru",
+    "Marathahalli, Bengaluru",
+    "Brookefield, Bengaluru",
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {

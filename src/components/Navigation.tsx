@@ -10,19 +10,79 @@ import OptimizedImage from "@/components/OptimizedImage";
 const Navigation = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [selectedCity, setSelectedCity] = useState("Select City");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
+  const [locationPermission, setLocationPermission] = useState<boolean | null>(null);
 
-  const cities = [
-    { name: "Hyderabad", gyms: 45 },
-    { name: "Bangalore", gyms: 37 }
-  ];
+  
 
   // Close mobile menu and dropdowns when location changes
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setOpenDropdown(null);
   }, [location.pathname]);
+
+  // Check for existing location in cookies on component mount
+  useEffect(() => {
+    const savedLocation = getCookie('userLocation');
+    if (savedLocation) {
+      try {
+        const location = JSON.parse(savedLocation);
+        setUserLocation(location);
+        setLocationPermission(true);
+      } catch (error) {
+        console.error('Error parsing saved location:', error);
+      }
+    }
+  }, []);
+
+  // Cookie utility functions
+  const setCookie = (name: string, value: string, days: number = 30) => {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+  };
+
+  const getCookie = (name: string): string | null => {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  };
+
+  // Get user's current location
+  const getCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by this browser.');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const location = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        setUserLocation(location);
+        setLocationPermission(true);
+        setCookie('userLocation', JSON.stringify(location));
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+        setLocationPermission(false);
+        alert('Unable to get your location. Please enable location access for better experience.');
+      }
+    );
+  };
+
+  // Request location permission
+  const requestLocationPermission = () => {
+    getCurrentLocation();
+  };
 
   const toggleDropdown = (path: string) => {
     setOpenDropdown(openDropdown === path ? null : path);
@@ -76,7 +136,8 @@ const Navigation = () => {
         { path: "/discover-gym", label: "Premium Gyms", description: "State-of-the-art facilities", icon: Dumbbell },
         { path: "/services#workout-app", label: "Workout App", description: "1000+ minutes of training", icon: Smartphone },
         { path: "/services#nutrition", label: "Nutrition Products", description: "Premium supplements", icon: ShoppingCart },
-        { path: "/services#fitness-classes", label: "Fitness Classes", description: "Group & dance classes", icon: UsersIcon }
+        { path: "/services#fitness-classes", label: "Fitness Classes", description: "Group & dance classes", icon: UsersIcon },
+        { path: "/corporate-wellness", label: "Corporate Wellness", description: "Workplace programs & partnerships", icon: UsersIcon }
       ]
     }
   ];
@@ -164,44 +225,60 @@ const Navigation = () => {
             })}
           </div>
 
-          {/* Desktop CTA */}
+          {/* Desktop Location Button */}
           <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2 rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm px-3 py-2">
-                  <MapPin className="h-4 w-4" />
-                  <span className="hidden lg:inline">{selectedCity}</span>
-                  <ChevronDown className="h-4 w-4" />
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader className="bg-primary text-primary-foreground p-4 -m-6 mb-4 rounded-t-lg">
-                  <DialogTitle className="flex items-center gap-2 text-white">
-                    <MapPin className="h-5 w-5" />
-                    Select Your City
-                  </DialogTitle>
-                </DialogHeader>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {cities.map((city) => (
-                    <Card
-                      key={city.name}
-                      className="cursor-pointer hover:shadow-md transition-shadow"
-                      onClick={() => setSelectedCity(city.name)}
-                    >
-                      <CardContent className="p-4 sm:p-6 text-center">
-                        <div className="mb-4 flex justify-center">
-                          <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                            <div className="w-8 h-8 bg-orange-400 rounded" />
-                          </div>
-                        </div>
-                        <h3 className="text-lg font-semibold mb-1">{city.name}</h3>
-                        <p className="text-sm text-muted-foreground">{city.gyms} Gyms Available</p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </DialogContent>
-            </Dialog>
+            {userLocation ? (
+              <Button variant="outline" className="flex items-center gap-2 rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm px-3 py-2">
+                <MapPin className="h-4 w-4" />
+                Location Enabled
+              </Button>
+            ) : (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="flex items-center gap-2 rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm px-3 py-2">
+                    <MapPin className="h-4 w-4" />
+                    Enable Location
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader className="bg-primary text-primary-foreground p-4 -m-6 mb-4 rounded-t-lg">
+                    <DialogTitle className="flex items-center gap-2 text-white">
+                      <MapPin className="h-5 w-5" />
+                      Enable Location for Better Experience
+                    </DialogTitle>
+                  </DialogHeader>
+                  
+                  <div className="space-y-4">
+                    <div className="text-center">
+                      <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <MapPin className="h-8 w-8 text-primary" />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">Find Gyms Near You</h3>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Allow location access to find the nearest gyms and get personalized recommendations based on your area.
+                      </p>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Button 
+                        onClick={requestLocationPermission}
+                        className="w-full"
+                      >
+                        <MapPin className="mr-2 h-4 w-4" />
+                        Allow Location Access
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full"
+                        onClick={() => setLocationPermission(false)}
+                      >
+                        Maybe Later
+                      </Button>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -290,42 +367,58 @@ const Navigation = () => {
                 );
               })}
               <div className="pt-4 space-y-3 border-t border-border">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="outline" className="w-full flex items-center gap-2 rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-                      <MapPin className="h-4 w-4" />
-                      {selectedCity}
-                      <ChevronDown className="h-4 w-4" />
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-md mx-4">
-                    <DialogHeader className="bg-primary text-primary-foreground p-4 -m-6 mb-4 rounded-t-lg">
-                      <DialogTitle className="flex items-center gap-2 text-white">
-                        <MapPin className="h-5 w-5" />
-                        Select Your City
-                      </DialogTitle>
-                    </DialogHeader>
-                    <div className="grid grid-cols-1 gap-4">
-                      {cities.map((city) => (
-                        <Card
-                          key={city.name}
-                          className="cursor-pointer hover:shadow-md transition-shadow"
-                          onClick={() => setSelectedCity(city.name)}
-                        >
-                          <CardContent className="p-4 text-center">
-                            <div className="mb-4 flex justify-center">
-                              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                                <div className="w-8 h-8 bg-orange-400 rounded" />
-                              </div>
-                            </div>
-                            <h3 className="text-lg font-semibold mb-1">{city.name}</h3>
-                            <p className="text-sm text-muted-foreground">{city.gyms} Gyms Available</p>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                {userLocation ? (
+                  <Button variant="outline" className="w-full flex items-center gap-2 rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+                    <MapPin className="h-4 w-4" />
+                    Location Enabled
+                  </Button>
+                ) : (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" className="w-full flex items-center gap-2 rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+                        <MapPin className="h-4 w-4" />
+                        Enable Location
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md mx-4">
+                      <DialogHeader className="bg-primary text-primary-foreground p-4 -m-6 mb-4 rounded-t-lg">
+                        <DialogTitle className="flex items-center gap-2 text-white">
+                          <MapPin className="h-5 w-5" />
+                          Enable Location for Better Experience
+                        </DialogTitle>
+                      </DialogHeader>
+                      
+                      <div className="space-y-4">
+                        <div className="text-center">
+                          <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <MapPin className="h-8 w-8 text-primary" />
+                          </div>
+                          <h3 className="text-lg font-semibold mb-2">Find Gyms Near You</h3>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            Allow location access to find the nearest gyms and get personalized recommendations based on your area.
+                          </p>
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <Button 
+                            onClick={requestLocationPermission}
+                            className="w-full"
+                          >
+                            <MapPin className="mr-2 h-4 w-4" />
+                            Allow Location Access
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            className="w-full"
+                            onClick={() => setLocationPermission(false)}
+                          >
+                            Maybe Later
+                          </Button>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                )}
               </div>
             </div>
           </div>

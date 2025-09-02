@@ -73,9 +73,9 @@ const About = () => {
               About <span className="text-transparent bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 bg-clip-text">Fitflix</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-12">
-              Fitflix is a comprehensive fitness brand that encompasses various aspects of health and wellness. 
-              We offer fitness centers, workout apps, and nutrition products designed to provide variety, 
-              community support, and accessible fitness solutions for everyone.
+              Fitflix is not just another gym chain. We are a pan-India fitness ecosystem built at the intersection of functional biomechanics, strength systems, and India's ancient wellness traditions like Kalaripayattu, Yoga, and Ayurveda.
+              <br /><br />
+              We empower everyday Indians — from busy professionals to new mothers — with structured programs that combine real training, scientific healing, and sustainable growth. Our gyms are designed to deliver results-driven experiences, whether you train in our value-focused Fitflix Active, performance-centric Fitflix Prime, or luxury wellness club Fitflix Elite.
             </p>
           </div>
 
@@ -138,6 +138,36 @@ const About = () => {
             </div>
           </div>
 
+          {/* What Sets Us Apart Section */}
+          <div className="mb-20">
+            <div className="text-center mb-12">
+              <h2 id="what-sets-us-apart" className="text-3xl md:text-4xl font-bold gradient-text mb-4 scroll-mt-20">What Sets Us Apart</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Discover the unique features that make Fitflix India's leading fitness ecosystem
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[
+                "Functional Patterns-inspired training systems",
+                "Recovery-focused ecosystems (red light therapy, steam, ice baths)",
+                "Cultural integration with Indian ancient movement practices",
+                "Tech-integrated member tracking & transformation systems",
+                "Dedicated programs for Indian moms, tech professionals, and HNIs",
+                "Franchise-ready business models for Tier 1, Tier 2, and premium zones"
+              ].map((feature, index) => (
+                <Card key={index} className="border-primary/20 bg-primary/5 hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                      <span className="text-sm leading-relaxed">{feature}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
           {/* Community Section */}
           <div className="mb-20">
             <div className="text-center mb-12">
@@ -188,6 +218,44 @@ const About = () => {
                 </div>
                 <div className="absolute -top-4 -right-4 w-20 h-20 bg-primary/20 rounded-full blur-xl animate-glow-pulse" />
               </div>
+            </div>
+          </div>
+
+          {/* Join Us Section */}
+          <div className="mb-20">
+            <div className="text-center mb-12">
+              <h2 id="join-us" className="text-3xl md:text-4xl font-bold gradient-text mb-4 scroll-mt-20">Join Us</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Be part of India's fitness revolution through various partnership opportunities
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  icon: "🚀",
+                  title: "Corporate wellness partnerships",
+                  description: "Transform your workplace with our comprehensive corporate wellness programs designed for modern Indian companies."
+                },
+                {
+                  icon: "🚀",
+                  title: "Franchise & expansion opportunities",
+                  description: "Join our franchise network and bring Fitflix's revolutionary fitness ecosystem to your city."
+                },
+                {
+                  icon: "🚀",
+                  title: "Fitness coaching & content collaborations",
+                  description: "Partner with us to create world-class fitness content and training programs for the Indian market."
+                }
+              ].map((opportunity, index) => (
+                <Card key={index} className="border-primary/20 bg-primary/5 hover:shadow-lg transition-shadow text-center">
+                  <CardContent className="p-6">
+                    <div className="text-4xl mb-4">{opportunity.icon}</div>
+                    <h3 className="text-xl font-semibold mb-3">{opportunity.title}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{opportunity.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
 

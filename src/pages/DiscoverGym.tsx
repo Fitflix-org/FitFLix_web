@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, Filter, MapPin, Clock, Star, Users, Wifi, Car, Dumbbell, ArrowRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -29,6 +29,7 @@ interface Gym {
   amenities: string[];
   is_deleted: boolean;
   verified: boolean;
+  distance?: number | null;
 }
 
 const DiscoverGym = () => {
@@ -41,9 +42,9 @@ const DiscoverGym = () => {
     canonical: "https://fitflix.in/discover-gym"
   });
 
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [searchQuery, setSearchQuery] = useState("");
   const [callbackFormOpen, setCallbackFormOpen] = useState(false);
+  const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
   const navigate = useNavigate();
 
   // Local gym data stored in useState
@@ -105,10 +106,69 @@ const DiscoverGym = () => {
   const [loading] = useState(false); // No longer loading from API
   const [error] = useState(""); // No API errors
 
-  const filteredGyms = gyms.filter(gym =>
-    gym.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    gym.address.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Get user location from cookies on component mount
+  useEffect(() => {
+    const getCookie = (name: string): string | null => {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    };
+
+    const savedLocation = getCookie('userLocation');
+    if (savedLocation) {
+      try {
+        const location = JSON.parse(savedLocation);
+        setUserLocation(location);
+      } catch (error) {
+        console.error('Error parsing saved location:', error);
+      }
+    }
+  }, []);
+
+  // Calculate distance between two coordinates using Haversine formula
+  const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const distance = R * c; // Distance in kilometers
+    return distance;
+  };
+
+  // Filter and sort gyms
+  const filteredGyms = gyms
+    .filter(gym =>
+      gym.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      gym.address.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .map(gym => ({
+      ...gym,
+      distance: userLocation 
+        ? calculateDistance(
+            userLocation.lat, 
+            userLocation.lng, 
+            parseFloat(gym.latitude), 
+            parseFloat(gym.longitude)
+          )
+        : null
+    }))
+    .sort((a, b) => {
+      // If user location is available, sort by distance
+      if (userLocation && a.distance !== null && b.distance !== null) {
+        return a.distance - b.distance;
+      }
+      // Otherwise, sort by rating (highest first)
+      return b.rating - a.rating;
+    });
 
   const handleViewDetails = (gym: Gym) => {
     navigate(`/gym/${gym.id}`);
@@ -173,25 +233,15 @@ const DiscoverGym = () => {
         </div>
         {/* Results Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <p className="text-muted-foreground">
-            <span className="text-primary font-semibold">{filteredGyms.length}</span> gyms found
-          </p>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">View:</span>
-            <Button
-              variant={viewMode === "grid" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setViewMode("grid")}
-            >
-              Grid
-            </Button>
-            <Button
-              variant={viewMode === "list" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setViewMode("list")}
-            >
-              List
-            </Button>
+          <div className="flex flex-col gap-1">
+            <p className="text-muted-foreground">
+              <span className="text-primary font-semibold">{filteredGyms.length}</span> gyms found
+            </p>
+            {userLocation && (
+              <p className="text-xs text-muted-foreground">
+                Sorted by distance from your location
+              </p>
+            )}
           </div>
         </div>
         {/* Enhanced Gym Cards with Better Internal Linking */}
@@ -266,6 +316,11 @@ const DiscoverGym = () => {
                         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
                           <MapPin className="h-4 w-4" />
                           <span>{gym.address.split(',')[0]}, {gym.address.split(',')[1]}</span>
+                          {gym.distance !== null && gym.distance !== undefined && (
+                            <span className="text-primary font-medium">
+                              • {gym.distance.toFixed(1)} km away
+                            </span>
+                          )}
                         </div>
                       </div>
                       <div className="flex items-center gap-1">

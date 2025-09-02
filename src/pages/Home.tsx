@@ -37,12 +37,12 @@ const Home = () => {
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="max-w-4xl mx-auto animate-fade-in">
             <h1 className="hero-title text-white mb-6">
-              WE ARE
-              <br />
               <span className="text-transparent bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text">Fitflix</span>
+              <br />
+              <span className="block text-3xl md:text-5xl lg:text-6xl">TRAIN. HEAL. GROW.</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed">
-              Your complete fitness ecosystem - gyms, apps, nutrition, and community
+              India's Fitness Revolution – Rooted in Science. Powered by Tradition.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button 
@@ -51,7 +51,7 @@ const Home = () => {
                 asChild
               >
                 <Link to="/discover-gym">
-                  Explore Programs
+                  Discover Gyms
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
@@ -193,7 +193,7 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             {[
-              { number: "4", label: "Premium Locations", description: "Electronic City & More", link: "/discover-gym" },
+              { number: "📍", label: "Bangalore | Hyderabad", description: "Coming Soon: Mumbai, Chennai, Delhi NCR", link: "/discover-gym" },
               { number: "1000+", label: "Workout Minutes", description: "In our app", link: "/services" },
               { number: "10", label: "Training Categories", description: "Professional guidance", link: "/services" },
               { number: "24/7", label: "App Access", description: "Train anytime", link: "/services" }
