@@ -1,6 +1,12 @@
 // API Configuration for Fitflix Website
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://fitflix-backend-api.onrender.com';
+// Ensure the base URL points to the backend's /api prefix to match server routes
+const RAW_API_BASE_URL = import.meta.env.VITE_API_BASE_URL ;
+const normalizeApiBase = (url: string) => {
+  const trimmed = url.replace(/\/+$/, '');
+  return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+};
+const API_BASE_URL = normalizeApiBase(RAW_API_BASE_URL);
 
 
 // Types
