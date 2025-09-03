@@ -93,3 +93,4 @@ export const getCurrentLocation = (): Promise<UserLocation> => {
     );
   });
 };
+

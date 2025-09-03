@@ -3,54 +3,48 @@
   <!-- Home Page -->
   <url>
     <loc>https://fitflix.in/</loc>
-    <lastmod>2024-12-19</lastmod>
+    <lastmod>2025-09-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  
+
   <!-- Discover Gym Page -->
   <url>
     <loc>https://fitflix.in/discover-gym</loc>
-    <lastmod>2024-12-19</lastmod>
+    <lastmod>2025-09-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  
+
   <!-- About Page -->
   <url>
     <loc>https://fitflix.in/about</loc>
-    <lastmod>2024-12-19</lastmod>
+    <lastmod>2025-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  
-  <!-- Leaderboards Page -->
+
+  <!-- Services Page -->
   <url>
-    <loc>https://fitflix.in/leaderboards</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://fitflix.in/services</loc>
+    <lastmod>2025-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Corporate Wellness Page -->
+  <url>
+    <loc>https://fitflix.in/corporate-wellness</loc>
+    <lastmod>2025-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blogs Listing Page -->
+  <url>
+    <loc>https://fitflix.in/blogs</loc>
+    <lastmod>2025-09-03</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-  </url>
-  
-  <!-- Individual Gym Pages -->
-  <url>
-    <loc>https://fitflix.in/gym/1</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://fitflix.in/gym/2</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://fitflix.in/gym/3</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
 </urlset>

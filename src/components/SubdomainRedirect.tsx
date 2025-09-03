@@ -30,3 +30,4 @@ const SubdomainRedirect = () => {
 };
 
 export default SubdomainRedirect;
+
