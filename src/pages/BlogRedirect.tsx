@@ -44,3 +44,4 @@ const BlogRedirect = () => {
 };
 
 export default BlogRedirect;
+
