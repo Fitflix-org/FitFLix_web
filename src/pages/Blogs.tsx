@@ -74,7 +74,7 @@ const Blogs = () => {
         
         {/* Open Graph Tags */}
         <meta property="og:title" content="Fitness & Wellness Blogs in Bangalore - Expert Tips & Guides | Fitflix" />
-        <meta property="og:description" content="Discover expert fitness tips, workout guides, and wellness advice for Bangalore. From beginner workouts to advanced training, get the latest insights from Fitflix fitness experts." />
+        <meta property="og:description" content="Discover expert fitness tips, workout guides, and wellness advice. From beginner workouts to advanced training, get the latest insights from Fitflix fitness experts." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://fitflix.com/blogs" />
         <meta property="og:image" content="/media/fitflix-icon.png" />
@@ -123,28 +123,18 @@ const Blogs = () => {
         </script>
       </Helmet>
 
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen  bg-slate-50">
         {/* Hero Section */}
         <div className="bg-orange-500 text-white">
           <div className="container mx-auto px-4 py-8">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-6xl font-black mb-4 text-white">
-                Fitness & Wellness Blog
+              <h1 className="text-4xl py-8 md:text-6xl font-black m-1 text-white">
+                Fitness & Wellness Blogs
               </h1>
-              <p className="text-xl md:text-2xl mb-6 text-orange-100">
-                Expert tips, workout guides, and wellness advice for your fitness journey in Bangalore
+              <p className="text-xl md:text-2xl mb-2 text-orange-100">
+                Expert tips, workout guides, and wellness advice for your fitness journey
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Badge variant="secondary" className="text-lg px-6 py-3 bg-white/20 text-white border-white/30">
-                  Best Gym in Bangalore
-                </Badge>
-                <Badge variant="secondary" className="text-lg px-6 py-3 bg-white/20 text-white border-white/30">
-                  Fitness in Bangalore
-                </Badge>
-                <Badge variant="secondary" className="text-lg px-6 py-3 bg-white/20 text-white border-white/30">
-                  Wellness Centers
-                </Badge>
-              </div>
+
             </div>
           </div>
         </div>

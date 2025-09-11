@@ -13,8 +13,8 @@ import DiscoverGym from "./pages/DiscoverGym";
 import GymDetails from "./pages/GymDetails";
 import About from "./pages/About";
 import Services from "./pages/Services";
-import Blogs from "./pages/Blogs";
-import BlogDetail from "./pages/BlogDetail";
+// Blogs are now handled by the dedicated blog subdomain at blogs.fitflix.in
+import BlogRedirect from "./pages/BlogRedirect";
 import NotFound from "./pages/NotFound";
 import CorporateWellness from "./pages/CorporateWellness";
 import  Footer  from './components/Footer';
@@ -38,8 +38,9 @@ const AppContent = () => {
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
         <Route path="/corporate-wellness" element={<CorporateWellness />} />
-        <Route path="/blogs" element={<Blogs />} />
-        <Route path="/blogs/:slug" element={<BlogDetail />} />
+        {/* Blog routes redirect to the dedicated blog subdomain at blogs.fitflix.in */}
+        <Route path="/blogs" element={<BlogRedirect />} />
+        <Route path="/blogs/:slug" element={<BlogRedirect />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
