@@ -379,6 +379,5 @@
   }
 }
 
-/* Import custom blog typography styles */
-@import './styles/blog-typography.css';
+/* removed duplicate late import to satisfy CSS @import order */
 

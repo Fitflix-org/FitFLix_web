@@ -1,9 +1,16 @@
 // API Configuration for Fitflix Website
 
 // Ensure the base URL points to the backend's /api prefix to match server routes
-const RAW_API_BASE_URL = import.meta.env.VITE_API_BASE_URL ;
-const normalizeApiBase = (url: string) => {
-  const trimmed = url.replace(/\/+$/, '');
+import { config } from '@/lib/config';
+
+const RAW_API_BASE_URL: string | undefined = (import.meta as any)?.env?.VITE_API_BASE_URL || config.api.baseUrl;
+const normalizeApiBase = (url: string | undefined | null): string => {
+  const resolved = (url ?? '').toString().trim();
+  if (resolved.length === 0) {
+    // Fallbacks: dev -> local backend; prod -> relative /api (for reverse proxy setups)
+    return (import.meta as any)?.env?.DEV ? 'http://localhost:3000/api' : '/api';
+  }
+  const trimmed = resolved.replace(/\/+$/, '');
   return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
 };
 const API_BASE_URL = normalizeApiBase(RAW_API_BASE_URL);
@@ -51,6 +58,50 @@ export interface SchedulerStatus {
   isRunning: boolean;
   interval: string | null;
   lastCheck: string;
+}
+
+// Event Types
+export interface Event {
+  id: string;
+  title: string;
+  title1?: string;
+  title2?: string;
+  title3?: string;
+  description: string;
+  details?: {
+    included?: string[];
+    benefits?: string[];
+    schedule?: string[];
+    routeInfo?: string;
+  };
+  coverImage?: string;
+  imageUrls?: string[];
+  location?: string;
+  date: string;
+  entryFee?: number;
+  status: 'DRAFT' | 'PUBLISHED' | 'CANCELLED' | 'COMPLETED';
+  responseCount?: number;
+  confirmedCount?: number;
+  createdAt: string;
+  updatedAt: string;
+  descriptionBlocks?: string[];
+}
+
+export interface EventRegistrationData {
+  name: string;
+  phone: string;
+  email: string;
+}
+
+export interface EventResponse {
+  id: string;
+  eventId: string;
+  name: string;
+  phone: string;
+  email: string;
+  status: 'PENDING' | 'CONFIRMED' | 'CANCELLED';
+  createdAt: string;
+  updatedAt: string;
 }
 
 // API Client class
@@ -186,6 +237,25 @@ class ApiClient {
       method: 'POST',
     });
   }
+
+  // Events endpoints (public)
+  async getUpcomingEvents(): Promise<{ events: Event[] }> {
+    const response = await this.request<{ success: boolean; events: Event[] }>('/events/upcoming');
+    return { events: response.events };
+  }
+
+  async getEventById(id: string): Promise<Event> {
+    const response = await this.request<{ success: boolean; event: Event }>(`/events/${id}`);
+    return response.event;
+  }
+
+  async registerForEvent(eventId: string, data: EventRegistrationData): Promise<{ message: string; response?: EventResponse }> {
+    const response = await this.request<{ success: boolean; message: string; response?: EventResponse }>(`/events/${eventId}/register`, {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+    return { message: response.message, response: response.response };
+  }
 }
 
 // Create and export API client instance
@@ -215,4 +285,11 @@ export const blogApi = {
   startScheduler: () => apiClient.startScheduler(),
   stopScheduler: () => apiClient.stopScheduler(),
   manualCheck: () => apiClient.manualCheck(),
+};
+
+// Events API (public)
+export const eventApi = {
+  getUpcoming: () => apiClient.getUpcomingEvents(),
+  getById: (id: string) => apiClient.getEventById(id),
+  register: (eventId: string, data: EventRegistrationData) => apiClient.registerForEvent(eventId, data)
 };

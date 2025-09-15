@@ -15,19 +15,27 @@ export default defineConfig(({ mode }) => ({
     'process.env': {}
   },
   build: {
-    // Fix JSX transform issues in production
-    target: 'esnext',
-    minify: 'esbuild',
-    sourcemap: false,
+    // Optimized for production
+    target: 'es2020',
+    minify: 'terser',
+    sourcemap: mode === 'development',
     outDir: 'dist',
     assetsDir: 'assets',
+    terserOptions: {
+      compress: {
+        drop_console: mode === 'production',
+        drop_debugger: mode === 'production',
+      },
+    },
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
           router: ['react-router-dom'],
-          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-accordion'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-accordion', '@radix-ui/react-select'],
           icons: ['lucide-react'],
+          utils: ['clsx', 'tailwind-merge', 'class-variance-authority'],
+          forms: ['react-hook-form', '@hookform/resolvers', 'zod'],
         },
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name?.split('.') || []
@@ -44,9 +52,9 @@ export default defineConfig(({ mode }) => ({
         entryFileNames: 'assets/js/[name]-[hash].js',
       }
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 500,
     cssCodeSplit: true,
-    reportCompressedSize: false,
+    reportCompressedSize: true,
   },
   plugins: [
     react({

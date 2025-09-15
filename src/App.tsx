@@ -13,6 +13,8 @@ import DiscoverGym from "./pages/DiscoverGym";
 import GymDetails from "./pages/GymDetails";
 import About from "./pages/About";
 import Services from "./pages/Services";
+import Events from "./pages/Events";
+import EventDetail from "./pages/EventDetail";
 // Blogs are now handled by the dedicated blog subdomain at blogs.fitflix.in
 import BlogRedirect from "./pages/BlogRedirect";
 import NotFound from "./pages/NotFound";
@@ -37,6 +39,8 @@ const AppContent = () => {
         <Route path="/gym/:id" element={<GymDetails />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/events/:id" element={<EventDetail />} />
         <Route path="/corporate-wellness" element={<CorporateWellness />} />
         {/* Blog routes redirect to the dedicated blog subdomain at blogs.fitflix.in */}
         <Route path="/blogs" element={<BlogRedirect />} />

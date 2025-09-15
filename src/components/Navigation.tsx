@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dumbbell, Home, User, Menu, X, MapPin, ChevronDown, Smartphone, ShoppingCart, Users as UsersIcon, FileText } from "lucide-react";
+import { Dumbbell, Home, User, Menu, X, MapPin, ChevronDown, Smartphone, ShoppingCart, Users as UsersIcon, FileText, Calendar } from "lucide-react";
 import { useState, useEffect } from "react";
 import OptimizedImage from "@/components/OptimizedImage";
 
@@ -116,6 +116,17 @@ const Navigation = () => {
         { path: "https://blogs.fitflix.in/blogs/nutrition-basics-for-athletes", label: "Nutrition Basics", description: "Essential nutrition for athletes" },
         { path: "https://blogs.fitflix.in/blogs/best-gym-workouts-beginners", label: "Beginner Workouts", description: "Complete guide for fitness newcomers" },
         { path: "https://blogs.fitflix.in/blogs/premium-fitness-centers", label: "Premium Gyms", description: "Top fitness centers in your area" }
+      ]
+    },
+    { 
+      path: "/events", 
+      label: "Events", 
+      icon: Calendar,
+      subItems: [
+        { path: "/events", label: "All Events", description: "Upcoming fitness events" },
+        { path: "/events/workshops", label: "Workshops", description: "Fitness and nutrition workshops" },
+        { path: "/events/competitions", label: "Competitions", description: "Fitness challenges and contests" },
+        { path: "/events/community", label: "Community Events", description: "Group activities and meetups" }
       ]
     },
     { 
