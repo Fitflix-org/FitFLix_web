@@ -70,7 +70,33 @@ const EventDetail: React.FC = () => {
   }
 
   const dt = new Date(event.date);
-  const details = event.details ?? {};
+  const details = event.details ?? ({} as any);
+  
+  // Normalize descriptionBlocks: accept objects, JSON strings, or plain strings
+  const rawBlocks = (event as any).descriptionBlocksRich && Array.isArray((event as any).descriptionBlocksRich)
+    ? (event as any).descriptionBlocksRich
+    : event.descriptionBlocks;
+  const hasBlocks = Array.isArray(rawBlocks) && rawBlocks.length > 0;
+  const structuredUsed = hasBlocks && rawBlocks!.some((b: any) => typeof b === 'object' || (typeof b === 'string' && b.trim().startsWith('{')));
+  const normalizedBlocks: Array<{ title?: string; description?: string; items?: string[] }> = hasBlocks
+    ? rawBlocks!.map((block: any) => {
+        if (typeof block === 'string') {
+          const s = block.trim();
+          if (s.startsWith('{')) {
+            try {
+              const parsed = JSON.parse(s);
+            if (parsed && (typeof parsed.title === 'string' || typeof parsed.description === 'string' || Array.isArray(parsed.items))) {
+              return { title: parsed.title, description: parsed.description, items: parsed.items };
+              }
+            } catch (_) {
+              // fall through to treat as plain text
+            }
+          }
+        return { description: block };
+        }
+      return { title: block.title, description: block.description, items: Array.isArray(block.items) ? block.items : undefined };
+      })
+    : [];
   const deriveTitles = () => {
     // Use the new database fields first, fallback to details, then split main title
     const t1 = event.title1 || (details as any)?.title1;
@@ -92,7 +118,7 @@ const EventDetail: React.FC = () => {
         <title>{event.title} | Fitflix</title>
         <meta property="og:title" content={event.title} />
         <meta property="og:description" content={event.description.slice(0, 150)} />
-        <meta property="og:image" content={event.imageUrls[0]} />
+        <meta property="og:image" content={event.imageUrls?.[0] || event.coverImage || '/fitflix-logo.png'} />
         <meta property="og:url" content={`https://fitflix.in/events/${event.id}`} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Fitflix" />
@@ -152,59 +178,88 @@ const EventDetail: React.FC = () => {
         </div>
       </section>
 
-      {/* Event Details Cards (dynamic from event.details) */}
+      {/* Event Details Cards - prefer structured descriptionBlocks, fallback to event.details */}
       <section className="max-w-6xl mx-auto px-4 py-12">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
           Event <span className="text-orange-400">Details</span>
         </h2>
         <div className="grid md:grid-cols-3 gap-8 mb-12">
-          {Array.isArray(details.included) && details.included.length > 0 && (
-            <Card className="bg-gray-800 border-gray-700 text-white rounded-xl shadow-sm">
-              <CardContent className="p-6">
-                <Trophy className="w-8 h-8 text-orange-400 mb-2" aria-hidden="true" />
-                <div className="font-semibold mb-2">What's Included</div>
-                <ul className="text-gray-300 space-y-2">
-                  {details.included.map((item, idx) => (
-                    <li key={idx}>• {item}</li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
-
-          {Array.isArray(details.benefits) && details.benefits.length > 0 && (
-            <Card className="bg-gray-800 border-gray-700 text-white rounded-xl shadow-sm">
-              <CardContent className="p-6">
-                <Heart className="w-8 h-8 text-orange-400 mb-2" aria-hidden="true" />
-                <div className="font-semibold mb-2">Health Benefits</div>
-                <ul className="text-gray-300 space-y-2">
-                  {details.benefits.map((item, idx) => (
-                    <li key={idx}>• {item}</li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
-
-          {Array.isArray(details.schedule) && details.schedule.length > 0 && (
-            <Card className="bg-gray-800 border-gray-700 text-white rounded-xl shadow-sm">
-              <CardContent className="p-6">
-                <Users className="w-8 h-8 text-orange-400 mb-2" aria-hidden="true" />
-                <div className="font-semibold mb-2">Event Schedule</div>
-                <ul className="text-gray-300 space-y-2">
-                  {details.schedule.map((item, idx) => (
-                    <li key={idx}>• {item}</li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
+          {structuredUsed && normalizedBlocks.length > 0 ? (
+            normalizedBlocks.map((b, idx) => {
+              const icon = idx === 0 ? <Trophy className="w-8 h-8 text-orange-400 mb-2" aria-hidden="true" />
+                         : idx === 1 ? <Heart className="w-8 h-8 text-orange-400 mb-2" aria-hidden="true" />
+                         : <Users className="w-8 h-8 text-orange-400 mb-2" aria-hidden="true" />;
+              return (
+                <Card key={idx} className="bg-gray-800 border-gray-700 text-white rounded-xl shadow-sm">
+                  <CardContent className="p-6">
+                    {icon}
+                    {b.title && <div className="font-semibold mb-2">{b.title}</div>}
+                    {b.items && b.items.length > 0 ? (
+                      <ul className="text-gray-300 space-y-2">
+                        {b.items.map((item, i) => (
+                          <li key={i}>• {item}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      b.description && (
+                        <div className="text-gray-300 space-y-2 whitespace-pre-line">
+                          {b.description}
+                        </div>
+                      )
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })
+          ) : (
+            <>
+              {Array.isArray(details.included) && details.included.length > 0 && (
+                <Card className="bg-gray-800 border-gray-700 text-white rounded-xl shadow-sm">
+                  <CardContent className="p-6">
+                    <Trophy className="w-8 h-8 text-orange-400 mb-2" aria-hidden="true" />
+                    <div className="font-semibold mb-2">What's Included</div>
+                    <ul className="text-gray-300 space-y-2">
+                      {details.included.map((item: string, idx: number) => (
+                        <li key={idx}>• {item}</li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+              {Array.isArray(details.benefits) && details.benefits.length > 0 && (
+                <Card className="bg-gray-800 border-gray-700 text-white rounded-xl shadow-sm">
+                  <CardContent className="p-6">
+                    <Heart className="w-8 h-8 text-orange-400 mb-2" aria-hidden="true" />
+                    <div className="font-semibold mb-2">Health Benefits</div>
+                    <ul className="text-gray-300 space-y-2">
+                      {details.benefits.map((item: string, idx: number) => (
+                        <li key={idx}>• {item}</li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+              {Array.isArray(details.schedule) && details.schedule.length > 0 && (
+                <Card className="bg-gray-800 border-gray-700 text-white rounded-xl shadow-sm">
+                  <CardContent className="p-6">
+                    <Users className="w-8 h-8 text-orange-400 mb-2" aria-hidden="true" />
+                    <div className="font-semibold mb-2">Event Schedule</div>
+                    <ul className="text-gray-300 space-y-2">
+                      {details.schedule.map((item: string, idx: number) => (
+                        <li key={idx}>• {item}</li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+            </>
           )}
         </div>
 
-        {details.routeInfo && (
+        {!structuredUsed && details.routeInfo && (
           <div className="text-center">
             <h3 className="text-2xl font-semibold mb-4">Route Information</h3>
-            <p className="text-gray-700 max-w-3xl mx-auto">
+            <p className="text-gray-300 max-w-3xl mx-auto">
               {details.routeInfo}
             </p>
           </div>
@@ -218,14 +273,27 @@ const EventDetail: React.FC = () => {
           <Card>
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-3">About this event</h2>
-              {Array.isArray(event.descriptionBlocks) && event.descriptionBlocks.length > 0 ? (
-                <div className="space-y-3">
-                  {event.descriptionBlocks.map((para, idx) => (
-                    <p key={idx} className="leading-relaxed text-white whitespace-pre-line">{para}</p>
-                  ))}
-                </div>
+              {hasBlocks ? (
+                structuredUsed ? (
+                  // Avoid duplicating structured blocks shown above
+                  <p className="leading-relaxed text-slate-900 whitespace-pre-line">{event.description}</p>
+                ) : (
+                  // Legacy: string-only blocks rendered as info cards
+                  <div className="space-y-4">
+                    {normalizedBlocks.map((b, idx) => (
+                      <Card key={idx} className="bg-gray-50 border-l-4 border-l-orange-500">
+                        <CardContent className="p-4">
+                          {b.title && <h3 className="text-lg font-semibold mb-2">{b.title}</h3>}
+                          {b.description && (
+                            <p className="leading-relaxed text-slate-900 whitespace-pre-line">{b.description}</p>
+                          )}
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )
               ) : (
-                <p className="leading-relaxed text-white whitespace-pre-line">{event.description}</p>
+                <p className="leading-relaxed text-slate-900 whitespace-pre-line">{event.description}</p>
               )}
             </CardContent>
           </Card>

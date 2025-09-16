@@ -84,7 +84,10 @@ export interface Event {
   confirmedCount?: number;
   createdAt: string;
   updatedAt: string;
-  descriptionBlocks?: string[];
+  // Support both legacy string array and structured blocks
+  descriptionBlocks?: Array<string | { title: string; description: string }>;
+  // New backend field for structured blocks
+  descriptionBlocksRich?: Array<{ title: string; description?: string; items?: string[] }>;
 }
 
 export interface EventRegistrationData {
