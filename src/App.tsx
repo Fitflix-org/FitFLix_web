@@ -23,7 +23,30 @@ import  Footer  from './components/Footer';
 import { useScrollRestoration } from './hooks/useScrollRestoration';
 import { ScrollToTopButton } from './components/ScrollToTopButton';
 
-const queryClient = new QueryClient();
+// Configure React Query for optimal hybrid caching
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // Cache data for 5 minutes by default
+      staleTime: 5 * 60 * 1000,
+      // Keep data in cache for 10 minutes
+      gcTime: 10 * 60 * 1000,
+      // Retry failed requests up to 3 times
+      retry: 3,
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+      // Don't refetch on window focus for better UX
+      refetchOnWindowFocus: false,
+      // Don't refetch on mount if data is fresh
+      refetchOnMount: false,
+      // Enable background refetching
+      refetchInterval: false, // Individual queries will set their own intervals
+    },
+    mutations: {
+      // Retry mutations once on failure
+      retry: 1,
+    },
+  },
+});
 
 const AppContent = () => {
   // Enable scroll restoration

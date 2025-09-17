@@ -24,7 +24,7 @@ services:
       - key: NODE_ENV
         value: "production"
       - key: VITE_API_BASE_URL
-        value: "https://fitflix-backend-api.onrender.com"
+        value: "https://fitflix-backend-avxt.onrender.com"
       - key: VITE_ENABLE_PWA
         value: "true"
       - key: VITE_ENABLE_ANALYTICS

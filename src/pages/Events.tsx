@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Calendar, MapPin, Clock, Users, DollarSign, ArrowRight, Filter, Search, UserPlus, Mail, Phone } from 'lucide-react';
+import { Calendar, MapPin, Clock, Users, DollarSign, ArrowRight, Filter, Search, UserPlus, Mail, Phone, RefreshCw, Wifi, WifiOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -10,14 +10,20 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import OptimizedImage from '@/components/OptimizedImage';
-import { eventApi, Event, EventRegistrationData } from '@/lib/api/api';
+import { Event, EventRegistrationData } from '@/lib/api/api';
+import { 
+  useUpcomingEvents, 
+  useEventRegistration, 
+  useRefreshEvents,
+  usePrefetchEventDetail,
+  useEventsSyncOnFocus,
+  useCachedEventsCount 
+} from '@/hooks/useEvents';
 
 const Events: React.FC = () => {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
+  // State for UI interactions
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('ALL');
-  const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [registrationData, setRegistrationData] = useState<EventRegistrationData>({
     name: '',
@@ -25,52 +31,43 @@ const Events: React.FC = () => {
     email: ''
   });
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false);
+  
+  // Hooks for data management with caching
+  const { data: events = [], isLoading, isError, error, isStale } = useUpcomingEvents();
+  const eventRegistration = useEventRegistration();
+  const { refreshEventsList } = useRefreshEvents();
+  const prefetchEventDetail = usePrefetchEventDetail();
+  const cachedEventsCount = useCachedEventsCount();
+  
+  // Auto-sync on focus and network reconnection
+  useEventsSyncOnFocus();
   
   const { toast } = useToast();
 
   const statuses = ['ALL', 'PUBLISHED', 'DRAFT', 'CANCELLED', 'COMPLETED'];
 
-  // Fetch events from API
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        setLoading(true);
-        const data = await eventApi.getUpcoming();
-        setEvents(data.events || []);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-        toast({
-          title: "Error",
-          description: "Failed to load events. Please check your connection.",
-          variant: "destructive",
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
-  }, [toast]);
-
-  useEffect(() => {
-    let filtered = events;
-
-    // Filter by search term
-    if (searchTerm) {
-      filtered = filtered.filter(event =>
+  // Memoized filtered events for performance
+  const filteredEvents = useMemo(() => {
+    return events.filter(event => {
+      const matchesSearch = searchTerm === '' || 
         event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        event.description.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
+        event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (event.location && event.location.toLowerCase().includes(searchTerm.toLowerCase()));
+      
+      const matchesStatus = selectedStatus === 'ALL' || event.status === selectedStatus;
+      
+      return matchesSearch && matchesStatus;
+    });
+  }, [events, searchTerm, selectedStatus]);
 
-    // Filter by status
-    if (selectedStatus !== 'ALL') {
-      filtered = filtered.filter(event => event.status === selectedStatus);
-    }
-
-    setFilteredEvents(filtered);
-  }, [searchTerm, selectedStatus, events]);
+  // Handle errors
+  if (isError) {
+    toast({
+      title: "Error",
+      description: error?.message || "Failed to load events. Please check your connection.",
+      variant: "destructive",
+    });
+  }
 
   const formatEventDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -108,7 +105,9 @@ const Events: React.FC = () => {
     setRegistrationData({ name: '', phone: '', email: '' });
   };
 
-  const submitRegistration = async () => {
+    const handleEventRegistration = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
     if (!selectedEvent || !registrationData.name || !registrationData.phone || !registrationData.email) {
       toast({
         title: "Error",
@@ -119,8 +118,10 @@ const Events: React.FC = () => {
     }
 
     try {
-      setIsRegistering(true);
-      const result = await eventApi.register(selectedEvent.id, registrationData);
+      const result = await eventRegistration.mutateAsync({
+        eventId: selectedEvent.id,
+        data: registrationData
+      });
       
       toast({
         title: "Success",
@@ -128,9 +129,12 @@ const Events: React.FC = () => {
       });
       setIsRegistrationOpen(false);
       
-      // Refresh events to update participant count
-      const data = await eventApi.getUpcoming();
-      setEvents(data.events || []);
+      // Reset form
+      setRegistrationData({
+        name: '',
+        phone: '',
+        email: ''
+      });
     } catch (error: unknown) {
       console.error('Error registering for event:', error);
       toast({
@@ -138,8 +142,6 @@ const Events: React.FC = () => {
         description: (error as Error).message || "Registration failed. Please check your connection.",
         variant: "destructive",
       });
-    } finally {
-      setIsRegistering(false);
     }
   };
 
@@ -209,12 +211,43 @@ const Events: React.FC = () => {
                     ))}
                   </SelectContent>
                 </Select>
+                
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={refreshEventsList}
+                  disabled={isLoading}
+                  className="flex items-center gap-2"
+                >
+                  <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+                  {isLoading ? 'Loading...' : 'Refresh'}
+                </Button>
+                
+                {/* Connection Status Indicator */}
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  {navigator.onLine ? (
+                    <div className="flex items-center gap-1">
+                      <Wifi className="h-4 w-4 text-green-500" />
+                      <span className={isStale ? 'text-yellow-600' : 'text-green-600'}>
+                        {isStale ? 'Updating...' : 'Live'}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1">
+                      <WifiOff className="h-4 w-4 text-red-500" />
+                      <span className="text-red-600">Offline</span>
+                    </div>
+                  )}
+                  {cachedEventsCount > 0 && (
+                    <span className="text-xs">({cachedEventsCount} cached)</span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
 
           {/* Events Grid */}
-          {loading ? (
+          {isLoading ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[...Array(6)].map((_, i) => (
                 <Card key={i} className="overflow-hidden">
@@ -237,7 +270,11 @@ const Events: React.FC = () => {
                 const { date, time } = formatEventDate(event.date);
                 
                 return (
-                  <Card key={event.id} className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
+                  <Card 
+                    key={event.id} 
+                    className="group hover:shadow-xl transition-all duration-300 overflow-hidden"
+                    onMouseEnter={() => prefetchEventDetail(event.id)}
+                  >
                     <div className="relative overflow-hidden">
                       <OptimizedImage
                         src={event.coverImage || '/media/placeholder.svg'}
@@ -257,7 +294,7 @@ const Events: React.FC = () => {
                         </Badge>
                       </div>
                     </div>
-                    <CardContent className="p-4">
+                    <CardContent className="p-4 bg-white">
                       <div className="flex items-center space-x-4 text-sm text-slate-500 mb-2">
                         <div className="flex items-center space-x-1">
                           <Calendar className="h-4 w-4" />
@@ -473,16 +510,16 @@ const Events: React.FC = () => {
                     variant="outline"
                     onClick={() => setIsRegistrationOpen(false)}
                     className="flex-1"
-                    disabled={isRegistering}
+                    disabled={eventRegistration.isPending}
                   >
                     Cancel
                   </Button>
                   <Button
-                    onClick={submitRegistration}
+                    onClick={handleEventRegistration}
                     className="flex-1 bg-orange-500 hover:bg-orange-600"
-                    disabled={isRegistering}
+                    disabled={eventRegistration.isPending}
                   >
-                    {isRegistering ? (
+                    {eventRegistration.isPending ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
                         Registering...
