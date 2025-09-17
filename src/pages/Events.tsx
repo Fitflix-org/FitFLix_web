@@ -283,11 +283,7 @@ const Events: React.FC = () => {
                         height={300}
                         className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                       />
-                      <div className="absolute top-4 left-4 flex flex-col gap-2">
-                        <Badge className={`${getStatusColor(event.status)} border-0`}>
-                          {event.status}
-                        </Badge>
-                      </div>
+
                       <div className="absolute top-4 right-4">
                         <Badge className="bg-white text-slate-900 border-0 shadow-md">
                           {event.entryFee === 0 || !event.entryFee ? 'FREE' : `₹${event.entryFee}`}
