@@ -1,13 +1,16 @@
 services:
   - type: web
     name: fitflix-web
-    buildCommand: npm ci && npm run build:prod && cp public/_redirects dist/
+    buildCommand: npm ci && npm run build:prod && cp public/_redirects dist/ && cp public/404.html dist/
     staticPublishPath: ./dist
     pullRequestPreviewsEnabled: true
     autoDeploy: true
     
     # SPA routing - serve index.html for all routes
     routes:
+      - type: rewrite
+        source: /events/*
+        destination: /index.html
       - type: rewrite
         source: /*
         destination: /index.html
