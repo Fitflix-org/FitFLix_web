@@ -61,54 +61,62 @@ const GymDetails = () => {
 
   // Memoize SEO data to prevent infinite re-renders
   const seoData = useMemo(() => {
-    if (!gym) {
+    if (!gymClub) {
       return {
-        title: "Gym Details | Fitflix Fitness Centers",
-        description: "Discover premium gym facilities, amenities, and services at Fitflix fitness centers. Find the perfect gym for your fitness journey.",
-        keywords: "gym details, fitness facilities, gym amenities, personal training, group classes, gym services, Fitflix gyms"
+        title: "Facility Details | Fitflix",
+        description: "Discover premium gym and wellness club facilities, amenities, and services at Fitflix fitness centers.",
+        keywords: "gym details, wellness club details, fitness facilities, gym amenities, personal training"
       };
     }
     
+    const facilityType = gymClub.type === 'wellness-club' ? 'Wellness Club' : 'Gym';
+    
     return {
-      title: `${gym.name} | Premium Gym in ${gym.address.split(',')[0]} | Fitflix`,
-      description: `${gym.description} Discover ${gym.name}, a premium gym in ${gym.address.split(',')[0]} with state-of-the-art equipment, personal training, and group classes. Join Fitflix today!`,
-      keywords: `${gym.name}, gym ${gym.address.split(',')[0]}, fitness center, personal training, group classes, gym amenities, ${gym.amenities?.join(', ')}`,
-      ogTitle: `${gym.name} | Premium Gym in ${gym.address.split(',')[0]}`,
-      ogDescription: gym.description,
-      canonical: `https://fitflix.in/gym/${gym.id}`
+      title: `${gymClub.name} | Premium ${facilityType} | Fitflix`,
+      description: `${gymClub.description} Discover ${gymClub.name}, a premium ${facilityType.toLowerCase()} with ${gymClub.amenities.join(', ')}. Join Fitflix today!`,
+      keywords: `${gymClub.name}, ${facilityType.toLowerCase()}, ${gymClub.address.split(',')[0]}, fitness center, ${gymClub.amenities.join(', ')}`,
+      ogTitle: `${gymClub.name} | Premium ${facilityType}`,
+      ogDescription: gymClub.description,
+      canonical: `https://fitflix.in/${gymClub.type === 'wellness-club' ? 'wellness-club' : 'gym'}/${gymClub.id}`
     };
-  }, [gym]);
+  }, [gymClub]);
 
   // Always call useSEO with memoized data
   useSEO(seoData);
 
-  if (!gym) {
+  if (!gymClub) {
     return (
       <div className="min-h-screen bg-background pt-20 flex items-center justify-center px-4">
         <div className="text-center">
-          <h1 className="text-xl sm:text-2xl font-bold mb-4">Gym not found</h1>
-          <Button onClick={() => navigate("/discover-gym")}>Back to Discover Gyms</Button>
+          <h1 className="text-xl sm:text-2xl font-bold mb-4">Facility not found</h1>
+          <div className="flex gap-4 justify-center">
+            <Button onClick={() => navigate("/discover-gym")}>Browse Gyms</Button>
+            <Button variant="outline" onClick={() => navigate("/discover-clubs")}>Browse Clubs</Button>
+          </div>
         </div>
       </div>
     );
   }
 
-  // Gym details with proper property mapping
-  const gymDetails = {
-    fullAddress: gym.address,
-    phone: gym.phone_number,
-    email: gym.email,
-    timings: {
-      "Monday - Friday": gym.opening_time && gym.closing_time ? `${gym.opening_time.substring(11,16)} - ${gym.closing_time.substring(11,16)}` : "6:00 AM - 10:30 PM",
+  const isWellnessClub = gymClub.type === 'wellness-club';
+  const isComingSoon = gymClub.status === 'coming-soon';
+
+  // Facility details
+  const facilityDetails = {
+    fullAddress: gymClub.address,
+    phone: gymClub.phone_number,
+    email: gymClub.email,
+    timings: gymClub.opening_time && gymClub.closing_time ? {
+      "Monday - Friday": `${gymClub.opening_time.substring(11,16)} - ${gymClub.closing_time.substring(11,16)}`,
       "Saturday": "7:00 AM - 10:00 PM",
       "Sunday": "7:00 AM - 10:00 PM"
-    }
+    } : undefined
   };
 
   // Special timing for Brookfield gym
-  const isBrookfieldGym = gym.id === 3;
-  if (isBrookfieldGym) {
-    gymDetails.timings = {
+  const isBrookfieldGym = gymClub.id === 3;
+  if (isBrookfieldGym && facilityDetails.timings) {
+    facilityDetails.timings = {
       "Monday - Friday": "6:00 AM - 10:30 PM",
       "Saturday": "7:00 AM - 10:00 PM",
       "Sunday": "7:00 AM - 10:00 PM"
