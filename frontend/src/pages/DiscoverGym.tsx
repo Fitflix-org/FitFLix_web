@@ -87,8 +87,6 @@ const DiscoverGym = () => {
       amenities: ["Premium Equipment", "Professional Trainers", "Fitness Programs", "Cardio Zone", "Strength Training", "Group Classes", "Instagram Available"],
       is_deleted: false,
       verified: true,
-    },
-  ]);
 
   const [loading] = useState(false); // No longer loading from API
   const [error] = useState(""); // No API errors
@@ -131,20 +129,25 @@ const DiscoverGym = () => {
     return distance;
   };
 
-  // Filter and sort gyms
-  const filteredGyms = gyms
-    .filter(gym =>
-      gym.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      gym.address.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-    .map(gym => ({
-      ...gym,
+  // Filter and sort gyms and clubs
+  const filteredItems = gymsAndClubs
+    .filter(item => {
+      // Type filter
+      if (filterType !== 'all' && item.type !== filterType) return false;
+      
+      // Search filter
+      const searchLower = searchQuery.toLowerCase();
+      return item.name.toLowerCase().includes(searchLower) ||
+             item.address.toLowerCase().includes(searchLower);
+    })
+    .map(item => ({
+      ...item,
       distance: userLocation 
         ? calculateDistance(
             userLocation.lat, 
             userLocation.lng, 
-            parseFloat(gym.latitude), 
-            parseFloat(gym.longitude)
+            parseFloat(item.latitude), 
+            parseFloat(item.longitude)
           )
         : null
     }))
@@ -153,12 +156,19 @@ const DiscoverGym = () => {
       if (userLocation && a.distance !== null && b.distance !== null) {
         return a.distance - b.distance;
       }
-      // Otherwise, sort by rating (highest first)
-      return b.rating - a.rating;
+      // Otherwise, sort by rating (highest first) - only for items with rating
+      if (a.rating && b.rating) {
+        return b.rating - a.rating;
+      }
+      return 0;
     });
 
-  const handleViewDetails = (gym: Gym) => {
-    navigate(`/gym/${gym.id}`);
+  const handleViewDetails = (item: GymClubWithDistance) => {
+    if (item.type === 'wellness-club') {
+      navigate(`/wellness-club/${item.id}`);
+    } else {
+      navigate(`/gym/${item.id}`);
+    }
   };
 
   return (
