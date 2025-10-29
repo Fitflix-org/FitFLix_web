@@ -11,6 +11,8 @@ import SubdomainRedirect from "./components/SubdomainRedirect";
 import Home from "./pages/Home";
 import DiscoverGym from "./pages/DiscoverGym";
 import GymDetails from "./pages/GymDetails";
+import WellnessClubs from "./pages/WellnessClubs";
+import DiscoverClubs from "./pages/DiscoverClubs";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Events from "./pages/Events";
