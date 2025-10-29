@@ -20,21 +20,22 @@ interface GymClubWithDistance extends GymClub {
 
 const DiscoverGym = () => {
   useSEO({
-    title: "Discover Premium Gyms in Bangalore | Fitflix Fitness Centers",
-    description: "Find the best gyms in Bangalore including Marathahalli, Electronic City, and Brookefield. Premium fitness centers with modern equipment, personal training, and group classes.",
-    keywords: "gyms Bangalore, fitness centers Bangalore, Marathahalli gym, Electronic City gym, Brookefield gym, personal training, group classes, premium fitness, certified trainers",
-    ogTitle: "Discover Premium Gyms in Bangalore | Fitflix Fitness Centers",
-    ogDescription: "Find the best gyms in Bangalore including Marathahalli, Electronic City, and Brookefield. Premium fitness centers with modern equipment and personal training.",
+    title: "Discover Premium Gyms & Wellness Clubs | Fitflix",
+    description: "Find the best gyms and wellness clubs in Bangalore and Hyderabad including Marathahalli, Electronic City, Brookefield, and Sainikpuri. Premium fitness centers with modern equipment, personal training, and advanced wellness therapies.",
+    keywords: "gyms Bangalore, wellness clubs, fitness centers, Marathahalli gym, Electronic City gym, Brookefield gym, Sainikpuri wellness, personal training, group classes, cryotherapy, DNA testing, premium fitness",
+    ogTitle: "Discover Premium Gyms & Wellness Clubs | Fitflix",
+    ogDescription: "Find the best gyms and wellness clubs with state-of-the-art equipment, personal training, and advanced wellness therapies.",
     canonical: "https://fitflix.in/discover-gym"
   });
 
   const [searchQuery, setSearchQuery] = useState("");
   const [callbackFormOpen, setCallbackFormOpen] = useState(false);
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
+  const [filterType, setFilterType] = useState<'all' | 'gym' | 'wellness-club'>('all');
   const navigate = useNavigate();
 
-  // Local gym data stored in useState
-  const [gyms] = useState([
+  // Get data from shared source
+  const [gymsAndClubs] = useState(getActiveGymsAndClubs());
     {
       id: 1,
       name: "Fitflix Gym - Electronic City Phase I, Bengaluru",
