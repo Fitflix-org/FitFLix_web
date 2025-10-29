@@ -98,13 +98,23 @@ const Navigation = () => {
     { path: "/", label: "Home", icon: Home },
     { 
       path: "/discover-gym", 
-      label: "Discover Gym", 
+      label: "Gyms", 
       icon: Dumbbell,
       subItems: [
         { path: "/discover-gym", label: "All Gyms", description: "Browse all fitness locations" },
         { path: "/gym/1", label: "Electronic City", description: "Premium gym in EC Phase 1" },
         { path: "/gym/2", label: "Marathahalli", description: "Best gym in Marathahalli" },
         { path: "/gym/3", label: "Brookefield", description: "Premium fitness center" }
+      ]
+    },
+    { 
+      path: "/wellness-clubs", 
+      label: "Wellness Clubs", 
+      icon: Dumbbell,
+      subItems: [
+        { path: "/wellness-clubs", label: "About Wellness Clubs", description: "DNA-based personalized wellness" },
+        { path: "/discover-clubs", label: "Browse Clubs", description: "Find wellness clubs near you" },
+        { path: "/wellness-club/4", label: "Sainikpuri (Coming Soon)", description: "Premium wellness club in Hyderabad" }
       ]
     },
     { 
@@ -145,6 +155,7 @@ const Navigation = () => {
       icon: Dumbbell,
       subItems: [
         { path: "/discover-gym", label: "Premium Gyms", description: "State-of-the-art facilities", icon: Dumbbell },
+        { path: "/wellness-clubs", label: "Wellness Clubs", description: "DNA-based personalized wellness", icon: Dumbbell },
         { path: "/services#workout-app", label: "Workout App", description: "1000+ minutes of training", icon: Smartphone },
         { path: "/services#nutrition", label: "Nutrition Products", description: "Premium supplements", icon: ShoppingCart },
         { path: "/services#fitness-classes", label: "Fitness Classes", description: "Group & dance classes", icon: UsersIcon },
