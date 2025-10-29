@@ -250,41 +250,41 @@ const DiscoverGym = () => {
                   {/* Image */}
                   <div className="lg:col-span-1">
                     <div className="relative h-full min-h-[200px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
-                      {gym.id === 1 ? (
+                      {item.id === 1 ? (
                         // Electronic City gym - Single image
                         <OptimizedImage 
                           src="https://lh3.googleusercontent.com/p/AF1QipOx2pRaqdWCA4GzBMHvm_viNbAvGSZ6qEPpTpxF=w203-h152-k-no" 
-                          alt={gym.name}
+                          alt={item.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           width={600}
                           height={400}
                           sizes="(max-width: 1024px) 100vw, 33vw"
                         />
-                      ) : gym.id === 2 ? (
+                      ) : item.id === 2 ? (
                         // Marathahalli gym - use the poster image
                         <OptimizedImage 
                           src="/media/1714407900720.jpeg" 
-                          alt={gym.name}
+                          alt={item.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           width={600}
                           height={400}
                           sizes="(max-width: 1024px) 100vw, 33vw"
                         />
-                      ) : gym.id === 3 ? (
+                      ) : item.id === 3 ? (
                         // Brookfield gym
                         <OptimizedImage 
                           src="https://lh3.googleusercontent.com/p/AF1QipPhE2xLhB1-TR_c9bpJCRKVDhum7mQvFY10iZRo=w203-h138-k-no" 
-                          alt={gym.name}
+                          alt={item.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           width={600}
                           height={400}
                           sizes="(max-width: 1024px) 100vw, 33vw"
                         />
                       ) : (
-                        // Fallback image
+                        // Fallback image for wellness clubs
                         <OptimizedImage 
                           src="/src/assets/hero-fitness.jpg" 
-                          alt={gym.name}
+                          alt={item.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           width={600}
                           height={400}
@@ -294,77 +294,81 @@ const DiscoverGym = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
                       <div className="absolute top-3 right-3 flex flex-col gap-2">
                         <Badge variant="secondary" className="bg-primary/20 text-primary border-primary/30">
-                          {gym.verified ? 'Verified' : 'Unverified'}
+                          {item.verified ? 'Verified' : 'Unverified'}
                         </Badge>
                         <Badge variant="outline" className="bg-background/80 text-foreground border-foreground/20 text-xs">
-                          {gym.id === 1 ? 'Electronic City' : gym.id === 2 ? 'Marathahalli' : 'Brookefield'}
+                          {item.type === 'wellness-club' ? '✨ Wellness Club' : '💪 Gym'}
                         </Badge>
                       </div>
                     </div>
                   </div>
 
-                  {/* Gym Details */}
+                  {/* Details */}
                   <div className="lg:col-span-2 space-y-4">
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
-                          {gym.name}
+                          {item.name}
                         </h3>
                         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
                           <MapPin className="h-4 w-4" />
-                          <span>{gym.address.split(',')[0]}, {gym.address.split(',')[1]}</span>
-                          {gym.distance !== null && gym.distance !== undefined && (
+                          <span>{item.address.split(',')[0]}, {item.address.split(',')[1]}</span>
+                          {item.distance !== null && item.distance !== undefined && (
                             <span className="text-primary font-medium">
-                              • {gym.distance.toFixed(1)} km away
+                              • {item.distance.toFixed(1)} km away
                             </span>
                           )}
                         </div>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                        <span className="font-semibold">{gym.rating}</span>
-                      </div>
+                      {item.rating && (
+                        <div className="flex items-center gap-1">
+                          <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                          <span className="font-semibold">{item.rating}</span>
+                        </div>
+                      )}
                     </div>
 
                     <p className="text-muted-foreground leading-relaxed">
-                      {gym.description}
+                      {item.description}
                     </p>
 
                     {/* Amenities */}
                     <div className="flex flex-wrap gap-2">
-                      {gym.amenities.slice(0, 5).map((amenity, index) => (
+                      {item.amenities.slice(0, 5).map((amenity, index) => (
                         <Badge key={index} variant="outline" className="text-xs">
                           {amenity}
                         </Badge>
                       ))}
-                      {gym.amenities.length > 5 && (
+                      {item.amenities.length > 5 && (
                         <Badge variant="outline" className="text-xs">
-                          +{gym.amenities.length - 5} more
+                          +{item.amenities.length - 5} more
                         </Badge>
                       )}
                     </div>
 
-                    {/* Gym Hours */}
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4" />
-                      <span>
-                        {new Date(gym.opening_time).toLocaleTimeString('en-US', { 
-                          hour: '2-digit', 
-                          minute: '2-digit',
-                          hour12: true 
-                        })} - {new Date(gym.closing_time).toLocaleTimeString('en-US', { 
-                          hour: '2-digit', 
-                          minute: '2-digit',
-                          hour12: true 
-                        })}
-                      </span>
-                    </div>
+                    {/* Hours (only for active gyms with times) */}
+                    {item.opening_time && item.closing_time && (
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Clock className="h-4 w-4" />
+                        <span>
+                          {new Date(item.opening_time).toLocaleTimeString('en-US', { 
+                            hour: '2-digit', 
+                            minute: '2-digit',
+                            hour12: true 
+                          })} - {new Date(item.closing_time).toLocaleTimeString('en-US', { 
+                            hour: '2-digit', 
+                            minute: '2-digit',
+                            hour12: true 
+                          })}
+                        </span>
+                      </div>
+                    )}
 
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-3 pt-2">
                       <Button 
                         className="btn-fitness flex-1 sm:flex-none"
-                        onClick={() => navigate(`/gym/${gym.id}`)}
+                        onClick={() => handleViewDetails(item)}
                       >
                         View Details
                         <ArrowRight className="ml-2 h-4 w-4" />
@@ -375,7 +379,7 @@ const DiscoverGym = () => {
                         onClick={() => setCallbackFormOpen(true)}
                       >
                         <Phone className="mr-2 h-4 w-4" />
-                        Get Callback
+                        {item.type === 'wellness-club' ? 'Contact Us' : 'Get Callback'}
                       </Button>
                     </div>
                   </div>
