@@ -222,7 +222,7 @@ const Home = () => {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-4 gap-8">
             <Card className="group hover:shadow-xl transition-all duration-300 border-primary/10 hover:border-primary/30">
               <CardContent className="p-6">
                 <div className="text-center space-y-4">
@@ -236,6 +236,26 @@ const Home = () => {
                   <Button variant="outline" className="w-full" asChild>
                     <Link to="/discover-gym">
                       Find Your Gym
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-xl transition-all duration-300 border-primary/10 hover:border-primary/30 bg-gradient-to-br from-primary/5 to-secondary/5">
+              <CardContent className="p-6">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-primary/30 to-secondary/30 rounded-full flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                    <Sparkles className="h-8 w-8 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold">Wellness Clubs</h3>
+                  <p className="text-muted-foreground">
+                    DNA-based personalized wellness with Cryotherapy, HBOT, Infrared Sauna & more
+                  </p>
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to="/wellness-clubs">
+                      Explore Clubs
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
