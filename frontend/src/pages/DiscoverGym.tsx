@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Filter, MapPin, Clock, Star, Users, Wifi, Car, Dumbbell, ArrowRight, Phone } from "lucide-react";
+import { Search, Filter, MapPin, Clock, Star, Users, Wifi, Car, Dumbbell, ArrowRight, Phone, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -12,23 +12,9 @@ import { useSEO } from "@/hooks/useSEO";
 import OptimizedImage from "@/components/OptimizedImage";
 import { Link } from "react-router-dom";
 import Breadcrumb from "@/components/Breadcrumb";
+import { getActiveGymsAndClubs, type GymClub } from "@/data/gymsAndClubs";
 
-interface Gym {
-  id: number;
-  name: string;
-  address: string;
-  latitude: string;
-  longitude: string;
-  phone_number: string;
-  email: string;
-  opening_time: string;
-  closing_time: string;
-  holiday_dates: string[];
-  description: string;
-  rating: number;
-  amenities: string[];
-  is_deleted: boolean;
-  verified: boolean;
+interface GymClubWithDistance extends GymClub {
   distance?: number | null;
 }
 
