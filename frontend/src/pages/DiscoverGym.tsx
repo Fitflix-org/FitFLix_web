@@ -191,10 +191,10 @@ const DiscoverGym = () => {
           <div className="relative z-10 py-12 px-6">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white drop-shadow-lg">
               Discover Your <span className="text-primary">Perfect</span>{" "}
-              <span className="text-secondary">Gym</span>
+              <span className="text-secondary">Gym & Wellness Club</span>
             </h1>
             <p className="text-base md:text-lg text-white/90 max-w-2xl mx-auto px-4 drop-shadow-md">
-              Find the best fitness centers in your area with AI-powered recommendations and detailed insights
+              Find the best fitness centers and wellness clubs with premium facilities, advanced therapies, and personalized programs
             </p>
           </div>
         </div>
@@ -203,36 +203,36 @@ const DiscoverGym = () => {
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
-              placeholder="Search gyms by name, location, or specialty..."
+              placeholder="Search gyms and wellness clubs by name, location..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
             />
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Select defaultValue="all">
-              <SelectTrigger className="w-full sm:w-[180px]">
-                <SelectValue placeholder="All Gyms" />
+            <Select value={filterType} onValueChange={(value: any) => setFilterType(value)}>
+              <SelectTrigger className="w-full sm:w-[200px]">
+                <SelectValue placeholder="All Facilities" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Gyms</SelectItem>
-                <SelectItem value="strength">Strength Training</SelectItem>
-                <SelectItem value="yoga">Yoga & Wellness</SelectItem>
-                <SelectItem value="powerlifting">Powerlifting</SelectItem>
-                <SelectItem value="cardio">HIIT & Cardio</SelectItem>
+                <SelectItem value="all">All Facilities</SelectItem>
+                <SelectItem value="gym">Gyms Only</SelectItem>
+                <SelectItem value="wellness-club">Wellness Clubs Only</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="outline" className="flex items-center gap-2">
-              <Filter className="h-4 w-4" />
-              Filter
-            </Button>
+            <Link to="/coming-soon-clubs">
+              <Button variant="outline" className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4" />
+                Coming Soon Clubs
+              </Button>
+            </Link>
           </div>
         </div>
         {/* Results Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div className="flex flex-col gap-1">
             <p className="text-muted-foreground">
-              <span className="text-primary font-semibold">{filteredGyms.length}</span> gyms found
+              <span className="text-primary font-semibold">{filteredItems.length}</span> {filterType === 'gym' ? 'gyms' : filterType === 'wellness-club' ? 'wellness clubs' : 'facilities'} found
             </p>
             {userLocation && (
               <p className="text-xs text-muted-foreground">
@@ -241,13 +241,13 @@ const DiscoverGym = () => {
             )}
           </div>
         </div>
-        {/* Enhanced Gym Cards with Better Internal Linking */}
+        {/* Enhanced Cards with Better Internal Linking */}
         <div className="grid lg:grid-cols-1 gap-6">
-          {filteredGyms.map((gym) => (
-            <Card key={gym.id} className="group hover:shadow-xl transition-all duration-300 border-primary/10 hover:border-primary/30">
+          {filteredItems.map((item) => (
+            <Card key={item.id} className="group hover:shadow-xl transition-all duration-300 border-primary/10 hover:border-primary/30">
               <CardContent className="p-6">
                 <div className="grid lg:grid-cols-3 gap-6 items-stretch">
-                  {/* Gym Image */}
+                  {/* Image */}
                   <div className="lg:col-span-1">
                     <div className="relative h-full min-h-[200px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
                       {gym.id === 1 ? (
