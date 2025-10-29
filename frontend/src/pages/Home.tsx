@@ -6,7 +6,8 @@ import {
   Clock,
   Dumbbell,
   Smartphone,
-  ShoppingCart
+  ShoppingCart,
+  Sparkles
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
