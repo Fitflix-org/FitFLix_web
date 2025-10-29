@@ -220,12 +220,6 @@ const DiscoverGym = () => {
                 <SelectItem value="wellness-club">Wellness Clubs Only</SelectItem>
               </SelectContent>
             </Select>
-            <Link to="/coming-soon-clubs">
-              <Button variant="outline" className="flex items-center gap-2">
-                <Sparkles className="h-4 w-4" />
-                Coming Soon Clubs
-              </Button>
-            </Link>
           </div>
         </div>
         {/* Results Header */}
