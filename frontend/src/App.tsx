@@ -61,6 +61,7 @@ const AppContent = () => {
       <Navigation />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/gyms" element={<Gyms />} />
         <Route path="/discover-gym" element={<DiscoverGym />} />
         <Route path="/gym/:id" element={<GymDetails />} />
         <Route path="/wellness-clubs" element={<WellnessClubs />} />
