@@ -16,15 +16,11 @@ export default defineConfig(({ mode }) => ({
     ]
   },
   build: {
-    outDir: 'build'
-  },
-  define: {
-    // Ensure environment variables are available
-    'process.env': {}
-  },
+    outDir: 'build',
+    // Optimized for production
+    target: 'es2020',
     minify: 'terser',
     sourcemap: mode === 'development',
-    outDir: 'dist',
     assetsDir: 'assets',
     terserOptions: {
       compress: {
@@ -60,6 +56,10 @@ export default defineConfig(({ mode }) => ({
     chunkSizeWarningLimit: 500,
     cssCodeSplit: true,
     reportCompressedSize: true,
+  },
+  define: {
+    // Ensure environment variables are available
+    'process.env': {}
   },
   plugins: [
     react({
