@@ -169,10 +169,10 @@ const Navigation = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+      <div className="container mx-auto px-6">
+        <div className="flex items-center justify-between h-20 gap-8">
           {/* Logo */}
-          <Link to="/" className="flex items-center group">
+          <Link to="/" className="flex items-center group flex-shrink-0">
             <div className="relative">
               <OptimizedImage 
                 src="/media/fitflix-icon.png" 
@@ -187,7 +187,7 @@ const Navigation = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
+          <div className="hidden lg:flex items-center space-x-2 xl:space-x-6 flex-1 justify-center">
             {navItems.map((item) => {
               const Icon = item.icon;
               if (item.subItems) {
@@ -195,7 +195,7 @@ const Navigation = () => {
                   <div key={item.path} className="relative group">
                     <Link
                       to={item.path}
-                      className={`flex items-center space-x-2 px-3 py-2 rounded-full transition-all duration-300 text-sm ${
+                      className={`flex items-center space-x-2 px-4 py-2.5 rounded-full transition-all duration-300 text-sm ${
                         isActive(item.path)
                           ? "bg-primary text-primary-foreground shadow-primary"
                           : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -235,7 +235,7 @@ const Navigation = () => {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-full transition-all duration-300 text-sm ${
+                  className={`flex items-center space-x-2 px-4 py-2.5 rounded-full transition-all duration-300 text-sm ${
                     isActive(item.path)
                       ? "bg-primary text-primary-foreground shadow-primary"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -249,16 +249,16 @@ const Navigation = () => {
           </div>
 
           {/* Desktop Location Button */}
-          <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
+          <div className="hidden md:flex items-center space-x-3 lg:space-x-4 flex-shrink-0">
             {userLocation ? (
-              <Button variant="outline" className="flex items-center gap-2 rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm px-3 py-2">
+              <Button variant="outline" className="flex items-center gap-2 rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm px-4 py-2.5">
                 <MapPin className="h-4 w-4" />
                 Location Enabled
               </Button>
             ) : (
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline" className="flex items-center gap-2 rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm px-3 py-2">
+                  <Button variant="outline" className="flex items-center gap-2 rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground text-sm px-4 py-2.5">
                     <MapPin className="h-4 w-4" />
                     Enable Location
                   </Button>
@@ -321,8 +321,8 @@ const Navigation = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-16 left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border animate-fade-in">
-            <div className="container mx-auto px-4 py-4 space-y-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
+          <div className="lg:hidden absolute top-20 left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border animate-fade-in">
+            <div className="container mx-auto px-6 py-6 space-y-3 max-h-[calc(100vh-5rem)] overflow-y-auto">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 if (item.subItems) {

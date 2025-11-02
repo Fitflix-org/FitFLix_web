@@ -35,7 +35,7 @@ const DiscoverGym = () => {
   const navigate = useNavigate();
 
   // Get data from shared source
-  const [gymsAndClubs] = useState(getActiveGymsAndClubs());
+  const [gymsAndClubs] = useState<GymClubWithDistance[]>(getActiveGymsAndClubs());
 
   const [loading] = useState(false); // No longer loading from API
   const [error] = useState(""); // No API errors
