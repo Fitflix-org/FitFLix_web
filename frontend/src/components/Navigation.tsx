@@ -97,11 +97,12 @@ const Navigation = () => {
   const navItems = [
     { path: "/", label: "Home", icon: Home },
     { 
-      path: "/discover-gym", 
+      path: "/gyms", 
       label: "Gyms", 
       icon: Dumbbell,
       subItems: [
-        { path: "/discover-gym", label: "All Gyms", description: "Browse all fitness locations" },
+        { path: "/gyms", label: "About Gyms", description: "Premium fitness centers" },
+        { path: "/discover-gym", label: "Browse Gyms", description: "Find gyms near you" },
         { path: "/gym/1", label: "Electronic City", description: "Premium gym in EC Phase 1" },
         { path: "/gym/2", label: "Marathahalli", description: "Best gym in Marathahalli" },
         { path: "/gym/3", label: "Brookefield", description: "Premium fitness center" }
