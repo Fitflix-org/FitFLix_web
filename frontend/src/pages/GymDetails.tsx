@@ -25,7 +25,7 @@ import CallbackForm from "@/components/CallbackForm";
 import { useSEO } from "@/hooks/useSEO";
 import OptimizedImage from "@/components/OptimizedImage";
 import Breadcrumb from "@/components/Breadcrumb";
-import { getGymClubById } from "@/data/gymsAndClubs";
+import { getGymClubById, getAllGyms, gymsAndClubs } from "@/data/gymsAndClubs";
 
 const GymDetails = () => {
   const { id } = useParams();
@@ -37,6 +37,9 @@ const GymDetails = () => {
 
   // Get gym/club data from shared source
   const gymClub = getGymClubById(parseInt(id || "0"));
+  
+  // Get all gyms for the "Other Locations" section
+  const gyms = getAllGyms();
 
   // Gallery functions
   const openGallery = (images: string[], startIndex: number = 0) => {
@@ -133,20 +136,20 @@ const GymDetails = () => {
         <div className="text-center mb-8">
            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
              <div className="flex flex-col gap-3">
-               <h1 className="text-2xl sm:text-3xl font-bold">{gym.name}</h1>
+               <h1 className="text-2xl sm:text-3xl font-bold">{gymClub.name}</h1>
                <div className="flex items-center gap-2 flex-wrap">
                  <div className="flex items-center gap-1">
-                   {[...Array(5)].map((_, i) => (
+                   {gymClub.rating && [...Array(5)].map((_, i) => (
                      <Star
                        key={i}
                        className={`h-4 w-4 ${
-                         i < Math.floor(gym.rating)
+                         i < Math.floor(gymClub.rating!)
                            ? "fill-yellow-400 text-yellow-400"
                            : "text-gray-300"
                        }`}
                      />
                    ))}
-                   <span className="text-sm font-medium ml-1">{gym.rating}/5</span>
+                   {gymClub.rating && <span className="text-sm font-medium ml-1">{gymClub.rating}/5</span>}
                  </div>
                </div>
              </div>
@@ -162,11 +165,18 @@ const GymDetails = () => {
            </div>
            
            <div className="flex items-center gap-2 flex-wrap">
-             <Badge variant="secondary" className="text-xs">Premium Gym</Badge>
-             <Badge className="bg-primary text-primary-foreground text-xs">
-               Premium Membership
-             </Badge>
-             {gym.verified && (
+             <Badge variant="secondary" className="text-xs">{isWellnessClub ? 'Wellness Club' : 'Premium Gym'}</Badge>
+             {isComingSoon ? (
+               <Badge className="bg-primary text-primary-foreground text-xs">
+                 <Sparkles className="mr-1 h-3 w-3" />
+                 Coming Soon {gymClub.opening_date && `- ${gymClub.opening_date}`}
+               </Badge>
+             ) : (
+               <Badge className="bg-primary text-primary-foreground text-xs">
+                 Premium Membership
+               </Badge>
+             )}
+             {gymClub.verified && (
                <Badge variant="outline" className="bg-green-500/10 text-green-500 border-green-500 text-xs">
                  ✓ Verified
                </Badge>
@@ -180,7 +190,7 @@ const GymDetails = () => {
                          {/* Video/Image Section */}
                          <Card>
               <CardContent className="p-0">
-                {gym.id === 1 ? (
+                {gymClub.id === 1 ? (
                   // Electronic City gym - Image gallery
                   <div className="space-y-4">
                     {/* Main Image */}
@@ -292,7 +302,7 @@ const GymDetails = () => {
                         </div>
                       </div>
                   </div>
-                ) : gym.id === 2 ? (
+                ) : gymClub.id === 2 ? (
                    // Marathahalli gym - Video with image gallery
                    <div className="space-y-4">
                                            {/* Main Video */}
@@ -386,7 +396,7 @@ const GymDetails = () => {
                        </div>
                      </div>
                    </div>
-                                                   ) : gym.id === 3 ? (
+                                                   ) : gymClub.id === 3 ? (
                    // Brookfield gym - Image gallery (same pattern as others)
                    <div className="space-y-4">
                      {/* Main Image */}
@@ -501,9 +511,11 @@ const GymDetails = () => {
             {/* About This Gym */}
             <Card>
               <CardContent className="p-4 sm:p-6">
-                <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">About This Gym</h3>
+                <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
+                  About This {isWellnessClub ? 'Wellness Club' : 'Gym'}
+                </h3>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                  {gym.description}
+                  {gymClub.description}
                 </p>
               </CardContent>
             </Card>
@@ -517,21 +529,21 @@ const GymDetails = () => {
                     <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-primary mt-0.5 flex-shrink-0" />
                     <div className="min-w-0 flex-1">
                       <p className="font-medium text-sm sm:text-base">Address:</p>
-                      <p className="text-blue-600 hover:underline cursor-pointer text-sm sm:text-base break-words">{gymDetails.fullAddress}</p>
+                      <p className="text-blue-600 hover:underline cursor-pointer text-sm sm:text-base break-words">{facilityDetails.fullAddress}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <Phone className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
                     <div>
                       <p className="font-medium text-sm sm:text-base">Phone:</p>
-                      <p className="text-blue-600 hover:underline cursor-pointer text-sm sm:text-base">{gymDetails.phone}</p>
+                      <p className="text-blue-600 hover:underline cursor-pointer text-sm sm:text-base">{facilityDetails.phone}</p>
                     </div>
                   </div>
                                      <div className="flex items-center gap-3">
                      <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
                      <div>
                        <p className="font-medium text-sm sm:text-base">Email:</p>
-                       <p className="text-blue-600 hover:underline cursor-pointer text-sm sm:text-base break-all">{gymDetails.email}</p>
+                       <p className="text-blue-600 hover:underline cursor-pointer text-sm sm:text-base break-all">{facilityDetails.email}</p>
                      </div>
                    </div>
                    {/* Social Media Links */}
@@ -564,7 +576,7 @@ const GymDetails = () => {
               <CardContent className="p-4 sm:p-6">
                 <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Amenities & Features</h3>
                 <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  {gym.amenities && gym.amenities.map((amenity, index) => (
+                  {gymClub.amenities && gymClub.amenities.map((amenity, index) => (
                     <Badge key={index} variant="outline" className="px-2 py-1 sm:px-3 text-xs">
                       {amenity}
                     </Badge>
@@ -625,7 +637,7 @@ const GymDetails = () => {
               <CardContent className="p-4 sm:p-6">
                 <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Other Fitflix Locations</h3>
                 <div className="space-y-3">
-                  {gyms.filter(g => g.id !== gym.id).map((otherGym) => (
+                  {gyms.filter(g => g.id !== gymClub.id).map((otherGym) => (
                     <Link 
                       key={otherGym.id}
                       to={`/gym/${otherGym.id}`}
@@ -662,22 +674,24 @@ const GymDetails = () => {
                      {/* Right Column - Gym Timings & Map */}
            <div className="lg:col-span-1 space-y-4 sm:space-y-6">
              {/* Gym Timings */}
-             <Card>
-               <CardContent className="p-4 sm:p-6">
-                 <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                   <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
-                   <h3 className="text-base sm:text-lg font-semibold">Gym Timings</h3>
-                 </div>
-                 <div className="space-y-2 sm:space-y-3">
-                   {Object.entries(gymDetails.timings).map(([day, hours]) => (
-                     <div key={day} className="flex justify-between items-start gap-2">
-                       <span className="font-medium text-sm sm:text-base flex-shrink-0">{day}:</span>
-                       <span className="text-right text-sm sm:text-base">{hours}</span>
-                     </div>
-                   ))}
-                 </div>
-               </CardContent>
-             </Card>
+             {facilityDetails.timings && (
+               <Card>
+                 <CardContent className="p-4 sm:p-6">
+                   <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                     <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                     <h3 className="text-base sm:text-lg font-semibold">{isWellnessClub ? 'Club' : 'Gym'} Timings</h3>
+                   </div>
+                   <div className="space-y-2 sm:space-y-3">
+                     {Object.entries(facilityDetails.timings).map(([day, hours]) => (
+                       <div key={day} className="flex justify-between items-start gap-2">
+                         <span className="font-medium text-sm sm:text-base flex-shrink-0">{day}:</span>
+                         <span className="text-right text-sm sm:text-base">{hours}</span>
+                       </div>
+                     ))}
+                   </div>
+                 </CardContent>
+               </Card>
+             )}
 
              {/* Interactive Map */}
              <Card>
@@ -689,14 +703,14 @@ const GymDetails = () => {
                  <div className="space-y-3">
                    <div className="aspect-square w-full rounded-lg overflow-hidden border border-border">
                      <iframe
-                       title={`${gym.name} Location`}
+                       title={`${gymClub.name} Location`}
                        width="100%"
                        height="100%"
                        style={{ border: 0 }}
                        loading="lazy"
                        allowFullScreen
                        referrerPolicy="no-referrer-when-downgrade"
-                       src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(gym.address)}&center=${gym.latitude},${gym.longitude}&zoom=15`}
+                       src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(gymClub.address)}&center=${gymClub.latitude},${gymClub.longitude}&zoom=15`}
                      />
                    </div>
                    <div className="text-center">
@@ -705,7 +719,7 @@ const GymDetails = () => {
                        size="sm"
                        className="w-full"
                        onClick={() => {
-                         const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(gym.address)}`;
+                         const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(gymClub.address)}`;
                          window.open(url, '_blank');
                        }}
                      >
@@ -725,8 +739,8 @@ const GymDetails = () => {
         <CallbackForm
           isOpen={callbackFormOpen}
           onClose={() => setCallbackFormOpen(false)}
-          prefillLocation={gym.name}
-          gymId={gym.id}
+          prefillLocation={gymClub.name}
+          gymId={gymClub.id}
         />
 
         {/* Gallery Modal */}
@@ -789,3 +803,5 @@ const GymDetails = () => {
 };
 
 export default GymDetails;
+
+
