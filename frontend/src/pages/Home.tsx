@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   ArrowRight, 
@@ -28,7 +29,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen pt-16">
-      {/* Hero Section */}
+      {/* Hero Section - Luxury Brand Showcase */}
       <section 
         className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
         style={{ 
@@ -36,14 +37,17 @@ const Home = () => {
         }}
       >
         <div className="container mx-auto px-4 text-center relative z-10">
-          <div className="max-w-4xl mx-auto animate-fade-in">
+          <div className="max-w-5xl mx-auto animate-fade-in">
             <h1 className="hero-title text-white mb-6">
               <span className="text-transparent bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text">Fitflix</span>
               <br />
               <span className="block text-3xl md:text-5xl lg:text-6xl">TRAIN. HEAL. GROW.</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed">
-              India's Fitness Revolution – Rooted in Science. Powered by Tradition.
+            <p className="text-xl md:text-2xl text-gray-200 mb-4 leading-relaxed font-semibold">
+              India's Premier Fitness & Wellness Ecosystem
+            </p>
+            <p className="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
+              Experience luxury fitness with premium gyms and DNA-based wellness clubs. Where science meets tradition, and excellence meets results.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button 
@@ -51,18 +55,21 @@ const Home = () => {
                 className="btn-fitness text-lg px-8 py-4 group"
                 asChild
               >
-                <Link to="/discover-gym">
-                  Discover Gyms
+                <Link to="/gyms">
+                  Explore Gyms
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
               <Button 
                 size="lg" 
-                variant="outline" 
-                className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white hover:text-background text-lg px-8 py-4"
+                className="bg-gradient-to-r from-primary to-secondary text-white hover:opacity-90 text-lg px-8 py-4 group"
+                asChild
               >
-                <PlayCircle className="mr-2 h-5 w-5" />
-                Watch Demo
+                <Link to="/wellness-clubs">
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Wellness Clubs
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </Button>
             </div>
           </div>
@@ -73,29 +80,35 @@ const Home = () => {
         <div className="absolute bottom-20 right-10 w-32 h-32 bg-secondary/20 rounded-full blur-xl animate-glow-pulse" style={{ animationDelay: '1s' }} />
       </section>
 
-      {/* Premium Features Section */}
+      {/* Dual Services Showcase Section */}
       <section className="py-20 bg-gradient-to-b from-background to-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black gradient-text mb-6">
-              Premium Gym Experience
+              Elevate Your Fitness & Wellness
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              State-of-the-art facilities and cutting-edge equipment for your ultimate workout
+              Choose your path to excellence – High-performance training or DNA-optimized wellness
             </p>
           </div>
           
+          {/* Premium Gyms Highlight */}
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
             <div className="space-y-8">
               <div>
-                <h3 className="text-3xl font-bold mb-4">Advanced Equipment & Training</h3>
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  Access premium strength training equipment, cardio machines, and functional training areas 
-                  designed to maximize your workout efficiency and results.
+                <Badge className="mb-4 bg-primary/20 text-primary border-primary/30">
+                  <Dumbbell className="mr-2 h-4 w-4" />
+                  Premium Gyms
+                </Badge>
+                <h3 className="text-3xl md:text-4xl font-bold mb-4">
+                  State-of-the-Art Fitness Centers
+                </h3>
+                <p className="text-lg text-muted-foreground">
+                  Experience premium gym facilities with cutting-edge equipment, certified trainers, and personalized training programs designed to maximize your workout efficiency and results.
                 </p>
-                <Button className="btn-fitness" asChild>
-                  <Link to="/discover-gym">
-                    Explore Equipment
+                <Button className="btn-fitness mt-6" asChild>
+                  <Link to="/gyms">
+                    Explore Gyms
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
@@ -121,7 +134,7 @@ const Home = () => {
               <div className="bg-gradient-to-br from-secondary/10 to-primary/10 rounded-3xl p-2 backdrop-blur-sm border border-secondary/20">
                 <OptimizedImage 
                   src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop" 
-                  alt="Group Fitness Classes" 
+                  alt="Wellness & Recovery" 
                   className="w-full h-[400px] object-cover rounded-2xl shadow-2xl"
                   width={800}
                   height={600}
@@ -132,14 +145,20 @@ const Home = () => {
             </div>
             <div className="space-y-8 order-1 lg:order-2">
               <div>
-                <h3 className="text-3xl font-bold mb-4">Group Fitness & Personal Training</h3>
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  Join energizing group fitness classes or work one-on-one with certified personal trainers 
-                  to achieve your specific fitness goals faster and safer.
+                <Badge className="mb-4 bg-gradient-to-r from-primary/20 to-secondary/20 text-primary border-primary/30">
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Wellness Clubs
+                </Badge>
+                <h3 className="text-3xl md:text-4xl font-bold mb-4">
+                  DNA-Based Personalized Wellness
+                </h3>
+                <p className="text-lg text-muted-foreground">
+                  Revolutionary wellness experience with DNA testing, Cryotherapy, HBOT, Infrared Sauna, Cold Plunge, and more. Your DNA, Your Wellness, Your Way.
                 </p>
-                <Button className="btn-fitness" asChild>
-                  <Link to="/services">
-                    Book Training
+                <Button className="btn-fitness mt-6 bg-gradient-to-r from-primary to-secondary" asChild>
+                  <Link to="/wellness-clubs">
+                    <Sparkles className="mr-2 h-5 w-5" />
+                    Discover Wellness
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
@@ -235,8 +254,8 @@ const Home = () => {
                     Visit our state-of-the-art fitness centers in Electronic City, Marathahalli, and Brookefield
                   </p>
                   <Button variant="outline" className="w-full" asChild>
-                    <Link to="/discover-gym">
-                      Find Your Gym
+                    <Link to="/gyms">
+                      Explore Gyms
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
@@ -315,7 +334,7 @@ const Home = () => {
               Ready to Transform?
             </h2>
             <p className="text-xl text-white/90 mb-8 leading-relaxed">
-              Join thousands of fitness enthusiasts who've already started their journey
+              Choose your path – Premium fitness or personalized wellness. Join the Fitflix revolution.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
@@ -323,18 +342,21 @@ const Home = () => {
                 className="bg-white text-background hover:bg-white/90 text-lg px-8 py-4 group"
                 asChild
               >
-                <Link to="/discover-gym">
-                  Start Your Journey
+                <Link to="/gyms">
+                  Explore Gyms
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
               <Button 
                 size="lg" 
-                variant="outline" 
-                className="border-white/30 text-white hover:bg-white/10 text-lg px-8 py-4"
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-background text-lg px-8 py-4 group"
+                asChild
               >
-                <Clock className="mr-2 h-5 w-5" />
-                Book Free Trial
+                <Link to="/wellness-clubs">
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Wellness Clubs
+                </Link>
               </Button>
             </div>
           </div>

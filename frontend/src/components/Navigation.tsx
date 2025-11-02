@@ -97,11 +97,12 @@ const Navigation = () => {
   const navItems = [
     { path: "/", label: "Home", icon: Home },
     { 
-      path: "/discover-gym", 
+      path: "/gyms", 
       label: "Gyms", 
       icon: Dumbbell,
       subItems: [
-        { path: "/discover-gym", label: "All Gyms", description: "Browse all fitness locations" },
+        { path: "/gyms", label: "About Gyms", description: "Premium fitness centers" },
+        { path: "/discover-gym", label: "Browse Gyms", description: "Find gyms near you" },
         { path: "/gym/1", label: "Electronic City", description: "Premium gym in EC Phase 1" },
         { path: "/gym/2", label: "Marathahalli", description: "Best gym in Marathahalli" },
         { path: "/gym/3", label: "Brookefield", description: "Premium fitness center" }
@@ -154,7 +155,7 @@ const Navigation = () => {
       label: "Services", 
       icon: Dumbbell,
       subItems: [
-        { path: "/discover-gym", label: "Premium Gyms", description: "State-of-the-art facilities", icon: Dumbbell },
+        { path: "/gyms", label: "Premium Gyms", description: "State-of-the-art facilities", icon: Dumbbell },
         { path: "/wellness-clubs", label: "Wellness Clubs", description: "DNA-based personalized wellness", icon: Dumbbell },
         { path: "/services#workout-app", label: "Workout App", description: "1000+ minutes of training", icon: Smartphone },
         { path: "/services#nutrition", label: "Nutrition Products", description: "Premium supplements", icon: ShoppingCart },

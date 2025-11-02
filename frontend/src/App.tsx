@@ -9,6 +9,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import Navigation from "./components/Navigation";
 import SubdomainRedirect from "./components/SubdomainRedirect";
 import Home from "./pages/Home";
+import Gyms from "./pages/Gyms";
 import DiscoverGym from "./pages/DiscoverGym";
 import GymDetails from "./pages/GymDetails";
 import WellnessClubs from "./pages/WellnessClubs";
@@ -60,6 +61,7 @@ const AppContent = () => {
       <Navigation />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/gyms" element={<Gyms />} />
         <Route path="/discover-gym" element={<DiscoverGym />} />
         <Route path="/gym/:id" element={<GymDetails />} />
         <Route path="/wellness-clubs" element={<WellnessClubs />} />
