@@ -80,29 +80,35 @@ const Home = () => {
         <div className="absolute bottom-20 right-10 w-32 h-32 bg-secondary/20 rounded-full blur-xl animate-glow-pulse" style={{ animationDelay: '1s' }} />
       </section>
 
-      {/* Premium Features Section */}
+      {/* Dual Services Showcase Section */}
       <section className="py-20 bg-gradient-to-b from-background to-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black gradient-text mb-6">
-              Premium Gym Experience
+              Elevate Your Fitness & Wellness
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              State-of-the-art facilities and cutting-edge equipment for your ultimate workout
+              Choose your path to excellence – High-performance training or DNA-optimized wellness
             </p>
           </div>
           
+          {/* Premium Gyms Highlight */}
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
             <div className="space-y-8">
               <div>
-                <h3 className="text-3xl font-bold mb-4">Advanced Equipment & Training</h3>
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  Access premium strength training equipment, cardio machines, and functional training areas 
-                  designed to maximize your workout efficiency and results.
+                <Badge className="mb-4 bg-primary/20 text-primary border-primary/30">
+                  <Dumbbell className="mr-2 h-4 w-4" />
+                  Premium Gyms
+                </Badge>
+                <h3 className="text-3xl md:text-4xl font-bold mb-4">
+                  State-of-the-Art Fitness Centers
+                </h3>
+                <p className="text-lg text-muted-foreground">
+                  Experience premium gym facilities with cutting-edge equipment, certified trainers, and personalized training programs designed to maximize your workout efficiency and results.
                 </p>
-                <Button className="btn-fitness" asChild>
-                  <Link to="/discover-gym">
-                    Explore Equipment
+                <Button className="btn-fitness mt-6" asChild>
+                  <Link to="/gyms">
+                    Explore Gyms
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
