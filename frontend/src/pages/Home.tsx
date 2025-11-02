@@ -254,8 +254,8 @@ const Home = () => {
                     Visit our state-of-the-art fitness centers in Electronic City, Marathahalli, and Brookefield
                   </p>
                   <Button variant="outline" className="w-full" asChild>
-                    <Link to="/discover-gym">
-                      Find Your Gym
+                    <Link to="/gyms">
+                      Explore Gyms
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
