@@ -334,7 +334,7 @@ const Home = () => {
               Ready to Transform?
             </h2>
             <p className="text-xl text-white/90 mb-8 leading-relaxed">
-              Join thousands of fitness enthusiasts who've already started their journey
+              Choose your path – Premium fitness or personalized wellness. Join the Fitflix revolution.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
@@ -342,12 +342,22 @@ const Home = () => {
                 className="bg-white text-background hover:bg-white/90 text-lg px-8 py-4 group"
                 asChild
               >
-                <Link to="/discover-gym">
-                  Start Your Journey
+                <Link to="/gyms">
+                  Explore Gyms
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
               <Button 
+                size="lg" 
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-background text-lg px-8 py-4 group"
+                asChild
+              >
+                <Link to="/wellness-clubs">
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Wellness Clubs
+                </Link>
+              </Button> 
                 size="lg" 
                 variant="outline" 
                 className="border-white/30 text-white hover:bg-white/10 text-lg px-8 py-4"
