@@ -357,13 +357,6 @@ const Home = () => {
                   <Sparkles className="mr-2 h-5 w-5" />
                   Wellness Clubs
                 </Link>
-              </Button> 
-                size="lg" 
-                variant="outline" 
-                className="border-white/30 text-white hover:bg-white/10 text-lg px-8 py-4"
-              >
-                <Clock className="mr-2 h-5 w-5" />
-                Book Free Trial
               </Button>
             </div>
           </div>
