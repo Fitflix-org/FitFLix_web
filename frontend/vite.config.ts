@@ -7,16 +7,21 @@ import { VitePWA } from 'vite-plugin-pwa';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
-    host: "::",
-    port: 8080,
+    host: "0.0.0.0",
+    port: 3000,
+    allowedHosts: [
+      "exercise-map.preview.emergentagent.com",
+      ".emergentagent.com",
+      "localhost"
+    ]
+  },
+  build: {
+    outDir: 'build'
   },
   define: {
     // Ensure environment variables are available
     'process.env': {}
   },
-  build: {
-    // Optimized for production
-    target: 'es2020',
     minify: 'terser',
     sourcemap: mode === 'development',
     outDir: 'dist',
