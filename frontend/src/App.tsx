@@ -9,6 +9,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import Navigation from "./components/Navigation";
 import SubdomainRedirect from "./components/SubdomainRedirect";
 import Home from "./pages/Home";
+import Gyms from "./pages/Gyms";
 import DiscoverGym from "./pages/DiscoverGym";
 import GymDetails from "./pages/GymDetails";
 import WellnessClubs from "./pages/WellnessClubs";
