@@ -28,7 +28,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen pt-16">
-      {/* Hero Section */}
+      {/* Hero Section - Luxury Brand Showcase */}
       <section 
         className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
         style={{ 
@@ -36,14 +36,17 @@ const Home = () => {
         }}
       >
         <div className="container mx-auto px-4 text-center relative z-10">
-          <div className="max-w-4xl mx-auto animate-fade-in">
+          <div className="max-w-5xl mx-auto animate-fade-in">
             <h1 className="hero-title text-white mb-6">
               <span className="text-transparent bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text">Fitflix</span>
               <br />
               <span className="block text-3xl md:text-5xl lg:text-6xl">TRAIN. HEAL. GROW.</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed">
-              India's Fitness Revolution – Rooted in Science. Powered by Tradition.
+            <p className="text-xl md:text-2xl text-gray-200 mb-4 leading-relaxed font-semibold">
+              India's Premier Fitness & Wellness Ecosystem
+            </p>
+            <p className="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
+              Experience luxury fitness with premium gyms and DNA-based wellness clubs. Where science meets tradition, and excellence meets results.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button 
@@ -51,18 +54,21 @@ const Home = () => {
                 className="btn-fitness text-lg px-8 py-4 group"
                 asChild
               >
-                <Link to="/discover-gym">
-                  Discover Gyms
+                <Link to="/gyms">
+                  Explore Gyms
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
               <Button 
                 size="lg" 
-                variant="outline" 
-                className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white hover:text-background text-lg px-8 py-4"
+                className="bg-gradient-to-r from-primary to-secondary text-white hover:opacity-90 text-lg px-8 py-4 group"
+                asChild
               >
-                <PlayCircle className="mr-2 h-5 w-5" />
-                Watch Demo
+                <Link to="/wellness-clubs">
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Wellness Clubs
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </Button>
             </div>
           </div>
