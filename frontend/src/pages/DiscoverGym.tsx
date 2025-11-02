@@ -36,57 +36,6 @@ const DiscoverGym = () => {
 
   // Get data from shared source
   const [gymsAndClubs] = useState(getActiveGymsAndClubs());
-    {
-      id: 1,
-      name: "Fitflix Gym - Electronic City Phase I, Bengaluru",
-      address: "94, 3rd floor above Domino's, Opp- Ajmera Infinity, Neeladri Road, EC Phase, 1, Bengaluru, Karnataka 560100",
-      latitude: "12.8441",
-      longitude: "77.6675",
-      phone_number: "+91 99456 82792",
-      email: "info@fitflix.in",
-      opening_time: "1970-01-01T06:30:00.000Z",
-      closing_time: "1970-01-01T22:30:00.000Z",
-      holiday_dates: [],
-      description: "Fitflix Gym Electronic City Phase I offers facilities like Parking, Personal Training, Group Classes, Free Trial, Shower, Nutritional Support, Locker room, Certified Trainers.",
-      rating: 4.8,
-      amenities: ["Parking", "Personal Training", "Group Classes", "Shower", "Locker room"],
-      is_deleted: false,
-      verified: true,
-    },
-
-    {
-      id: 2,
-      name: "FITFLIX GYM MARATHAHALLI - Best gym in Marathahalli",
-      address: "4th floor, Kishan icon, SOUL SPACE PARADIGM, 90/2, next to IRONHILL, above BARKAAZ, Marathahalli Village, Marathahalli, Bengaluru, Karnataka 560037, India",
-      latitude: "12.9512291",
-      longitude: "77.6994058",
-      phone_number: "+91 89043 91501",
-      email: "info@fitflix.in",
-      opening_time: "1970-01-01T06:00:00.000Z",
-      closing_time: "1970-01-01T22:30:00.000Z",
-      holiday_dates: [],
-      description: "FITFLIX GYM MARATHAHALLI is one of the best gyms in Marathahalli, Bengaluru. Located on the 4th floor of Kishan Icon, SOUL SPACE PARADIGM, next to IRONHILL and above BARKAAZ. Known for its modern equipment, professional trainers, and excellent fitness programs. Perfect location for fitness enthusiasts in the Marathahalli area.",
-      rating: 4.5,
-      amenities: ["Modern Equipment", "Professional Trainers", "Fitness Programs", "Cardio Zone", "Strength Training", "Group Classes", "Website Available"],
-      is_deleted: false,
-      verified: true,
-    },
-    {
-      id: 3,
-      name: "FITFLIX GYM BROOKFIELD",
-      address: "3rd floor, Above Bata showroom Aecs layout, Lakshminarayana Pura, BEML Layout, Brookefield, Bengaluru, Karnataka 560037, India",
-      latitude: "12.9716",
-      longitude: "77.7506",
-      phone_number: "+91 99456 82973",
-      email: "info@fitflix.in",
-      opening_time: "1970-01-01T06:00:00.000Z",
-      closing_time: "1970-01-01T22:30:00.000Z",
-      holiday_dates: [],
-      description: "FITFLIX GYM BROOKFIELD is a premium fitness center located in Brookefield, Bengaluru. Situated on the 3rd floor above Bata showroom in AECS layout, this gym offers state-of-the-art equipment and professional training services. Perfect for fitness enthusiasts in the Brookefield and BEML Layout area.",
-      rating: 4.8,
-      amenities: ["Premium Equipment", "Professional Trainers", "Fitness Programs", "Cardio Zone", "Strength Training", "Group Classes", "Instagram Available"],
-      is_deleted: false,
-      verified: true,
 
   const [loading] = useState(false); // No longer loading from API
   const [error] = useState(""); // No API errors
