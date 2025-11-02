@@ -134,7 +134,7 @@ const Home = () => {
               <div className="bg-gradient-to-br from-secondary/10 to-primary/10 rounded-3xl p-2 backdrop-blur-sm border border-secondary/20">
                 <OptimizedImage 
                   src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop" 
-                  alt="Group Fitness Classes" 
+                  alt="Wellness & Recovery" 
                   className="w-full h-[400px] object-cover rounded-2xl shadow-2xl"
                   width={800}
                   height={600}
@@ -145,14 +145,20 @@ const Home = () => {
             </div>
             <div className="space-y-8 order-1 lg:order-2">
               <div>
-                <h3 className="text-3xl font-bold mb-4">Group Fitness & Personal Training</h3>
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  Join energizing group fitness classes or work one-on-one with certified personal trainers 
-                  to achieve your specific fitness goals faster and safer.
+                <Badge className="mb-4 bg-gradient-to-r from-primary/20 to-secondary/20 text-primary border-primary/30">
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Wellness Clubs
+                </Badge>
+                <h3 className="text-3xl md:text-4xl font-bold mb-4">
+                  DNA-Based Personalized Wellness
+                </h3>
+                <p className="text-lg text-muted-foreground">
+                  Revolutionary wellness experience with DNA testing, Cryotherapy, HBOT, Infrared Sauna, Cold Plunge, and more. Your DNA, Your Wellness, Your Way.
                 </p>
-                <Button className="btn-fitness" asChild>
-                  <Link to="/services">
-                    Book Training
+                <Button className="btn-fitness mt-6 bg-gradient-to-r from-primary to-secondary" asChild>
+                  <Link to="/wellness-clubs">
+                    <Sparkles className="mr-2 h-5 w-5" />
+                    Discover Wellness
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
