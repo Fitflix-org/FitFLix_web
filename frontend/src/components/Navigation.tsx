@@ -155,7 +155,7 @@ const Navigation = () => {
       label: "Services", 
       icon: Dumbbell,
       subItems: [
-        { path: "/discover-gym", label: "Premium Gyms", description: "State-of-the-art facilities", icon: Dumbbell },
+        { path: "/gyms", label: "Premium Gyms", description: "State-of-the-art facilities", icon: Dumbbell },
         { path: "/wellness-clubs", label: "Wellness Clubs", description: "DNA-based personalized wellness", icon: Dumbbell },
         { path: "/services#workout-app", label: "Workout App", description: "1000+ minutes of training", icon: Smartphone },
         { path: "/services#nutrition", label: "Nutrition Products", description: "Premium supplements", icon: ShoppingCart },
