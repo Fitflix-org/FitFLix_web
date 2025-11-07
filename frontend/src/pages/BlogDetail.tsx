@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Calendar, User, ArrowLeft, Share2, Clock, Tag } from 'lucide-react';
+import { Calendar, User, ArrowLeft, Clock, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { ShareButton } from '@/components/ShareButton';
 import OptimizedImage from '@/components/OptimizedImage';
 import { Helmet } from 'react-helmet-async';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeSanitize from 'rehype-sanitize';
 import { blogApi, Blog } from '@/lib/api/api';
+import 'highlight.js/styles/github-dark.css';
 
 
 
@@ -171,31 +176,39 @@ const BlogDetail = () => {
               </nav>
 
               {/* Article Header */}
-              <div className="mb-8">
-                <h1 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
+              <div className="mb-12 text-center">
+                <h1 className="text-4xl md:text-5xl font-bold text-black mb-8 leading-tight tracking-tight font-serif">
                   {blog.title}
                 </h1>
                 
-                <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 mb-6">
-                  <div className="flex items-center space-x-1">
+                <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-600 mb-8">
+                  <div className="flex items-center space-x-2">
                     <User className="h-4 w-4" />
-                    <span>By {getAuthorName()}</span>
+                    <span className="font-medium">By {getAuthorName()}</span>
                   </div>
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center space-x-2">
                     <Calendar className="h-4 w-4" />
                     <span>{formatDate(blog.createdAt)}</span>
                   </div>
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center space-x-2">
                     <Clock className="h-4 w-4" />
                     <span>{getReadingTime(blog.content || '')} min read</span>
                   </div>
                 </div>
 
                 {blog.excerpt && (
-                  <p className="text-xl text-slate-600 leading-relaxed">
+                  <p className="text-xl text-slate-600 leading-relaxed mb-8">
                     {blog.excerpt}
                   </p>
                 )}
+                
+                <div className="flex justify-center">
+                  <ShareButton 
+                    title={blog.title}
+                    url={window.location.href}
+                    text={blog.excerpt}
+                  />
+                </div>
               </div>
 
               {/* Cover Image */}
@@ -262,7 +275,12 @@ const BlogDetail = () => {
                 [&>h1+ul]:mt-2 [&>h2+ul]:mt-2 [&>h3+ul]:mt-2 [&>h4+ul]:mt-2 [&>h5+ul]:mt-2 [&>h6+ul]:mt-2
                 [&>h1+ol]:mt-2 [&>h2+ol]:mt-2 [&>h3+ol]:mt-2 [&>h4+ol]:mt-2 [&>h5+ol]:mt-2 [&>h6+ol]:mt-2
                 [&>h1+blockquote]:mt-2 [&>h2+blockquote]:mt-2 [&>h3+blockquote]:mt-2 [&>h4+blockquote]:mt-2 [&>h5+blockquote]:mt-2 [&>h6+blockquote]:mt-2">
-                <ReactMarkdown>{blog.content}</ReactMarkdown>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeHighlight, rehypeSanitize]}
+                >
+                  {blog.content}
+                </ReactMarkdown>
               </div>
 
               {/* Article Footer */}
@@ -270,10 +288,11 @@ const BlogDetail = () => {
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <div className="flex items-center space-x-4">
                     <span className="text-sm text-slate-600">Share this article:</span>
-                    <Button variant="outline" size="sm">
-                      <Share2 className="h-4 w-4 mr-2" />
-                      Share
-                    </Button>
+                    <ShareButton 
+                      title={blog.title}
+                      url={window.location.href}
+                      text={blog.excerpt}
+                    />
                   </div>
                   
                   {blog.metaKeywords && blog.metaKeywords.trim() && (

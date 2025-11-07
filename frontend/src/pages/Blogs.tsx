@@ -178,7 +178,7 @@ const Blogs = () => {
                   </div>
                 </div>
                 <CardContent className="p-4">
-                  <div className="flex items-center space-x-4 text-sm text-white mb-2">
+                  <div className="flex items-center space-x-4 text-sm text-slate-500 mb-2">
                     <div className="flex items-center space-x-1">
                       <User className="h-4 w-4" />
                       <span>Fitflix Team</span>
@@ -189,11 +189,11 @@ const Blogs = () => {
                     </div>
                   </div>
                   
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-orange-500 transition-colors">
+                  <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-orange-500 transition-colors">
                     {blog.title}
                   </h3>
                   
-                  <p className="text-white mb-3 line-clamp-3">
+                  <p className="text-slate-600 mb-3 line-clamp-3">
                     {blog.excerpt}
                   </p>
                     

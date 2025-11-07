@@ -119,14 +119,11 @@ const Navigation = () => {
       ]
     },
     { 
-      path: "https://blogs.fitflix.in", 
+      path: "/blogs", 
       label: "Blog", 
       icon: FileText,
       subItems: [
-        { path: "https://blogs.fitflix.in", label: "All Articles", description: "Fitness tips and guides" },
-        { path: "https://blogs.fitflix.in/blogs/nutrition-basics-for-athletes", label: "Nutrition Basics", description: "Essential nutrition for athletes" },
-        { path: "https://blogs.fitflix.in/blogs/best-gym-workouts-beginners", label: "Beginner Workouts", description: "Complete guide for fitness newcomers" },
-        { path: "https://blogs.fitflix.in/blogs/premium-fitness-centers", label: "Premium Gyms", description: "Top fitness centers in your area" }
+        { path: "/blogs", label: "All Articles", description: "Fitness tips and guides" }
       ]
     },
     { 
