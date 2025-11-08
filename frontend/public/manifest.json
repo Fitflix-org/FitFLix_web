@@ -1,0 +1,35 @@
+{
+  "name": "Fitflix - Complete Fitness Ecosystem",
+  "short_name": "Fitflix",
+  "description": "Your comprehensive fitness ecosystem - gyms, apps, nutrition, and community. Discover premium gyms in Bangalore, workout apps, and nutrition products.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f97316",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["fitness", "health", "lifestyle", "sports"],
+  "icons": [
+    {
+      "src": "/media/fitflix-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/media/fitflix-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/media/fitflix-icon.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
+}

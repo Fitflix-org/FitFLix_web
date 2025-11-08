@@ -1,0 +1,12 @@
+# SPA Routes - serve React app for all routes
+/events/* /index.html 200
+/* /index.html 200
+/events      /index.html   200
+/blogs/*     /index.html   200
+/blogs       /index.html   200
+/gym/*       /index.html   200
+/about       /index.html   200
+/services    /index.html   200
+
+# Fallback - serve React app for everything else
+/*           /index.html   200
