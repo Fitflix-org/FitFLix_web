@@ -1,0 +1,10 @@
+[build]
+  # Run build inside the frontend app and copy redirects into the output folder
+  command = "cd frontend && npm ci && npm run build:prod && cp public/_redirects build/"
+  # Vite outDir is set to 'build' in frontend/vite.config.ts
+  publish = "frontend/build"
+
+# Optional: adjust per-context settings if needed
+# [context.production]
+#   command = "cd frontend && npm ci && npm run build:prod && cp public/_redirects dist/"
+#   publish = "frontend/dist"
