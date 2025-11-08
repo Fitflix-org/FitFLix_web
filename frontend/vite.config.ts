@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { componentTagger } from "lovable-tagger";
 import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
@@ -66,7 +65,7 @@ export default defineConfig(({ mode }) => ({
       // Configure SWC properly for production
       plugins: [],
     }),
-    mode === 'development' && componentTagger(),
+  // componentTagger removed to avoid peer dependency conflicts in CI
 
     VitePWA({
       registerType: 'autoUpdate',
