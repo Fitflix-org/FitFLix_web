@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import OptimizedImage from '@/components/OptimizedImage';
 import { eventApi, Event } from '@/lib/api/api';
 import { useToast } from '@/hooks/use-toast';
+import { eventsData as spEventsData } from '@/data/SPEvent';
 
 const EventDetail: React.FC = () => {
   const { id } = useParams();
@@ -27,8 +28,46 @@ const EventDetail: React.FC = () => {
         const data = await eventApi.getById(id);
         setEvent(data);
       } catch (err) {
-        console.error('Failed to fetch event', err);
-        toast({ title: 'Error', description: 'Failed to load event', variant: 'destructive' });
+        console.error('Failed to fetch event from API, trying SPEvent fallback...', err);
+        // Fallback to SPEvent data
+        const spEvent = spEventsData.find(e => e.id === id);
+        if (spEvent) {
+          setEvent({
+            id: spEvent.id,
+            title: spEvent.title,
+            description: spEvent.description,
+            date: spEvent.date,
+            location: spEvent.location,
+            coverImage: spEvent.image,
+            imageUrls: [spEvent.image],
+            entryFee: spEvent.price || 0,
+            status: 'PUBLISHED',
+            details: {
+              included: [
+                `Event Category: ${spEvent.category}`,
+                `Expected Attendees: ${spEvent.attendees || 'TBD'}`,
+                'Professional coaching and guidance',
+                'Refreshments provided',
+                'Certificate of participation'
+              ],
+              benefits: [
+                'Improve fitness levels',
+                'Learn new techniques and workout styles',
+                'Network with fitness enthusiasts',
+                'Motivation and support from community'
+              ],
+              schedule: [
+                `Start Time: ${spEvent.time}`,
+                'Warm-up session: 15 mins',
+                'Main activity: 45 mins',
+                'Cool-down and stretching: 15 mins',
+                'Q&A and networking: 15 mins'
+              ]
+            }
+          } as Event);
+        } else {
+          toast({ title: 'Error', description: 'Failed to load event', variant: 'destructive' });
+        }
       } finally {
         setLoading(false);
       }
@@ -272,20 +311,18 @@ const EventDetail: React.FC = () => {
         <div className="md:col-span-2 space-y-6">
           <Card>
             <CardContent className="p-6">
-              <h2 className="text-xl font-semibold mb-3">About this event</h2>
+              <h2 className="text-xl font-semibold mb-3 text-white">About this event</h2>
               {hasBlocks ? (
                 structuredUsed ? (
-                  // Avoid duplicating structured blocks shown above
-                  <p className="leading-relaxed text-slate-900 whitespace-pre-line">{event.description}</p>
+                  <p className="leading-relaxed text-white whitespace-pre-line">{event.description}</p>
                 ) : (
-                  // Legacy: string-only blocks rendered as info cards
                   <div className="space-y-4">
                     {normalizedBlocks.map((b, idx) => (
                       <Card key={idx} className="bg-gray-50 border-l-4 border-l-orange-500">
                         <CardContent className="p-4">
-                          {b.title && <h3 className="text-lg font-semibold mb-2">{b.title}</h3>}
+                          {b.title && <h3 className="text-lg font-semibold mb-2 text-white">{b.title}</h3>}
                           {b.description && (
-                            <p className="leading-relaxed text-slate-900 whitespace-pre-line">{b.description}</p>
+                            <p className="leading-relaxed text-white whitespace-pre-line">{b.description}</p>
                           )}
                         </CardContent>
                       </Card>
@@ -293,7 +330,50 @@ const EventDetail: React.FC = () => {
                   </div>
                 )
               ) : (
-                <p className="leading-relaxed text-slate-900 whitespace-pre-line">{event.description}</p>
+                <>
+                  <p className="leading-relaxed text-white mb-4">{event.description}</p>
+                  
+                  <div className="space-y-4 mt-6">
+                    <div>
+                      <h3 className="font-semibold text-white mb-2">Event Overview</h3>
+                      <p className="text-white text-sm leading-relaxed">
+                        Join us for {event.title} — an exciting fitness event designed to inspire, challenge, and unite the Fitflix community. Whether you're a beginner or an experienced fitness enthusiast, this event offers something for everyone.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold text-white mb-2">Who Should Attend?</h3>
+                      <ul className="text-white text-sm space-y-1">
+                        <li>✓ Fitness enthusiasts looking to improve their skills</li>
+                        <li>✓ Beginners wanting to start their fitness journey</li>
+                        <li>✓ People interested in learning new workout techniques</li>
+                        <li>✓ Community members seeking motivation and support</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold text-white mb-2">What to Expect</h3>
+                      <p className="text-white text-sm leading-relaxed">
+                        Professional trainers will guide you through {event.title} at {event.location}. Expect personalized coaching, expert tips, and a supportive community atmosphere. Refreshments and certificates of participation will be provided.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold text-white mb-2">Location & Timing</h3>
+                      <p className="text-white text-sm">
+                        <strong>Venue:</strong> {event.location}<br />
+                        <strong>Date:</strong> {dt.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}<br />
+                        <strong>Entry Fee:</strong> {event.entryFee === 0 || !event.entryFee ? 'FREE' : `₹${event.entryFee}`}
+                      </p>
+                    </div>
+
+                    <div className="pt-2 border-t">
+                      <p className="text-white text-xs">
+                        <strong>Note:</strong> Please arrive 10-15 minutes early for check-in and warm-up. Bring water and wear comfortable workout attire. For any queries, contact us at support@fitflix.in
+                      </p>
+                    </div>
+                  </div>
+                </>
               )}
             </CardContent>
           </Card>
