@@ -19,7 +19,7 @@ export const eventsData: Event[] = [
     date: "2026-03-21",
     time: "09:00 AM - 05:00 PM",
     location: "Fitflix Marathahalli",
-    image: "https://media.gettyimages.com/id/1168195089/photo/group-of-senior-track-athletes-running-distance-race-on-track.jpg?s=2048x2048&w=gi&k=20&c=klUu6Grvug09K1qGv0U_anHIksAtPBtRV3paKQLdJtY=",
+    image: "https://media.gettyimages.com/id/1457686878/photo/one-person-leading-marathon.jpg?s=612x612&w=0&k=20&c=VxiorITBXA1Lhw7wlws3ZAE1tnW_MJ-FSD-U6k5LhzI=",
     category: "Workshop",
     attendees: 150,
     price: 250,
